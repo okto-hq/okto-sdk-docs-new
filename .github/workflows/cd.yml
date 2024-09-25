@@ -22,7 +22,7 @@ jobs:
 
       - name: Build my App
         run: |
-          yarn run export
+          yarn run build
           touch out/.nojekyll
 
       - name: Create CNAME
