@@ -1,7 +1,6 @@
 "use client";
 
-import { Button, Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
-import { ArrowRight } from 'lucide-react';
+import { Button, Card, CardHeader } from "@nextui-org/react";
 import Link from "next/link";
 import { ReactNode } from "react";
 
@@ -13,7 +12,7 @@ interface DocCardPropType {
   linkText: string;
 }
 
-export default function DocCard({ icon, title, body, link, linkText }: DocCardPropType) {
+export default function DocCard({ icon, title, body, link }: DocCardPropType) {
   return (
     <Card
       className="py-2 px-4 w-full no-underline"
@@ -36,14 +35,6 @@ export default function DocCard({ icon, title, body, link, linkText }: DocCardPr
           {body}
         </span>
       </CardHeader>
-      {/* <CardFooter className="text-sm">
-        {body}
-      </CardFooter> */}
-      {/* <CardFooter className="text-sm">
-        <Link href={link} className="flex items-center gap-1 text-sm no-underline text-[#5166EE]">
-          <span>{linkText}</span> <ArrowRight size={"1rem"} />
-        </Link>
-      </CardFooter> */}
     </Card>
   );
 }
