@@ -41,7 +41,6 @@ export default function NavbarComponent() {
     if (pathname.startsWith('/docs/react-sdk')) return 'React';
     if (pathname.startsWith('/docs/react-native-sdk')) return 'React Native';
     if (pathname.startsWith('/docs/flutter-sdk')) return 'Flutter';
-    if (pathname.startsWith('/api-docs')) return 'API Reference';
     return 'SDKs';
   };
 
