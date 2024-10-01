@@ -4,7 +4,6 @@ import { Inter } from 'next/font/google';
 import type { ReactNode } from 'react';
 import { Providers } from "./providers";
 import NavbarComponent from './components/Navbar';
-import Footer from './components/Footer';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -21,7 +20,6 @@ export default function Layout({ children }: { children: ReactNode }) {
           <Providers>
             <NavbarComponent />
             {children}
-            <Footer />
           </Providers>
         </RootProvider>
       </body>
