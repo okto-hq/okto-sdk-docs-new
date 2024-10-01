@@ -46,7 +46,6 @@ const App = () => {
             url: 'https://okto-docs-black.vercel.app/api-sec',
           },
           theme: 'none',
-          hideTestRequestButton: true,
           darkMode: theme === 'dark',
           hiddenClients: [],
           metadata: {
