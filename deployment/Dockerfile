@@ -28,8 +28,9 @@ RUN mkdir /home/dcx/app
 WORKDIR /home/dcx/app
 
 # setup project structure
-COPY --chown=dcx:dcx --from=build /app/build ./build
+COPY --chown=dcx:dcx --from=build /app/.next ./.next
 COPY --chown=dcx:dcx . .
+COPY --chown=dcx:dcx --from=build /app/package-lock.json ./package-lock.json
 
 # only install production dependencies
 RUN npm ci --only=production
