@@ -1,4 +1,4 @@
-FROM node:18-alpine3.17 AS build
+FROM node:20-alpine3.17 AS build
 
 # OS Packages
 RUN apk add --update --no-cache dumb-init
@@ -13,7 +13,7 @@ COPY . .
 
 RUN npm run build
 
-FROM node:18-alpine3.17 AS app
+FROM node:20-alpine3.17 AS app
 
 LABEL MAINTAINER Nishith Kulshrestha <nishith.kulshrestha@coindcx.com>
 
