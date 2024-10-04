@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - release
-      - temp_nish
+      - temp-nish
   workflow_dispatch:
 
 env:
