@@ -1,4 +1,4 @@
-name: GitHub Pages deploy
+name: Continuous Deployment
 
 on:
   push:
@@ -12,8 +12,8 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  app_build:
+    runs-on: ARM64
     permissions:
       packages: write
       contents: read
@@ -38,3 +38,26 @@ jobs:
           tags: "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.run_id }}"
           cache-from: type=gha
           cache-to: type=gha,mode=max,ignore-error=true
+  app_deploy:
+    runs-on: ubuntu-latest
+    env:
+      BRANCH: "infra"
+      IMAGE_TAG: ${{ github.run_id }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ env.BRANCH }}
+
+      - uses: fregante/setup-git-user@v2
+
+      - name: Helm App Version Update
+        run: |
+          found_ver=$(yq -e '.version' ./k8s/values.yaml);
+          echo "Updating app version to $IMAGE_TAG from $found_ver";
+          yq -ie ".version=\"$IMAGE_TAG\"" ./k8s/values.yaml
+
+      - name: Helm App Version commit & push
+        run: |
+          git commit -am "Updating app version to $IMAGE_TAG"
+          git push
