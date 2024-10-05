@@ -1,0 +1,11 @@
+apiVersion: v2
+name: okto-sdk-docs-new
+description: A Helm chart for okto-sdk-docs-new workloads
+type: application
+version: 0.1.0
+appVersion: 1.1.0
+dependencies:
+- name: common-okto
+  repository: https://charts.dcxtools.com/apps
+  version: 0.5.8
+  alias: okto-sdk-docs
