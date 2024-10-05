@@ -13,7 +13,7 @@ env:
 
 jobs:
   app_build:
-    runs-on: ARM64
+    runs-on: ci-arm-runner
     permissions:
       packages: write
       contents: read
