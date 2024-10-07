@@ -26,17 +26,17 @@ Follow the steps below to get started quickly with building an Okto-powered Reac
     <Tabs items={['npm', 'pnpm', 'yarn']}>
         <Tab value="npm">
             ```bash
-                npm i okto-sdk-react @react-oauth/google axios
+            npm i okto-sdk-react @react-oauth/google 
             ```
             </Tab>
             <Tab value="pnpm">
             ```bash
-                pnpm add okto-sdk-react @react-oauth/google axios
+            pnpm add okto-sdk-react @react-oauth/google 
             ```
             </Tab>
             <Tab value="yarn">
              ```bash
-                yarn add okto-sdk-react @react-oauth/google axios
+            yarn add okto-sdk-react @react-oauth/google 
             ```
         </Tab>    
     </Tabs>
@@ -45,7 +45,7 @@ Follow the steps below to get started quickly with building an Okto-powered Reac
 </Step>
 
 <Step>
-    ## Initialize the Okto SDK and Google OAuth Provider
+    ## Initialize Okto SDK 
     To get started with authentication, we'll initialize the Google OAuth provider in the `index.js` file.
     ```javascript title="index.js"
         import React from 'react';
@@ -67,7 +67,12 @@ Follow the steps below to get started quickly with building an Okto-powered Reac
         View [here](https://github.com/okto-hq/okto-sdk-react-template-app/blob/main/src/index.js)
     </div>
 
-   Now, let's set up the Okto provider in your `App.js`:
+   
+</Step>
+
+<Step>
+    ## Initialize Google OAuth Provider
+    Now, let's set up the Okto provider in your `App.js`:
    ```javascript title="App.js"
     import React from 'react';
     import { OktoProvider, BuildType } from 'okto-sdk-react';

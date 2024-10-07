@@ -6,6 +6,7 @@ icon: Star
 ---
 
 import DocCard from "../../app/components/mdx/DocCard";
+import TechnologyCard from "../../app/components/mdx/TechnologyCard";
 import SDKCard from "../../app/components/mdx/SDKCard";
 import Footer from "../../app/components/Footer";
 import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
@@ -18,32 +19,32 @@ import { IoDocumentOutline } from "react-icons/io5";
 
 ## How to Get Started?
 
-<div className="grid grid-cols-2 gap-6">
-  <SDKCard 
+<div className="grid grid-cols-2 gap-5">
+  <TechnologyCard
       icon={<FaReact size={"3rem"} />}
       title="React"
-      body="for web"
+      subtitle="for web"
       link="/docs/react-sdk/getting-started/overview-okto-react"
   />
 
-  <SDKCard 
+  <TechnologyCard
       icon={<TbBrandReactNative size={"3rem"} />}
       title="React Native"
-      body="for mobile"
+      subtitle="for mobile"
       link="/docs/react-native-sdk/getting-started/overview-okto-react-native"
   />
 
-  <SDKCard 
+  <TechnologyCard
       icon={<SiFlutter size={"3rem"} />}
       title="Flutter"
-      body="for Android and iOS"
+      subtitle="for Android and iOS"
       link="/docs/flutter-sdk/getting-started/overview-okto-flutter"
   />
 
-  <SDKCard 
+  <TechnologyCard 
       icon={<TbApi size={"3rem"} />}
       title="API"
-      body="for server and client"
+      subtitle="for server and client"
       link="/api-docs"
   />
 </div>
@@ -56,33 +57,34 @@ Okto SDK is the fastest and easiest way a developer can build on Web3. Okto SDK 
 ## Learn More 
 
 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6 lg:gap-8">
-  <DocCard 
-    icon={<IoDocumentOutline size={"1.5rem"}/>}
-    title="Introduction to Okto" 
-    body="Quickstart guides and tutorials" 
-    link="/docs/introduction-to-okto/okto-universe"
+  <TechnologyCard 
+      icon={<IoDocumentOutline size={"1.5rem"}/>}
+      title="Introduction to Okto"
+      subtitle="Quickstart guides and tutorials"
+      link="/docs/introduction-to-okto/okto-universe"
   />
 
-  <DocCard 
-    icon={<LuLayoutDashboard size={"1.5rem"}/>}
-    title="Using dashboard" 
-    body="Customize your onboarding UI" 
-    link="https://dashboard.okto.tech/"
+  <TechnologyCard 
+      icon={<LuLayoutDashboard size={"1.5rem"}/>}
+      title="Using dashboard" 
+      subtitle="Customize your onboarding UI" 
+      link="https://dashboard.okto.tech/"
   />
 
-  <DocCard 
-    icon={<MousePointer2 size={"1.5rem"}/>}
-    title="Interactive demo" 
-    body="Experience features in real-time" 
-    link="https://okto-sdk-demo-app-weld.vercel.app/"
+  <TechnologyCard 
+      icon={<MousePointer2 size={"1.5rem"}/>}
+      title="Interactive demo" 
+      subtitle="Experience features in real-time" 
+      link="https://okto-sdk-demo-app-weld.vercel.app/"
   />
 
-  <DocCard 
-    icon={<MessageSquareText size={"1.5rem"}/>}
-    title="Join community" 
-    body="Connect with developers on Discord" 
-    link="https://discord.com/invite/okto-916349620383252511"
+   <TechnologyCard 
+      icon={<MessageSquareText size={"1.5rem"}/>}
+      title="Join community" 
+      subtitle="Connect with developers on Discord" 
+      link="https://discord.com/invite/okto-916349620383252511"
   />
+ 
 </div>
 
 ## FAQs
