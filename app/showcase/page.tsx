@@ -1,16 +1,16 @@
-import { Link, Tooltip } from "@nextui-org/react"
+import { Link as ULink, Tooltip } from "@nextui-org/react"
 import { Button } from "@/components/ui/button";
-import { FaPlus } from "react-icons/fa6";
 import Image, { type StaticImageData } from 'next/image';
 import DisbursalApp from "@/public/images/DisbursalApp.png"
 import Lifafa from "@/public/images/Lifafa.png"
 import TelegramBot from "@/public/images/TelegramBot.png"
 import Stan from "@/public/images/Stan.webp"
-import { Lightbulb, DollarSign } from 'lucide-react';
+import { DollarSign } from 'lucide-react';
 import Oktogram from "@/public/images/Oktogram.png";
 import Catoff from "@/public/images/Catoff.png";
 import { Metadata } from "next";
 import { ReactNode } from "react";
+import Link from "next/link";
 
 const GitHubIcon = () => (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg">
@@ -116,21 +116,21 @@ export default function Showcase() {
                     Made with Okto
                 </div>
                 <div className="flex items-center gap-4">
-                    <Link href="https://teamcoindcx.typeform.com/to/CvPAQNAU" className="text-inherit">
+                    <ULink href="https://teamcoindcx.typeform.com/to/CvPAQNAU" className="text-inherit">
                         <Button className="flex gap-1 rounded-full" variant="outline" >
                             <DollarSign size={17} /> Apply for Okto Grants
                         </Button>
-                    </Link>
-                    <Link href="https://docs.google.com/document/d/1zDPUZoHrI4hpdOUgINWkILJJQPrOi3VqGbd2dpyIrdM/edit?usp=sharing" className="text-inherit">
+                    </ULink>
+                    <ULink href="https://docs.google.com/document/d/1zDPUZoHrI4hpdOUgINWkILJJQPrOi3VqGbd2dpyIrdM/edit?usp=sharing" className="text-inherit">
                         <Button className="flex gap-1 rounded-full" variant="outline" >
                             <DollarSign size={17} /> Hack Ideas
                         </Button>
-                    </Link>
-                    <Link href="https://forms.gle/VN19AYHnvm7V5qe2A" className="text-inherit">
+                    </ULink>
+                    <ULink href="https://forms.gle/VN19AYHnvm7V5qe2A" className="text-inherit">
                         <Button className="flex gap-1 rounded-full" variant="outline" >
                             <DollarSign size={17} /> Add your project
                         </Button>
-                    </Link>
+                    </ULink>
                 </div>
             </div>
             <div className="mt-12 pb-20 mx-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -174,11 +174,15 @@ function ShowcaseItem({
                         <span>{name}</span>
                     </span>
                     <span>
-                        <Button isIconOnly variant="light" as={Link} href={url}>
-                            <LinkLogo />
+                        <Button size="icon" variant="ghost" >
+                            <Link href={url}>
+                                <LinkLogo />
+                            </Link>
                         </Button>
-                        <Button isIconOnly variant="light" as={Link} href={githubUrl}>
-                            <GitHubIcon />
+                        <Button size="icon" variant="ghost">
+                            <Link href={githubUrl}>
+                                <GitHubIcon />
+                            </Link>
                         </Button>
                     </span>
                 </p>
