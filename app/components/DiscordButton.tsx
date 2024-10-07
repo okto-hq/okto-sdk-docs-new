@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@nextui-org/react';
+import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
 const DiscordIcon = () => (
@@ -11,14 +11,10 @@ const DiscordIcon = () => (
 const DiscordButton = () => {
   return (
     <Button
-      as={Link}
-      isIconOnly
-      radius='full'
-      href="https://discord.com/invite/okto-916349620383252511"
-      variant="bordered"
-      className="flex items-center text-foreground hover:text-foreground/80 transition-colors"
+      variant="outline" size="icon" className='rounded-full hover:bg-[#F5F6FE] hover:text-[#5166EE]'
+      asChild
     >
-      <DiscordIcon />
+      <Link href="https://discord.com/invite/okto-916349620383252511"><DiscordIcon/></Link>
     </Button>
   );
 };
