@@ -45,7 +45,7 @@ export default function PricingComponent() {
                     className={`rounded-lg py-6 px-5 ${tier.name === "Enterprise" ? "bg-gradient-to-b from-[#6246F5] via-[#5166EE] to-[#56B9F9] text-white" : "border-[1px] border-gray-300"
                         }`}
                 >
-                    <h3 className={`text-2xl font-semibold mb-2 ${tier.name === 'Enterprise'? "" : "text-[#5166EE]"}`}>{tier.name}</h3>
+                    <h3 className={`text-2xl font-semibold mb-2 ${tier.name === 'Enterprise'? "text-white" : "text-[#5166EE]"}`}>{tier.name}</h3>
                     <div className="flex-col mb-2">
                         <span className="text-lg font-bold">{tier.price}</span>
                         {tier.mau && (
