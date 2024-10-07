@@ -74,14 +74,7 @@
 }
 
 #nd-docs-layout aside {
-  position: fixed;
-  top: 60px;
-  height: calc(100vh - 60px);
-  overflow-y: auto;
-}
-
-#nd-docs-layout aside {
-  position: fixed;
+  /* position: fixed; */
   top: 60px;
   height: calc(100vh - 60px);
   overflow-y: auto;
