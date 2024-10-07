@@ -1,4 +1,4 @@
-# okto-docs-new
+# okto-docs
 
 Welcome to okto
 

@@ -2,46 +2,49 @@
 title: Overview
 description: 'Welcome to Okto’s documentation ✦ Learn how to get started with Okto SDK in your project. Then, explore Okto’s main concepts and discover additional resources to help you grow and maintain your app powered by Okto.'
 full: false
+icon: Star
 ---
 
 import DocCard from "../../../app/components/mdx/DocCard";
+import TechnologyCard from "../../../app/components/mdx/TechnologyCard";
 import SDKCard from "../../../app/components/mdx/SDKCard";
 import Footer from "../../../app/components/Footer";
 import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
 import { FaReact } from "react-icons/fa6";
+import { MessageSquareText, MousePointer2 } from 'lucide-react';
 import { TbBrandReactNative, TbApi } from "react-icons/tb";
 import { SiFlutter } from "react-icons/si";
-import { LuLayoutDashboard } from "react-icons/lu";
+import { LuLayoutDashboard, LuSettings, LuBookOpen } from "react-icons/lu";
 import { IoDocumentOutline } from "react-icons/io5";
 
 ## How to Get Started?
 
-<div className="grid grid-cols-2 gap-6">
-  <SDKCard 
+<div className="grid grid-cols-2 gap-5">
+  <TechnologyCard
       icon={<FaReact size={"3rem"} />}
       title="React"
-      body="for web"
+      subtitle="for web"
       link="/docs/react-sdk/getting-started/overview-okto-react"
   />
 
-  <SDKCard 
+  <TechnologyCard
       icon={<TbBrandReactNative size={"3rem"} />}
       title="React Native"
-      body="for mobile"
+      subtitle="for mobile"
       link="/docs/react-native-sdk/getting-started/overview-okto-react-native"
   />
 
-  <SDKCard 
+  <TechnologyCard
       icon={<SiFlutter size={"3rem"} />}
       title="Flutter"
-      body="for Android and iOS"
+      subtitle="for Android and iOS"
       link="/docs/flutter-sdk/getting-started/overview-okto-flutter"
   />
 
-  <SDKCard 
+  <TechnologyCard 
       icon={<TbApi size={"3rem"} />}
       title="API"
-      body="for server and client"
+      subtitle="for server and client"
       link="/api-docs"
   />
 </div>
@@ -53,22 +56,35 @@ Okto SDK is the fastest and easiest way a developer can build on Web3. Okto SDK 
 
 ## Learn More 
 
-<div style={{ display: 'flex', gap: '20px' }}>
-  <DocCard 
+<div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6 lg:gap-8">
+  <TechnologyCard 
       icon={<IoDocumentOutline size={"1.5rem"}/>}
-      title="Introduction to Okto" 
-      body="Get started with our end to end tutorials and quickstart guides across all Okto functionalities." 
+      title="Introduction to Okto"
+      subtitle="Quickstart guides and tutorials"
       link="/docs/introduction-to-okto/okto-universe"
-      linkText="View Docs"
   />
 
-  <DocCard 
+  <TechnologyCard 
       icon={<LuLayoutDashboard size={"1.5rem"}/>}
-      title="Using Developer Dashboard" 
-      body="Use the developer dashboard to customize your UI to onboard a billion users on your platform." 
-      link="https://forms.gle/Q2oAWZ979cgxwjzZ6"
-      linkText="View Dashboard"
+      title="Using dashboard" 
+      subtitle="Customize your onboarding UI" 
+      link="https://dashboard.okto.tech/"
   />
+
+  <TechnologyCard 
+      icon={<MousePointer2 size={"1.5rem"}/>}
+      title="Interactive demo" 
+      subtitle="Experience features in real-time" 
+      link="https://okto-sdk-demo-app-weld.vercel.app/"
+  />
+
+   <TechnologyCard 
+      icon={<MessageSquareText size={"1.5rem"}/>}
+      title="Join community" 
+      subtitle="Connect with developers on Discord" 
+      link="https://discord.com/invite/okto-916349620383252511"
+  />
+ 
 </div>
 
 ## FAQs

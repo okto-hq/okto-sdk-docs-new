@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@nextui-org/react';
+import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
 const GitHubIcon = () => (
@@ -12,14 +12,9 @@ const GitHubIcon = () => (
 const GitHubButton = () => {
   return (
     <Button
-      as={Link}
-      isIconOnly
-      href="https://github.com/okto-hq/"
-      variant="bordered"
-      radius='full'
-      className="flex items-center text-foreground hover:text-foreground/80 transition-colors"
+      variant="outline" size="icon" className='rounded-full hover:bg-[#F5F6FE] hover:text-[#5166EE]'
     >
-      <GitHubIcon />
+      <Link href={"https://github.com/okto-hq/"}><GitHubIcon/></Link>
     </Button>
   );
 };

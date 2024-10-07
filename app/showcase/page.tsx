@@ -1,15 +1,16 @@
-import { Button, Link, Tooltip } from "@nextui-org/react"
-import { FaPlus } from "react-icons/fa6";
+import { Link as ULink, Tooltip } from "@nextui-org/react"
+import { Button } from "@/components/ui/button";
 import Image, { type StaticImageData } from 'next/image';
 import DisbursalApp from "@/public/images/DisbursalApp.png"
 import Lifafa from "@/public/images/Lifafa.png"
 import TelegramBot from "@/public/images/TelegramBot.png"
 import Stan from "@/public/images/Stan.webp"
-import { Lightbulb, DollarSign } from 'lucide-react';
+import { DollarSign } from 'lucide-react';
 import Oktogram from "@/public/images/Oktogram.png";
 import Catoff from "@/public/images/Catoff.png";
 import { Metadata } from "next";
 import { ReactNode } from "react";
+import Link from "next/link";
 
 const GitHubIcon = () => (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg">
@@ -108,30 +109,36 @@ export default function Showcase() {
     ];
 
     return (
-        <>
+        <div>
             <div className="flex justify-between mx-16 mt-20">
-                <div className="text-7xl font-bold">
+                <div className="text-6xl font-bold">
                     Cool Apps <br />
                     Made with Okto
                 </div>
                 <div className="flex items-center gap-4">
-                    <Button as={Link} radius="full" startContent={<DollarSign size={17}/>} variant="bordered" href="https://teamcoindcx.typeform.com/to/CvPAQNAU">
-                        Apply for Okto Grants
-                    </Button>
-                    <Button as={Link} radius="full" startContent={<Lightbulb size={17}/>} variant="bordered" href="https://docs.google.com/document/d/1zDPUZoHrI4hpdOUgINWkILJJQPrOi3VqGbd2dpyIrdM/edit?usp=sharing">
-                        Hack Ideas
-                    </Button>
-                    <Button as={Link} radius="full" startContent={<FaPlus />} variant="bordered" href="https://forms.gle/VN19AYHnvm7V5qe2A">
-                        Submit your app
-                    </Button>
+                    <ULink href="https://teamcoindcx.typeform.com/to/CvPAQNAU" className="text-inherit">
+                        <Button className="flex gap-1 rounded-full" variant="outline" >
+                            <DollarSign size={17} /> Apply for Okto Grants
+                        </Button>
+                    </ULink>
+                    <ULink href="https://docs.google.com/document/d/1zDPUZoHrI4hpdOUgINWkILJJQPrOi3VqGbd2dpyIrdM/edit?usp=sharing" className="text-inherit">
+                        <Button className="flex gap-1 rounded-full" variant="outline" >
+                            <DollarSign size={17} /> Hack Ideas
+                        </Button>
+                    </ULink>
+                    <ULink href="https://forms.gle/VN19AYHnvm7V5qe2A" className="text-inherit">
+                        <Button className="flex gap-1 rounded-full" variant="outline" >
+                            <DollarSign size={17} /> Add your project
+                        </Button>
+                    </ULink>
                 </div>
             </div>
-            <div className="container mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-12 pb-20 mx-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
                 {showcases.map((showcase) => (
                     <ShowcaseItem key={showcase.url} {...showcase} />
                 ))}
             </div>
-        </>
+        </div>
     )
 }
 
@@ -167,11 +174,15 @@ function ShowcaseItem({
                         <span>{name}</span>
                     </span>
                     <span>
-                        <Button isIconOnly variant="light" as={Link} href={url}>
-                            <LinkLogo />
+                        <Button size="icon" variant="ghost" >
+                            <Link href={url}>
+                                <LinkLogo />
+                            </Link>
                         </Button>
-                        <Button isIconOnly variant="light" as={Link} href={githubUrl}>
-                            <GitHubIcon />
+                        <Button size="icon" variant="ghost">
+                            <Link href={githubUrl}>
+                                <GitHubIcon />
+                            </Link>
                         </Button>
                     </span>
                 </p>
