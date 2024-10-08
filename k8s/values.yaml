@@ -15,11 +15,11 @@ okto-sdk-docs:
   deployment:
     resources:
       limits:
-        cpu: 100m
-        memory: 100Mi
+        cpu: 500m
+        memory: 500Mi
       requests:
-        cpu: 100m
-        memory: 100Mi
+        cpu: 200m
+        memory: 200Mi
     readinessProbe:
       failureThreshold: 10
       httpGet:
