@@ -1,0 +1,62 @@
+---
+title: Google Console Setup for Android Client ID
+full: false
+---
+
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+
+This guide will walk you through the steps to set up a project in Google Console, create an OAuth consent screen, and generate an Android client ID for Google authentication.
+
+<Steps style={{ marginTop: "0" }}>
+
+<Step>
+## Creating a Project in Google Console
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com/) and sign in with your Google account.
+2. Click on the project selector dropdown at the top of the page.
+3. Click on "New Project".
+4. Enter a name for your project and click "Create".
+5. Once the project is created, select it from the project selector dropdown.
+![Google Console New Project](/images/new-project.png)
+</Step>
+
+<Step>
+## Creating an OAuth Consent Screen
+1. In Google Cloud Console, navigate to the "APIs & Services" > "OAuth consent screen" page from the left sidebar.
+2. Click on "Create" to start setting up your consent screen.
+3. Choose the user type for your application (Internal or External) and click "Create".
+4. Fill out the required fields on the consent screen configuration form:
+    - Application name: Enter the name of your application.
+    - User support email: Enter an email address where users can contact you for support.
+    - Developer contact information: Provide contact information for the developer of the application.
+5. Click "Save and Continue".
+
+<div style={{ display: 'flex', gap: '10px' }}>
+  <img src="/images/oauth-consent-1.png" style={{ width: '300px' }} />
+  <img src="/images/oauth-consent-2.png" style={{ width: '500px', height: '400px' }} />
+</div>
+
+</Step>
+
+<Step>
+## Creating an Android Client ID
+1. In Google Cloud Console, navigate to the "Credentials" page under "APIs & Services".
+2. Click on "Create credentials" and select "OAuth client ID".
+3. Choose "Android" as the application type.
+4. In the "Package name" field, enter the package name of your Android app (e.g., `com.example.myapp`).
+5. In the "SHA-1 certificate fingerprint" field, enter the SHA-1 fingerprint of your signing certificate. You can obtain this fingerprint using keytool or Android Studio. You can use the follwing command to get the fingerprint using keytool
+```
+keytool -keystore ./android/app/debug.keystore -list -v
+```
+6. Click "Create" to generate your Android client ID.
+7. Copy the client ID provided.
+![Create Web Client ID](/images/create-android-clientid.png)
+</Step>
+
+<Step>
+## Conclusion
+You have successfully set up a project in Google Console, created an OAuth consent screen, and generated the Android client ID for Google authentication. You can now integrate Google authentication into your web application using the Okto SDK.
+
+</Step>
+
+</Steps>

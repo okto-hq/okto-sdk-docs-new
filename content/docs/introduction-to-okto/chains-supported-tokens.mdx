@@ -1,10 +1,10 @@
 ---
-title: Chains and Supported Tokens
+title: Chains / Tokens
 description: Overview of supported chains, wallet structure, testnet availability, and token whitelisting in Okto’s ecosystem.
 full: false
 ---
 
-## Supported Chains and Functionality
+## Supported Chains 
 
 The Okto SDK supports multiple blockchain networks, offering a wide range of functionality across different ecosystems. Our system is designed to stay up-to-date, automatically fetching the latest chain information from our central database. This ensures that you always have access to the most current capabilities without needing manual updates.
 
@@ -12,51 +12,66 @@ Let's look at some example chains to understand what information is available fo
 
 ### Polygon
 
-- **Chain Name**: Polygon (Matic)
+- **Chain Name**: Polygon 
 - **Chain Functionality**: Supports token transfers, smart contract interactions, and staking mechanisms.
 - **User Wallet Example**: A user wallet on Polygon will be generated as part of Okto's embedded wallet system. Example address: `0xabc123...789xyz`. This address is stored securely and mapped to a unique user ID, such as `user_12345`.
 - **Testnet Support**: Yes, Polygon Amoy testnet is supported.
-- **Whitelisted Tokens**: Includes MATIC, USDC, DAI, etc.
-- **Token Whitelisting Process**: Currently, the whitelisting of new tokens is not available directly via the SDK. Contact support for token listing inquiries.
-- **Explorer Links**:
-- [Polygon Mainnet Explorer](https://polygonscan.com)
-- [Polygon Testnet Explorer](https://amoy.polygonscan.com)
-- **Sandbox and Production Availability**: Supported in both Sandbox and Production environments. For more details, refer to the [Admin Panel Documentation](#).
+- **Whitelisted Tokens**: Includes POL, USDC and USDT.
+- **Sandbox and Production Availability**: Supported in both Sandbox and Production environments.
 
-### Ethereum
+### Solana
 
-- **Chain Name**: Ethereum
-- **Chain Functionality**: Supports ERC-20 token transfers, smart contract interactions, and DeFi integrations.
-- **User Wallet Example**: Example address: `0xdef456...012ghi`. Mapped to user ID `user_67890`.
-- **Testnet Support**: Yes, Sepolia testnet is supported.
-- **Whitelisted Tokens**: Includes ETH, USDT, USDC, etc.
-- **Token Whitelisting Process**: Not available directly. Reach out for adding new tokens.
-- **Explorer Links**:
-- [Ethereum Mainnet Explorer](https://etherscan.io)
-- [Sepolia Testnet Explorer](https://sepolia.etherscan.io)
-- **Sandbox and Production Availability**: Supported in both Sandbox and Production environments. For more details, refer to the [Admin Panel Documentation](#).
+- **Chain Name**: Solana
+- **Chain Functionality**: Supports high-speed transactions, smart contracts (called programs), and token creation.
+- **User Wallet Example**: A Solana wallet in Okto's system might look like: `5XR4KYM1SEV2Ezf8ubqi8aSn4wYzRGi1xYBNHSZ8dSuR`. This is mapped to a user ID like `user_67890`.
+- **Testnet Support**: Yes, Solana Devnet is supported.
+- **Whitelisted Tokens**: Includes SOL, USDC, and USDT.
+- **Sandbox and Production Availability**: Available in both Sandbox and Production environments.
 
-### Additional Chains
+### Base
 
-For each chain, similar details are available regarding:
+- **Chain Name**: Base
+- **Chain Functionality**: Supports Ethereum-compatible smart contracts, token transfers, and DeFi applications.
+- **User Wallet Example**: A Base wallet address in Okto would be similar to Ethereum, e.g., `0xdef456...321uvw`. This is securely stored and associated with a user ID such as `user_24680`.
+- **Testnet Support**: No, testnet for Base is not supported yet.
+- **Whitelisted Tokens**: Includes ETH and USDC.
+- **Sandbox and Production Availability**: Supported in both Sandbox and Production environments.
 
-- **Functionality**: Details on token support, smart contracts, and other specific features.
-- **User Wallet**: Example wallet addresses, and user ID mappings are provided to illustrate how wallets are managed.
-- **Testnet Support**: Available testnets and relevant explorer links.
-- **Whitelisted Tokens**: Listing of supported tokens, along with the process to whitelist new tokens (if applicable).
-- **Explorer Links**: Direct links to the respective blockchain explorers for both mainnets and testnets.
-- **Sandbox and Production Availability**: Each chain will indicate if it's available in Sandbox or Production environments. For more details, refer to the [Admin Panel Documentation](#).
+### Aptos
 
-## Solidity Development Resources
+- **Chain Name**: Aptos
+- **Chain Functionality**: Supports fast transactions, smart contracts written in Move language, and token operations.
+- **User Wallet Example**: An Aptos wallet in Okto might be represented as: `0x1a2b3c...7x8y9z`. This is mapped to a unique user identifier like `user_13579`.
+- **Testnet Support**: Yes, Aptos Testnet is supported.
+- **Whitelisted Tokens**: Includes APT and USDT.
+- **Sandbox and Production Availability**: Available in both Sandbox and Production environments.
 
-For developers building on the supported chains, here are some valuable Solidity development resources:
+## Development Resources
+
+For developers building on the supported chains, here are some valuable development resources:
+
+### Solidity Development (Polygon, Base)
 
 - [Solidity Documentation](https://soliditylang.org/docs/)
 - [Remix IDE](https://remix.ethereum.org/)
 - [Hardhat Development Environment](https://hardhat.org/)
 - [OpenZeppelin Contracts](https://openzeppelin.com/contracts/)
 
-These tools and resources will help you develop and test smart contracts across the various chains supported by the Okto SDK.
+### Rust Development (Solana)
+
+- [Solana Documentation](https://docs.solana.com/)
+- [Rust Programming Language Book](https://doc.rust-lang.org/book/)
+- [Anchor Framework](https://www.anchor-lang.com/)
+- [Solana Playground](https://beta.solpg.io/)
+
+### Move Development (Aptos)
+
+- [Aptos Developer Documentation](https://aptos.dev/)
+- [Move Language Book](https://move-language.github.io/move/)
+- [Aptos CLI](https://aptos.dev/cli-tools/aptos-cli-tool/install-aptos-cli/)
+- [Aptos SDK](https://aptos.dev/sdks/index/)
+
+These tools and resources will help you develop and test smart contracts and applications across the various chains supported by the Okto SDK.
 
 ## Conclusion
 

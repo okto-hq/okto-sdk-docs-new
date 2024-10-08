@@ -1,0 +1,153 @@
+---
+title: React 
+description: In this guide, you'll learn how to create a React app and initialize it with the Okto SDK, including setting up authentication using Google OAuth and the Okto Provider.
+full: false
+---
+
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+
+Follow the steps below to get started quickly with building an Okto-powered React app to onboard your users to Web3!
+
+<Steps>
+
+<Step>
+    ## Create React App
+    ```bash title="bash"
+    npx create-react-app my-okto-app
+    cd my-okto-app
+    ```
+    This will scaffold a new React application in the my-okto-app directory.
+</Step>
+
+<Step>
+    ## Install the Okto SDK
+    Next, install the Okto SDK and React OAuth:
+    <Tabs items={['npm', 'pnpm', 'yarn']}>
+        <Tab value="npm">
+            ```bash
+            npm i okto-sdk-react @react-oauth/google 
+            ```
+            </Tab>
+            <Tab value="pnpm">
+            ```bash
+            pnpm add okto-sdk-react @react-oauth/google 
+            ```
+            </Tab>
+            <Tab value="yarn">
+             ```bash
+            yarn add okto-sdk-react @react-oauth/google 
+            ```
+        </Tab>    
+    </Tabs>
+    This installs the SDK and adds it as a dependency in your project.
+
+</Step>
+
+<Step>
+    ## Initialize Okto SDK 
+    To get started with authentication, we'll initialize the Google OAuth provider in the `index.js` file.
+    ```javascript title="index.js"
+        import React from 'react';
+        import ReactDOM from 'react-dom/client';
+        import { GoogleOAuthProvider } from '@react-oauth/google';
+        import App from './App';
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        const GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID"
+        root.render(
+            <React.StrictMode>
+                <GoogleOAuthProvider clientId = {GOOGLE_CLIENT_ID}>
+                    <App />
+                </GoogleOAuthProvider>
+            </React.StrictMode>
+        );
+    ```
+    <div style={{ textAlign: "right", fontSize: "14px", margin: "0", padding: "0", marginTop: "-1rem"}}>
+        View [here](https://github.com/okto-hq/okto-sdk-react-template-app/blob/main/src/index.js)
+    </div>
+
+   
+</Step>
+
+<Step>
+    ## Initialize Google OAuth Provider
+    Now, let's set up the Okto provider in your `App.js`:
+   ```javascript title="App.js"
+    import React from 'react';
+    import { OktoProvider, BuildType } from 'okto-sdk-react';
+    import LoginPage from './LoginPage';
+
+    const OKTO_CLIENT_API_KEY = "OKTO_CLIENT_API_KEY";
+
+    function App() {
+        return (
+            <OktoProvider apiKey={OKTO_CLIENT_API_KEY} buildType={BuildType.SANDBOX}>
+                <LoginPage/>
+            </OktoProvider>
+        );
+    }
+    export default App;
+   ```
+   <div style={{ textAlign: "right", fontSize: "14px", margin: "0", padding: "0", marginTop: "-1rem"}}>
+        View [here](https://github.com/okto-hq/okto-sdk-react-template-app/blob/main/src/App.js)
+    </div>
+</Step>
+
+<Step>
+    ## Sample Login Page
+    Now, we will create a sample `LoginPage.js` file to test out our functionalities:
+    ```javascript title="LoginPage.js"
+        import React, { useState } from "react";
+        import { useOkto } from "okto-sdk-react";
+        import { GoogleLogin } from "@react-oauth/google";
+
+        function LoginPage() {
+        const { authenticate } = useOkto();
+        const [authToken, setAuthToken] = useState(null);
+
+        const handleGoogleLogin = async (credentialResponse) => {
+         const idToken = credentialResponse.credential;
+          authenticate(idToken, (authResponse, error) => {
+              if (authResponse) {
+                setAuthToken(authResponse.auth_token);
+                console.log("Authenticated successfully, auth token:", authResponse.auth_token);
+              } else if (error) {
+                    console.error("Authentication error:", error);
+                }
+            });
+         };
+
+         return (
+            <div>
+                <h1>Login</h1>
+                {!authToken ? (
+                <GoogleLogin
+                    onSuccess={handleGoogleLogin}
+                    onError={(error) => console.error("Login Failed", error)}
+                />
+                ) : (
+                    <p>Authenticated</p>
+                )}
+            </div>
+            );
+        }
+
+        export default LoginPage;
+    ```
+    <div style={{ textAlign: "right", fontSize: "14px", margin: "0", padding: "0", marginTop: "-1rem" }}>
+        View [here](https://github.com/okto-hq/okto-sdk-react-template-app/blob/main/src/LoginPage.jss)
+    </div>
+</Step>
+
+<Step>
+    ## Congratulations!
+
+    🎉 Congratulations! You now have a basic dApp powered by Okto. You can focus on your business logic and UI/UX now. You can checkout how to use other features in the [Template Repo](https://github.com/okto-hq/okto-sdk-react-template-app/).
+</Step>
+
+</Steps>
+
+<Callout>
+For more details, refer to the [Template Repo](https://github.com/okto-hq/okto-sdk-react-template-app/) and the [Okto SDK Cheatsheet](https://docs.google.com/document/d/1ePHrAjiTvLOkBwOaaDvTQlv8qeRu7ATwh7dicnzfK2E/edit) for commonly used methods and configurations. 
+</Callout>

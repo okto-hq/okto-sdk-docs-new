@@ -1,0 +1,70 @@
+---
+title: OktoProvider
+description: Learn more about the main OktoProvider here.
+full: false
+---
+
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+
+## Installation
+
+This is the main provider for the Okto SDK. It is used to initialize the SDK and pass in settings. Learn how to install the SDK and add the context provider here.
+
+<Tabs items={['npm', 'pnpm', 'yarn']}>
+        <Tab value="npm">
+            ```bash
+                npm i okto-sdk-react 
+            ```
+            </Tab>
+            <Tab value="pnpm">
+            ```bash
+                pnpm add okto-sdk-react 
+            ```
+            </Tab>
+            <Tab value="yarn">
+             ```bash
+                yarn add okto-sdk-react 
+            ```
+        </Tab>    
+</Tabs>
+
+## Initializing the OktoProvider
+
+To get started with authentication, we'll initialize the Google OAuth provider in the `index.js` file.
+    ```javascript title="index.js"
+        import React from 'react';
+        import ReactDOM from 'react-dom/client';
+        import { GoogleOAuthProvider } from '@react-oauth/google';
+        import App from './App';
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        const GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID"
+        root.render(
+            <React.StrictMode>
+                <GoogleOAuthProvider clientId = {GOOGLE_CLIENT_ID}>
+                    <App />
+                </GoogleOAuthProvider>
+            </React.StrictMode>
+        );
+    ```
+Now, let's set up the Okto provider in your `App.js`:
+   ```javascript title="App.js"
+    import React from 'react';
+    import { OktoProvider, BuildType } from 'okto-sdk-react';
+    import LoginPage from './LoginPage';
+
+    const OKTO_CLIENT_API_KEY = "OKTO_CLIENT_API_KEY";
+
+    function App() {
+        return (
+            <OktoProvider apiKey={OKTO_CLIENT_API_KEY} buildType={BuildType.SANDBOX}>
+                <LoginPage/>
+            </OktoProvider>
+        );
+    }
+    export default App;
+   ```
+
+   ## Conclusion
+
+   Congratulations! That's all you have to do for initializing the Okto Provider in your React app.

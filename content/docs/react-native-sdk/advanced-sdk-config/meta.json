@@ -1,0 +1,8 @@
+{
+    "title": "Advanced SDK Configurations",
+    "pages": [
+      "chains-tokens",
+      "authenticate-users",
+      "okto-embedded-wallet"
+    ]
+  }

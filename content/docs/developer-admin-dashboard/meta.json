@@ -1,15 +1,15 @@
 {
-    "title": "Developer Admin Dashboard",
+    "title": "Dashboard",
     "pages": [
-      "---Using the Dashboard---",
-      "learn",
-      "dashboard-acc",
+      "overview",
+      "dashboard-account",
       "okto-environments",
       "api-key",
       "ui-customizations",
       "wallet-control",
-      "paymaster",
+      "sponsorship",
       "user-order-logs"
     ],
+    "icon": "Shield",
     "root": true
   }

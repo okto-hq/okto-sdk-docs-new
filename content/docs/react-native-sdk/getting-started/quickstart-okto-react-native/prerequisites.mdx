@@ -1,18 +1,33 @@
 ---
 title: Prerequisites
-full: false
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 ### Setup and Configuration
 
-1. **React and Other Version Dependencies**: View the detailed list of dependencies [here](https://github.com/okto-hq/okto-sdk-react-template-app/blob/main/package.json).
+1. **Dependencies**
+   - For a detailed list of required dependencies, refer to our [`package.json`](https://github.com/okto-hq/okto-sdk-react-native-starter-repo/blob/main/package.json).
 
-2. **Getting the API Key**: Follow steps [here](/docs/react-sdk/developer-admin-dashboard/api-key/learn) to get the API Key for the Okto SDK.
+2. **Okto API Key**
+   - Obtain your API Key from the [Okto Dashboard](https://dashboard.okto.tech/).
+   - This key is essential for integrating the Okto SDK into your project.
 
-3. **Getting the Google Client ID**: Follow steps [here](/docs/react-sdk/advanced-sdk-config/authenticate-users/google-oauth/learn) to setup a new Google Console Project and get your Google Client ID.
+3. **Google Client IDs**
+   - To authenticate users via Google, you'll need to set up a Google Console Project.
+   - Follow our guide to [set up your Google Console Project](/docs/react-native-sdk/advanced-sdk-config/authenticate-users/google-oauth/google-console-setup).
+   - The required Client IDs depend on your target platforms:
 
-<Callout title="Default Environment">
-    The default environment configuration is **Sandbox**. If you want to upgrade to **Production**, you can check out how to upgrade in [Admin Panel](/docs/react-sdk/developer-admin-dashboard/learn).
+   | Target Platform | Required Client IDs |
+   |-----------------|---------------------|
+   | Android only    | - Android Client ID<br/>- Web Client ID |
+   | iOS only        | - iOS Client ID |
+   | Both Android and iOS | - Android Client ID<br/>- iOS Client ID<br/>- Web Client ID |
+
+<Callout title="Environment Configuration">
+By default, your project will use the **Sandbox** environment. To switch to the **Production** environment, please refer to our [Admin Panel documentation](/docs/developer-admin-dashboard/overview) for upgrade instructions.
 </Callout>
+
+### Next Steps
+
+Once you've completed these prerequisites, you'll be ready to integrate the Okto SDK into your React Native project. If you encounter any issues during setup, please consult our troubleshooting guide or reach out to our support team.

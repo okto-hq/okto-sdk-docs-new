@@ -1,0 +1,44 @@
+---
+title: SDK Error and Warnings
+description: List of all errors and warnings as a reference for developers.
+full: false
+---
+
+## General Errors
+
+| **Code**                 | **Message**                              | **Description**                                                                                                                               |
+|--------------------------|------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| `ER-TECH-0016`           | Something went wrong.                    | No vendor key found. Please add a valid non-null x-api-key in API headers.                                                                     |
+| `ER-TECH-0001`           | Something went wrong.                    | The provided id_token is invalid or expired. Please generate a new one.                                                                        |
+| `ER-TECH-0007`           | Unauthorized                             | Vendor of the provided API key does not exist. Please use a valid x-api-key in the API headers.                                                 |
+| `OAU_501`                | Expired token provided                   | Please provide the current token by logging in again.                                                                                          |
+| `ER-TECH-0009`           | Invalid request.                         | network_ids must be a valid GUID. Please ensure they are in the correct format.                                                                |
+| `ER-TECH-0005`           | Error validating policies.               | User not allowed: Supported networks are not supported by this vendor.                                                                         |
+| `ER-TECH-0004`           | Invalid request.                         | Network details not found. Please check the network_name is correct.                                                                           |
+| `ER-TECH-0025`           | Validation failed.                       | Insufficient balance in wallet. Please ensure your wallet has sufficient balance.                                                              |
+| `ER-TECH-0015`           | Invalid quantity.                        | Quantity should be greater than 0 for token transfers and must be an integer for NFT transfers.                                                 |
+| `ER-TECH-0017`           | No orders found.                         | No orders exist for the given ID. Please provide the correct order ID in the query params.                                                     |
+| `ER-TECH-0014`           | Vendor order not allowed.                | The token/NFT transfer is not allowed by the vendor.                                                                                           |
+| `ER-TECH-0013`           | Unprocessable entity.                    | Failed to fetch data from downstream services. Please check your request body.                                                                 |
+| `OAU_404`                | Data not found.                          | Please check the request body and parameters.                                                                                                  |
+| `ER-TECH-0006`           | Retry                                    | Downstream service error. Try again later.                                                                                                     |
+| `ER-TECH-0002`           | Collection not found.                    | Please check collection address and network_name.                                                                                              |
+| `ER-TECH-0007`           | Unauthorized                             | Empty `Authorization` header. Please provide a valid token.                                                                                    |
+| `ER-TECH-0007`           | Unauthorized                             | You are not logged in. Please use the correct Bearer Token in the API headers.                                                                 |
+| `ER-TECH-0005`           | Error validating policies.               | Supported tokens/NFT collections are not supported by this vendor.                                                                             |
+| `ER-TECH-0016`           | Validation failed                        | Invalid request body, please follow API Docs.                                                                                                  |
+| `ER-TECH-0017`           | No orders found for the given request.   | Please provide the correct order ID.                                                                                                           |
+| `OAU_401`                | Unauthorized                             | Vendor of provided API key does not exist. Please use a valid API key.                                                                         |
+| `OAU_401`                | Unauthorized                             | The API key is not for s2s. Please use s2s API key.                                                                                            |
+| `ER-TECH-0001`           | Validation error                         | Invalid address syntax for UUID.                                                                                                               |
+| `OAU_501`                | Expired token                            | Please provide a new token by logging in again.                                                                                                |
+| `ER-TECH-0002`           | DATA_NOT_FOUND                           | NFT not found. You do not have the NFT.                                                                                                        |
+| `500 ER-TECH-0005`       | Service error                            | Downstream service error, internal error. Try again later.                                                                                     |
+| `422 ER-TECH-0013`       | Unprocessable entity                     | Failed to fetch data from downstream services.                                                                                                 |
+| `404 ER-TECH-0002`       | Data not found                           | User ID does not exist for the provided userId.                                                                                                |
+| `401 ER-TECH-0007`       | Unauthorized                             | Empty `Vendor` header, no API key.                                                                                                             |
+| `404`                    | Link not found                           | No user ID provided.                                                                                                                           |
+| `ER-TECH-0015`           | Something went wrong                     | Please check your input.                                                                                                                       |
+| `401`                    | Unauthorized                             | Please refresh your auth token and try again.                                                                                                  |
+| `400 ER-TECH-0016`       | Validation failed                        | Please ensure all required keys are not null and follow the API Docs.                                                                          |
+| `400 ER-TECH-0014`       | Vendor Order Not Allowed                 | The transfer is not allowed by the vendor.                                                                                                     |

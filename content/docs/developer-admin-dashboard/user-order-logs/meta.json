@@ -1,7 +1,6 @@
 {
     "title": "User and Order Logs",
     "pages": [
-      "learn",
       "user-log",
       "user-order-history"
     ]

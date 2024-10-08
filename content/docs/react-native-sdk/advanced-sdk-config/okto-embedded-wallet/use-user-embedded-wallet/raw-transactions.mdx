@@ -1,0 +1,267 @@
+---
+title: Invoke Any Smart Contract On-chain Via Code
+description: Learn how to invoke any smart contract interaction on-chain using the Okto SDK.
+full: false
+---
+
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+import { Icon as IIcon } from '@iconify/react'; 
+
+import '../../../styles.css';  
+
+### Methods Overview
+
+| Methods                                                                                                        | Description                                                                 |                 
+|----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| <sub><i>async</i></sub> [`getRawTransactionStatus`](#get-raw-transactions)                           | Fetch raw transactions based on the provided data                           |
+| <sub><i>async</i></sub> [`executeRawTransaction`](#execute-raw-transaction)                              | Execute raw transactions based on the provided data                         |
+| <sub><i>async</i></sub> [`executeRawTransactionWithJobStatus`](#execute-raw-transaction-with-job-status) | Execute raw transactions with job status updates based on the provided data |
+
+<div className="method-box">
+
+## Get raw transactions
+
+<sub><i>async</i></sub> `getRawTransactionStatus(query)`<a href="https://github.com/okto-hq/okto-sdk-react-native/blob/769a2f6e4faec12e45f9b5577ee1b35334e02c7b/src/index.tsx#L110" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> fetches the status of a raw transaction based on the provided query.
+
+### Parameters
+
+| Parameter   | Type                        | Description                            | 
+|-------------|-----------------------------|----------------------------------------|
+| `query`     | [`RawTransactionStatusQuery`](/api-docs#model/rawtransactionstatusquery) | Query being provided fetching the data | 
+
+
+```typescript
+interface RawTransactionStatusQuery {
+  order_id: string;
+}
+```
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type                                | Description                                             | 
+|------------|-------------------------------------|---------------------------------------------------------|
+| `result`   | [`Promise<RawTransactionStatusData>`](/api-docs#model/rawtransactionstatusdata) | Returns information about the status of raw transaction | 
+
+</Callout>
+
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Typescript']}>
+  <Tab value="Typescript">
+    ```typescript
+        import { useOkto, type OktoContextType} from 'okto-sdk-react';
+ 
+        const { getRawTransactionStatus } = useOkto() as OktoContextType;
+ 
+        const networkName = "POLYGON_TESTNET"
+        const from = "0x0FC096A53343C68c1086e626661A4bb31486A9e2"
+        const to = "0x0FC04889A533C68c1086e626661A4bb31486A9e2"
+        const data = "transaction";
+        const value = "1";
+ 
+        getRawTransactionStatus({
+            network_name: networkName,
+            transaction: {
+                from,
+                to,
+                data,
+                value,
+            }
+        }).then((result) => {
+                console.log('Transfer success', result);
+        })
+        .catch((error) => {
+            console.log('Transfer error', error);
+        });
+    ```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>
+
+<div className="method-box">
+
+## Execute raw transaction
+
+<sub><i>async</i></sub> `executeRawTransaction(data)`<a href="https://github.com/okto-hq/okto-sdk-react-native/blob/769a2f6e4faec12e45f9b5577ee1b35334e02c7b/src/index.tsx#L144" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> executes a raw transaction based on the provided data.
+
+### Parameters
+
+| Parameter   | Type                    | Description                                        | 
+|-------------|-------------------------|----------------------------------------------------|
+| `data`      | [`ExecuteRawTransaction`](/api-docs#model/executerawtransaction) | Data being provided for executing raw transactions | 
+
+<Tabs items={['EVM', 'Solana', 'Aptos']}>
+  <Tab value="EVM">
+    ```typescript
+      interface ExecuteRawTransaction {
+      network_name: string;
+      transaction: {
+        from: string;
+        to: string;
+        data: string
+        value: string;
+      }
+    }
+    ```
+  </Tab>
+  <Tab value="Solana">
+    ```typescript
+      interface ExecuteRawTransaction {
+      network_name: string;
+      transaction: {
+        instructions: {
+          keys: key[];
+          programId: string;
+          data: number[];
+        };
+        signer: string;
+      }
+    }
+    ```
+  </Tab>
+  <Tab value="Aptos">
+     ```typescript 
+      interface ExecuteRawTransaction {
+      network_name: string;
+      transaction: {
+        function: fn;
+        typeArguements: Array[];
+        functionArguements: Array[]
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type                                 | Description                               | 
+|------------|--------------------------------------|-------------------------------------------|
+| `result`   | [`Promise<ExecuteRawTransactionData>`](/api-docs#model/executerawtransactiondata) | Returns information about the transaction | 
+
+</Callout>
+
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Typescript']}>
+  <Tab value="Typescript">
+    ```typescript
+        import { useOkto, type OktoContextType} from 'okto-sdk-react';
+ 
+        const { executeRawTransaction } = useOkto() as OktoContextType;
+ 
+        const networkName = "POLYGON_TESTNET"
+        const tokenAddress = "x2f7b97837f2d14ba2ed3a4b2282e259126a9b848"
+        const quantity = "1"
+        const recipientAddress = "0x0FC096A53343C68c1086e626661A4bb31486A9e2"
+ 
+        executeRawTransaction({
+            network_name: networkName,
+            token_address: tokenAddress,
+            recipient_address: recipientAddress,
+            quantity: quantity
+        }).then((result) => {
+                console.log('Transfer success', result);
+        })
+        .catch((error) => {
+            console.log('Transfer error', error);
+        });
+    ```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>
+
+<div className="method-box">
+
+## Execute raw transaction with job status
+
+<sub><i>async</i></sub> `executeRawTransactionWithJobStatus(data)`<a href="https://github.com/okto-hq/okto-sdk-react-native/blob/769a2f6e4faec12e45f9b5577ee1b35334e02c7b/src/index.tsx#L144" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> executes a raw transaction and provides job status updates based on the provided data.
+
+### Parameters
+
+| Parameter   | Type                             | Description                                        | 
+|-------------|----------------------------------|----------------------------------------------------|
+| `data`      | [`Promise<ExecuteRawTransaction>`](/api-docs#model/executerawtransaction) | Data being provided for executing raw transactions | 
+
+
+```typescript
+interface ExecuteRawTransaction {
+  network_name: string;
+  transaction: object;
+}
+```
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type                            | Description                               | 
+|------------|---------------------------------|-------------------------------------------|
+| `result`   | [`Promise<RawTransactionStatus>`](/api-docs#model/rawtransactionstatus) | Returns information about the transaction | 
+
+<Accordions>
+<Accordion title="Response Type">
+```typescript
+interface RawTransactionStatusData {
+  total: number;
+  jobs: RawTransactionStatus[];
+}
+```
+</Accordion>
+</Accordions>
+
+</Callout>
+
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Typescript']}>
+  <Tab value="Typescript">
+    ```typescript
+        import { useOkto, type OktoContextType} from 'okto-sdk-react';
+ 
+        const { executeRawTransactionWithJobStatus } = useOkto() as OktoContextType;
+ 
+        const networkName = "POLYGON_TESTNET"
+        const from = "0x0FC096A53343C68c1086e626661A4bb31486A9e2"
+        const to = "0x0FC04889A533C68c1086e626661A4bb31486A9e2"
+        const data = "transaction";
+        const value = "1";
+ 
+        executeRawTransactionWithJobStatus({
+            network_name: networkName,
+            transaction: {
+                from,
+                to,
+                data,
+                value,
+            }
+        }).then((result) => {
+                console.log('Transfer success', result);
+        })
+        .catch((error) => {
+            console.log('Transfer error', error);
+        });
+    ```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>
+

@@ -1,0 +1,10 @@
+{
+    "title": "Example Apps",
+    "pages": [
+        "template-app",
+        "example-repos",
+        "!showcase",
+        "!tutorials",
+        "!building-on-other-frameworks"
+    ]
+}

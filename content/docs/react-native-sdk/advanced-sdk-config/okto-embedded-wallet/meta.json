@@ -1,0 +1,9 @@
+{
+    "title": "Okto Embedded Wallet",
+    "pages": [
+      "setup-embedded-wallets",
+      "use-user-embedded-wallet",
+      "!plugins",
+      "built-in-ui-screens"
+    ]
+  }

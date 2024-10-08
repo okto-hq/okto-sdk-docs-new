@@ -43,10 +43,9 @@ const App = () => {
       <ApiReferenceReact
         configuration={{
           spec: {
-            url: 'https://okto-sdk-docs-new.vercel.app/api-sec',
+            url: 'https://okto-docs-black.vercel.app/api-sec',
           },
           theme: 'none',
-          hideTestRequestButton: true,
           darkMode: theme === 'dark',
           hiddenClients: [],
           metadata: {

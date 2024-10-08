@@ -1,8 +1,8 @@
 {
-    "title": "Okto Environments",
+    "title": "Environments",
     "pages": [
-      "sandbox",
-      "upgrade-to-prod",
-      "pricing"
+        "sandbox",
+        "upgrade-to-prod",
+        "pricing"
     ]
-  }
+}

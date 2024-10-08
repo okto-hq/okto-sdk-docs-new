@@ -1,13 +1,17 @@
 {
     "title": "Okto SDK",
     "pages": [
+      "---Basics---",
+      "overview",
+      "quickstart",
       "introduction-to-okto",
       "developer-admin-dashboard",
+      "---SDKs---",
       "react-sdk",
       "flutter-sdk",
-      "[React Native](https://sdk-docs.okto.tech/sdk-reference/react-native/setTheme)",
-      "[Flutter](https://sdk-docs.okto.tech/sdk-reference/flutter/setup)",
-      "[API Reference](https://okto-sdk-docs-new.vercel.app/api-docs)"
+      "react-native-sdk",
+      "---Community---",
+      "[Showcase](https://okto-docs-black.vercel.app/showcase)"
     ],
     "root": true
   }

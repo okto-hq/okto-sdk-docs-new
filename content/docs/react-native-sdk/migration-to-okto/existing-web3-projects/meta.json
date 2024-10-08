@@ -1,0 +1,11 @@
+{
+    "title": "Existing Web3 Projects",
+    "pages": [
+        "web3js",
+        "ethersjs",
+        "wagmi",
+        "viem",
+        "solana-web3js",
+        "aptos-ts-sdk"
+    ]
+}

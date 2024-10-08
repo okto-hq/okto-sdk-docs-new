@@ -2,24 +2,94 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-    --doc-card-bg-light: #F5F6FE;
-    --doc-card-text-light: #000000;
+@layer base {
+  :root {
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --accent: 240 4.8% 95.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 10% 3.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+    --background: 0 0% 100%;
+    --card: 0 0% 100%;
+    --foreground: 240 6% 25%;
+    --muted-foreground: 240 6% 50%;
+    --secondary: 240 6% 97%;
+    --accent-foreground: 240 6% 25%;
+    --primary: 226 55% 45%;
+  }
 
-    --doc-card-bg-dark: #1A1A1A;
-    --doc-card-text-dark: #FFFFFF;
+  .dark {
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --input: 240 3.7% 15.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    --ring: 234 100% 83%;
+    --primary: 234 100% 83%;
+    --secondary-foreground: 60 100% 98%;
+    --card-foreground: 60 100% 98%;
+    --background: 240 7% 11%;
+    --foreground: 60 100% 98%;
+    --popover: 240 7% 11%;
+    --popover-foreground: 60 100% 98%;
+    --primary-foreground: 240 7% 11%;
+    --card: 240 7% 11%;
+    --muted: 0 0% 13%;
+    --border: 240 4% 19%;
+    --accent: 0 0% 15%;
+    --secondary: 240 4% 9%;
+    --accent-foreground: 0 0% 100%;
+    --muted-foreground: 240 4% 65%;
+  }
 }
 
-[data-theme="light"] {
-    --doc-card-bg: var(--doc-card-bg-light);
-    --doc-card-text: var(--doc-card-text-light);
-}
+@layer base {
+  * {
+    @apply border-border;
+  }
 
-[data-theme="dark"] {
-    --doc-card-bg: var(--doc-card-bg-dark);
-    --doc-card-text: var(--doc-card-text-dark);
+  body {
+    @apply bg-background text-foreground;
+  }
 }
 
 .nav-spacing header {
-    max-width: 100vw !important;
+  max-width: 100vw !important;
+}
+
+#nd-docs-layout aside {
+  /* position: fixed; */
+  top: 60px;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+}
+
+#nd-docs-layout>aside>div:last-child button:first-child {
+  display: none;
+}
+
+.button-no-outline {
+  outline: 0 !important;
+  /* Remove the default outline */
+}
+
+.button-no-outline:focus {
+  outline: 0 !important;
+  /* Ensure it’s also removed when focused */
 }

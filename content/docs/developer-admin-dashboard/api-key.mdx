@@ -1,0 +1,51 @@
+---
+title: API Key
+description: API keys are essential for integrating Okto into your application. They authenticate your requests and associate them with your Okto Dashboard account. 
+full: false
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## App ID
+
+![API Page - Okto Dashboard](/images/api-key-dashboard.png)
+
+The App ID is a unique identifier for your application and you as a [Vendor](/docs/introduction-to-okto/okto-vendor-user). It's used to associate your Okto client with this specific app in our system. Include this ID when initializing your Okto client in your application.
+
+To copy the App ID, click the "Copy" button next to it.
+
+## App Secret
+
+Your App Secret is not displayed for security reasons. To view or generate your App Secret, click the "Get App Secret" button.
+
+The App Secret is a confidential key used to authenticate your API requests. Keep this secret secure and never share it publicly or include it in client-side code.
+
+<Callout title="Note">
+- App ID and App Secret pairs are unique for each environment (e.g., sandbox, production).  
+- Ensure you're using the correct pair for the environment you're working in.  
+- Okto does not store your API secret so keep it safe and secret.
+</Callout>
+
+**What are App ID and App Secret for Vendors?**
+
+**App ID**: A public identifier for your application.
+
+**App Secret**: A private key used to authenticate requests from your application to Okto's servers. It is also referred to as OKTO API KEY in the docs.
+
+## Storing App Secret
+
+* **How Okto stores it**: Okto does not store any vendors’ API secret. In case it's lost, you can reset the key.  
+* **How you should store it**:  
+  * Use environment variables or secure secret management systems.  
+  * Never hardcode the secret in your application code.  
+  * Avoid storing it in version control systems.
+
+## Reset App Secret
+
+* To reset your App Secret, use the "Reset" option next to your App Secret on the Okto dashboard.  
+* After regeneration, update the secret in all your applications to maintain uninterrupted service.
+
+<Callout title="Note">
+  - If someone obtains your App ID and App Secret, they could potentially make unauthorized requests on behalf of your application.  
+  - In case of a suspected breach, immediately regenerate your App Secret and update your applications.
+</Callout>

@@ -1,0 +1,9 @@
+{
+    "title": "Quickstart",
+    "pages": [
+        "react-quickstart",
+        "react-native-quickstart",
+        "flutter-quickstart"
+    ],
+    "icon": "Rocket"
+}

@@ -1,0 +1,285 @@
+---
+title: Flutter 
+---
+
+import { Steps, Step } from 'fumadocs-ui/components/steps'
+import { Tabs, Tab } from 'fumadocs-ui/components/tabs'
+import { Callout } from 'fumadocs-ui/components/callout'
+
+
+This quickstart guide will help you set up a basic Flutter app using the Okto SDK. Follow these steps to get your app up and running quickly.
+
+<Steps>
+
+<Step title="Prerequisites">
+  ## Prerequisites
+  Ensure you have Flutter installed and set up on your system. Run the following command to verify your setup:
+  
+  ```bash title="bash"
+  flutter doctor
+  ```
+  All checks should return green. If not, address any issues before proceeding.
+</Step>
+
+<Step title="Create a new Flutter project">
+  ## Create a new Flutter project
+  Create a new Flutter project by running:
+  ```bash title="bash"
+  flutter create PATH_TO_MY_APP
+  cd PATH_TO_MY_APP
+  ```
+</Step>
+
+<Step>
+  ## Set up Google Cloud Console
+  1. Go to the [Google Cloud Console](https://console.cloud.google.com/).
+  2. Follow our [Google Authentication Setup Guide](https://sdk-docs.okto.tech/guide/google-authentication-setup) to create a new project and obtain the necessary credentials.
+  <Callout type="info" title="Required Client IDs">
+    Depending on your target platforms, you'll need:
+    - Android devices: Web Client ID and Android Client ID
+    - iOS devices: iOS Client ID
+    - Both platforms: Web Client ID, Android Client ID, and iOS Client ID
+  </Callout>
+</Step>
+
+<Step title="Configure dependencies">
+  ## Configure dependencies
+  Update your `pubspec.yaml` file to include the following dependencies:
+  ```yaml title="pubsec.yaml"
+  dependencies:  
+  	flutter:    
+		sdk: flutter  
+
+	google_sign_in: ^6.2.1  
+	flutter_dotenv: ^5.1.0  
+	okto_flutter_sdk: ^0.0.15  
+	cupertino_icons: ^1.0.6
+  ```
+  Then run: 
+  ```bash title="bash"
+  flutter pub get
+  ```
+</Step>
+
+<Step title="Setup OAuth">
+	<Tabs items={['Android', 'iOS']}>
+		<Tab value='Android'>
+			Create a `strings.xml` file under `android/app/src/main/res/values/` with the following content:
+			```xml title="strings.xml"
+			<?xml version="1.0" encoding="utf-8"?>
+			<resources>
+				<string name="default_web_client_id">YOUR_WEB_CLIENT_ID</string>
+			</resources>
+			```
+			Replace `YOUR_WEB_CLIENT_ID` with your actual Web Client ID from Google Console.
+		</Tab>
+		<Tab value='iOS'>
+			Update your `ios/Runner/Info.plist` file to include:
+			```xml title="ios/Runner/Info.plist"
+			<key>GIDClientID</key>
+			<string>YOUR_IOS_CLIENT_ID</string>
+			<key>CFBundleURLTypes</key>
+			<array>
+				<dict>
+				<key>CFBundleTypeRole</key>
+				<string>Editor</string>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>YOUR_IOS_URL_SCHEME</string>
+				</array>
+				</dict>
+			</array>
+			```
+			Replace `YOUR_IOS_CLIENT_ID` and `YOUR_IOS_URL_SCHEME` with your actual values.
+		</Tab>
+	</Tabs>
+</Step>
+
+<Step title="Create necessary files">
+  ## Create necessary files
+  Create the following files in your project:
+  1. `.env` file in the root folder:
+  ```bash title=".env"
+	OKTO_CLIENT_API_KEY=YOUR_OKTO_CLIENT_API_KEY
+
+	# Options: staging | prod | sandbox
+	BUILD_TYPE=sandbox
+  ```
+	If not already added, add your `.env` to your `pubsec.yaml` under the assets section:
+	```yaml title="pubsec.yaml"
+	 assets:
+    	- .env
+	```
+  2. `lib/utils/okto.dart`:
+  ```dart title="lib/utils/okto.dart"
+	import 'package:okto_flutter_sdk/okto_flutter_sdk.dart';
+	import 'package:my_app/utils/global.dart';
+
+	Globals globals = Globals.instance;
+	Okto? okto;
+  ```
+  3. `lib/utils/global.dart`:
+  ```dart title="lib/utils/global.dart"
+	import 'package:flutter_dotenv/flutter_dotenv.dart';
+	import 'package:okto_flutter_sdk/okto_flutter_sdk.dart';
+
+	class Globals {
+		String buildType = dotenv.get('BUILD_TYPE');
+		String oktoClientApiKey = dotenv.get('OKTO_CLIENT_API_KEY');
+
+		static final Globals _singleton = Globals._internal();
+
+		factory Globals() {
+			return _singleton;
+		}
+
+		Globals._internal();
+
+		static Globals get instance => _singleton;
+
+		BuildType getBuildType() {
+			switch (buildType) {
+			case 'sandbox':
+				return BuildType.sandbox;
+			case 'production':
+				return BuildType.production;
+			case 'staging':
+				return BuildType.staging;
+			default:
+				return BuildType.sandbox;
+			}
+		}
+
+		String getOktoApiKey() {
+			return oktoClientApiKey;
+		}
+	}
+	```
+	</Step>
+
+<Step title="Update main.dart">
+  ## Update main.dart
+  Replace the contents of `lib/main.dart` with:
+  ```dart title="lib/main.dart"
+	import 'package:flutter/material.dart';
+	import 'package:flutter_dotenv/flutter_dotenv.dart';
+	import 'package:okto_flutter_sdk/okto_flutter_sdk.dart';
+	import 'package:my_app/auth/google_login.dart';
+	import 'package:my_app/screens/home_page.dart';
+	import 'package:my_app/utils/okto.dart';
+
+	void main() async {
+	await dotenv.load(fileName: ".env");
+	WidgetsFlutterBinding.ensureInitialized();
+	okto = Okto(globals.getOktoApiKey(), globals.getBuildType());
+	runApp(const MyApp());
+	}
+
+	class MyApp extends StatelessWidget {
+	const MyApp({super.key});
+
+	Future<bool> checkLoginStatus() async {
+		return await okto!.isLoggedIn();
+	}
+
+	@override
+	Widget build(BuildContext context) {
+		return MaterialApp(
+		debugShowCheckedModeBanner: false,
+		title: 'Okto Flutter template app',
+		theme: ThemeData(
+			colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+			useMaterial3: true,
+		),
+		home: FutureBuilder<bool>(
+			future: checkLoginStatus(),
+			builder: (context, snapshot) {
+			if (snapshot.connectionState == ConnectionState.waiting) {
+				return const Scaffold(
+				body: Center(
+					child: CircularProgressIndicator(),
+				),
+				);
+			} else {
+				bool isLoggedIn = snapshot.data ?? false;
+				if (isLoggedIn) {
+				return const HomePage();
+				} else {
+				return const LoginWithGoogle();
+				}
+			}
+			},
+		),
+		);
+		}
+	}
+	```
+	</Step>
+
+	<Step title="Create Home Page">
+		## Create Home Page
+  		Create `lib/screens/home_page.dart`:
+		```dart title="lib/screens/home_page.dart"
+		import 'package:flutter/material.dart';
+		import 'package:my_app/auth/google_login.dart';
+		import 'package:my_app/utils/okto.dart';
+
+		class HomePage extends StatelessWidget {
+		const HomePage({super.key});
+
+		@override
+		Widget build(BuildContext context) {
+			return Scaffold(
+			backgroundColor: const Color(0xff5166EE),
+			body: SafeArea(
+				child: Column(
+				children: [
+					Container(
+					alignment: Alignment.center,
+					margin: const EdgeInsets.all(40),
+					child: const Text(
+						'Home Page',
+						style: TextStyle(
+							color: Colors.white,
+							fontWeight: FontWeight.w800,
+							fontSize: 30),
+					),
+					),
+					ElevatedButton(
+						onPressed: () async {
+						try {
+							await okto!.logout();
+							Navigator.pushReplacement(
+								context,
+								MaterialPageRoute(
+									builder: (context) => const LoginWithGoogle()));
+						} catch (e) {
+							print(e);
+						}
+						},
+						child: const Text(
+						'Logout',
+						style: TextStyle(color: Colors.red),
+						)),
+				],
+				),
+			),
+			);
+		}
+		```
+		</Step>
+
+		<Step title="Run your app">
+		    ## Run your app
+			You can now run your Okto-integrated Flutter app:
+			```bash title='bash'
+			flutter run
+			```
+			Your app should now have basic Okto SDK integration with Google Sign-In functionality.
+		</Step>
+
+</Steps>
+
+## Congratulations!
+
+🎉 Congratulations! You now have a Flutter app powered by Okto. You can focus on your business logic and UI/UX now. You can checkout how to use other features in our [Flutter Template Repo](https://github.com/okto-hq/okto-sdk-flutter-template-app).
