@@ -47,6 +47,7 @@ okto-sdk-docs:
     scheme: http
     hosts:
       - host: docs.okto.tech
+      - host: sdk-docs.okto.tech
   autoscaling:
     enabled: true
     minReplicas: 1
