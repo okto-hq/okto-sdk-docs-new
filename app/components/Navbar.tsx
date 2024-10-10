@@ -137,7 +137,7 @@ export default function NavbarComponent() {
         </NavbarItem>
         <NavbarItem className="hidden lg:flex">
           <SCButton variant="outline" className="rounded-full flex gap-1 hover:bg-[#F5F6FE] dark:hover:bg-gray-700 hover:text-[#5166EE] dark:hover:text-[#7C8FFF]">
-            <Link href="https://okto-sdk-demo-app-weld.vercel.app/">Demo</Link>
+            <Link href="https://demo.okto.tech">Demo</Link>
             <MdOutlineArrowOutward size={".9rem"} />
           </SCButton>
         </NavbarItem>
