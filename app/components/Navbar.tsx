@@ -1,19 +1,11 @@
 'use client';
 
 import React, { useEffect, useState } from "react";
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link as ULink, Button, Image, Chip, DropdownItem } from "@nextui-org/react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link as ULink, Image, Chip } from "@nextui-org/react";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Poppins } from "next/font/google";
@@ -54,9 +46,9 @@ export default function NavbarComponent() {
   ];
 
   const sdkOptions = [
-    { href: "/docs/react-sdk", label: "React", subpath: '/getting-started/overview-okto-react', icons: <FaReact/> },
-    { href: "/docs/react-native-sdk", label: "React Native", subpath: '/getting-started/overview-okto-react-native', icons: <TbBrandReactNative/> },
-    { href: "/docs/flutter-sdk", label: "Flutter", subpath: '/getting-started/overview-okto-flutter', icons: <SiFlutter/> },
+    { href: "/docs/react-sdk", label: "React", subpath: '/getting-started/overview-okto-react', icons: <FaReact /> },
+    { href: "/docs/react-native-sdk", label: "React Native", subpath: '/getting-started/overview-okto-react-native', icons: <TbBrandReactNative /> },
+    { href: "/docs/flutter-sdk", label: "Flutter", subpath: '/getting-started/overview-okto-flutter', icons: <SiFlutter /> },
   ];
 
   const getFrameworkLabel = () => {
@@ -82,13 +74,13 @@ export default function NavbarComponent() {
   const isFrameworkSelected = sdkOptions.some(option => pathname.startsWith(option.href));
 
   return (
-    <Navbar className="nav-spacing">
+    <Navbar className="nav-spacing border-b sm:border-b-0 border-gray-200 dark:border-gray-700">
       <NavbarBrand className={`${poppins.className} gap-20 flex items-center`}>
         <ULink href="/docs" color="foreground" className="no-underline">
           <NavbarItem className="flex gap-2 items-center">
-            <Image src="/logo/okto-icon.png" alt="Okto Logo" width={30} height={30} />
+            <Image src="/logo/okto-icon.png" alt="Okto Logo" width={30} height={30} className="display-logo"/>
             <p className="text-2xl">okto</p>
-            <Chip className="bg-[#F5F6FE] text-[#5166EE] h-[22px] w-[55px] text-[14px]">
+            <Chip className="bg-[#F5F6FE] dark:bg-gray-700 text-[#5166EE] dark:text-[#7C8FFF] h-[22px] w-[55px] text-[14px]">
               Docs
             </Chip>
           </NavbarItem>
@@ -108,44 +100,21 @@ export default function NavbarComponent() {
               </ULink>
             </NavbarItem>
           ))}
-          {/* <Dropdown>
-            <DropdownTrigger>
-              <Button
-                disableRipple
-                className={`p-0 bg-transparent data-[hover=true]:bg-transparent text-md ${isFrameworkSelected
-                  ? "text-blue-600"
-                  : ""
-                  } pb-1`} // Apply styles when a framework is selected
-                variant="light"
-                radius="sm"
-                endContent={<ChevronDown />}
-              >
-                {getFrameworkLabel()}
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu aria-label="Framework options" items={sdkOptions}>
-              {(item) => (
-                <DropdownItem
-                  key={item.label}
-                  href={`${item.href}${item.subpath}`}
-                  startContent={item.label === 'React' ? <FaReact /> : item.label === 'React Native' ? <TbBrandReactNative /> : item.label === 'Flutter' ? <SiFlutter /> : <TbApi />}
-                >
-                  {item.label}
-                </DropdownItem>
-              )}
-            </DropdownMenu>
-          </Dropdown> */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <SCButton variant="ghost" className="text-md flex gap-1 p-0">
-                {getFrameworkLabel()} <ChevronDown size={20} />
+              <SCButton variant="ghost" className="text-md flex items-center gap-1 p-0">
+                {getFrameworkLabel()} <ChevronDown className="h-5 w-5" />
               </SCButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56 rounded-lg p-2">
-              {sdkOptions.map(option => (
-                <DropdownMenuItem key={option.label} className="cursor-pointer">
-                  <Link href={`${option.href}${option.subpath}`} className="flex gap-1 items-center">
-                    {option.icons} {option.label}
+              {sdkOptions.map((option) => (
+                <DropdownMenuItem key={option.label} asChild>
+                  <Link
+                    href={`${option.href}${option.subpath}`}
+                    className="flex items-center gap-1 cursor-pointer"
+                  >
+                    {option.icons}
+                    <span>{option.label}</span>
                   </Link>
                 </DropdownMenuItem>
               ))}
@@ -161,19 +130,19 @@ export default function NavbarComponent() {
           <GitHubButton />
         </NavbarItem>
         <NavbarItem className="hidden lg:flex">
-          <SCButton variant="outline" className="rounded-full flex gap-1 hover:bg-[#F5F6FE] hover:text-[#5166EE]">
+          <SCButton variant="outline" className="rounded-full flex gap-1 hover:bg-[#F5F6FE] dark:hover:bg-gray-700 hover:text-[#5166EE] dark:hover:text-[#7C8FFF]">
             <Link href="https://teamcoindcx.typeform.com/to/CvPAQNAU">Grants</Link>
             <MdOutlineArrowOutward size={".9rem"} />
           </SCButton>
         </NavbarItem>
         <NavbarItem className="hidden lg:flex">
-          <SCButton variant="outline" className="rounded-full flex gap-1 hover:bg-[#F5F6FE] hover:text-[#5166EE]">
+          <SCButton variant="outline" className="rounded-full flex gap-1 hover:bg-[#F5F6FE] dark:hover:bg-gray-700 hover:text-[#5166EE] dark:hover:text-[#7C8FFF]">
             <Link href="https://okto-sdk-demo-app-weld.vercel.app/">Demo</Link>
             <MdOutlineArrowOutward size={".9rem"} />
           </SCButton>
         </NavbarItem>
         <NavbarItem className="hidden lg:flex">
-          <SCButton variant="outline" className="rounded-full flex gap-1 hover:bg-[#F5F6FE] hover:text-[#5166EE]">
+          <SCButton variant="outline" className="rounded-full flex gap-1 hover:bg-[#F5F6FE] dark:hover:bg-gray-700 hover:text-[#5166EE] dark:hover:text-[#7C8FFF]">
             <Link href="https://dashboard.okto.tech/">Dashboard</Link>
             <MdOutlineArrowOutward size={".9rem"} />
           </SCButton>
@@ -184,12 +153,12 @@ export default function NavbarComponent() {
               variant="outline"
               size="icon"
               onClick={toggleTheme}
-              className="border-none"
+              className="border-none hover:bg-[#F5F6FE] dark:hover:bg-gray-700"
             >
               {resolvedTheme === "light" ? (
-                <Sun />
+                <Sun className="hover:text-[#5166EE]" />
               ) : (
-                <Moon />
+                <Moon className="hover:text-[#7C8FFF]" />
               )}
             </SCButton>
           )}

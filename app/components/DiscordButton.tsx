@@ -11,7 +11,7 @@ const DiscordIcon = () => (
 const DiscordButton = () => {
   return (
     <Button
-      variant="outline" size="icon" className='rounded-full hover:bg-[#F5F6FE] hover:text-[#5166EE]'
+      variant="outline" size="icon" className='dark:hover:bg-gray-700 dark:hover:text-[#7C8FFF] rounded-full hover:bg-[#F5F6FE] hover:text-[#5166EE]'
       asChild
     >
       <Link href="https://discord.com/invite/okto-916349620383252511"><DiscordIcon/></Link>

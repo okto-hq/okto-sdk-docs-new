@@ -12,7 +12,7 @@ const GitHubIcon = () => (
 const GitHubButton = () => {
   return (
     <Button
-      variant="outline" size="icon" className='rounded-full hover:bg-[#F5F6FE] hover:text-[#5166EE]'
+      variant="outline" size="icon" className='dark:hover:bg-gray-700 dark:hover:text-[#7C8FFF] rounded-full hover:bg-[#F5F6FE] hover:text-[#5166EE]'
     >
       <Link href={"https://github.com/okto-hq/"}><GitHubIcon/></Link>
     </Button>
