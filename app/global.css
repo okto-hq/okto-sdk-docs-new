@@ -86,10 +86,12 @@
 
 .button-no-outline {
   outline: 0 !important;
-  /* Remove the default outline */
 }
 
 .button-no-outline:focus {
   outline: 0 !important;
-  /* Ensure it’s also removed when focused */
+}
+
+.display-logo {
+  max-width: none !important;
 }
