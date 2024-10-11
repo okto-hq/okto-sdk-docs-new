@@ -73,6 +73,11 @@
   max-width: 100vw !important;
 }
 
+#nd-docs-layout aside {
+  background-color: hsl(var(--background));
+  border-right: 1px solid hsl(var(--border));
+}
+
 @media screen and (min-width: 761px) {
   #nd-docs-layout {
     /* position: fixed; */
