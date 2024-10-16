@@ -1,0 +1,39 @@
+---
+title: OAuth2 Token Id
+full: false
+---
+
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+
+To get a `token_id` you first need to visit [OAuth 2.0 Playground](https://developers.google.com/oauthplayground/).
+<Steps>
+<Step>
+### Select Google OAuth2 API v2 for Scope
+On the dashboard you will be on `Step 1: Select & authorize APIs`, from the menu select `Google OAuth2 API v2` dropdown for Scope.
+![Step 1 Help Image](/images/oauth/step1.png)
+</Step>
+
+<Step>
+### Select email scope and Authorize API's
+Select the `https://www.googleapis.com/auth/userinfo.email` scope and click on `Authorize APIs` button.
+![Step 2 Help Image](/images/oauth/step2.png)
+</Step>
+
+<Step>
+### Login with your Google Account
+Select the google account for which you want to generate the token and click on `Continue` button.
+</Step>
+
+<Step>
+### Exchange authorization code for tokens
+You will be redirected to `Step 2: Exchange authorization code for tokens` page where you can click `Exchange authorization code for tokens` button.
+![Step 4 Help Image](/images/oauth/step4.png)
+</Step>
+
+<Step>
+### Copy the token
+Under the `Request / Response` tab, you will get the `token_id`. Copy the token and use it in the authenticate request.
+![Step 5 Help Image](/images/oauth/step5.png)
+</Step>
+
+</Steps>

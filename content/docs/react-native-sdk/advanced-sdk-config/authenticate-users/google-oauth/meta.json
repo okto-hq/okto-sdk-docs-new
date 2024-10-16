@@ -2,6 +2,7 @@
     "title": "Google OAuth",
     "pages": [
       "learn",
+      "get-token-id",
       "google-console-setup-web",
       "google-console-setup-android",
       "google-console-setup-ios"
