@@ -4,79 +4,88 @@ description: Overview of supported chains, wallet structure, testnet availabilit
 full: false
 ---
 
-## Supported Chains 
+import SupportedChainCard from "../../../app/components/mdx/SupportedChainCard";
+import { FaReact } from "react-icons/fa6";
 
-The Okto SDK supports multiple blockchain networks, offering a wide range of functionality across different ecosystems. Our system is designed to stay up-to-date, automatically fetching the latest chain information from our central database. This ensures that you always have access to the most current capabilities without needing manual updates.
 
-Let's look at some example chains to understand what information is available for each supported network:
+## Supported Chains
 
-### Polygon
-
-- **Chain Name**: Polygon 
-- **Chain Functionality**: Supports token transfers, smart contract interactions, and staking mechanisms.
-- **User Wallet Example**: A user wallet on Polygon will be generated as part of Okto's embedded wallet system. Example address: `0xabc123...789xyz`. This address is stored securely and mapped to a unique user ID, such as `user_12345`.
-- **Testnet Support**: Yes, Polygon Amoy testnet is supported.
-- **Whitelisted Tokens**: Includes POL, USDC and USDT.
-- **Sandbox and Production Availability**: Supported in both Sandbox and Production environments.
-
-### Solana
-
-- **Chain Name**: Solana
-- **Chain Functionality**: Supports high-speed transactions, smart contracts (called programs), and token creation.
-- **User Wallet Example**: A Solana wallet in Okto's system might look like: `5XR4KYM1SEV2Ezf8ubqi8aSn4wYzRGi1xYBNHSZ8dSuR`. This is mapped to a user ID like `user_67890`.
-- **Testnet Support**: Yes, Solana Devnet is supported.
-- **Whitelisted Tokens**: Includes SOL, USDC, and USDT.
-- **Sandbox and Production Availability**: Available in both Sandbox and Production environments.
-
-### Base
-
-- **Chain Name**: Base
-- **Chain Functionality**: Supports Ethereum-compatible smart contracts, token transfers, and DeFi applications.
-- **User Wallet Example**: A Base wallet address in Okto would be similar to Ethereum, e.g., `0xdef456...321uvw`. This is securely stored and associated with a user ID such as `user_24680`.
-- **Testnet Support**: No, testnet for Base is not supported yet.
-- **Whitelisted Tokens**: Includes ETH and USDC.
-- **Sandbox and Production Availability**: Supported in both Sandbox and Production environments.
-
-### Aptos
-
-- **Chain Name**: Aptos
-- **Chain Functionality**: Supports fast transactions, smart contracts written in Move language, and token operations.
-- **User Wallet Example**: An Aptos wallet in Okto might be represented as: `0x1a2b3c...7x8y9z`. This is mapped to a unique user identifier like `user_13579`.
-- **Testnet Support**: Yes, Aptos Testnet is supported.
-- **Whitelisted Tokens**: Includes APT and USDT.
-- **Sandbox and Production Availability**: Available in both Sandbox and Production environments.
-
-## Development Resources
-
-For developers building on the supported chains, here are some valuable development resources:
-
-### Solidity Development (Polygon, Base)
-
-- [Solidity Documentation](https://soliditylang.org/docs/)
-- [Remix IDE](https://remix.ethereum.org/)
-- [Hardhat Development Environment](https://hardhat.org/)
-- [OpenZeppelin Contracts](https://openzeppelin.com/contracts/)
-
-### Rust Development (Solana)
-
-- [Solana Documentation](https://docs.solana.com/)
-- [Rust Programming Language Book](https://doc.rust-lang.org/book/)
-- [Anchor Framework](https://www.anchor-lang.com/)
-- [Solana Playground](https://beta.solpg.io/)
-
-### Move Development (Aptos)
-
-- [Aptos Developer Documentation](https://aptos.dev/)
-- [Move Language Book](https://move-language.github.io/move/)
-- [Aptos CLI](https://aptos.dev/cli-tools/aptos-cli-tool/install-aptos-cli/)
-- [Aptos SDK](https://aptos.dev/sdks/index/)
-
-These tools and resources will help you develop and test smart contracts and applications across the various chains supported by the Okto SDK.
+<SupportedChainCard
+  chainIcon="/images/polygon-logo.svg"
+  chainName="Polygon"
+  tokens={[
+    { name: "POL", icon: "/images/polygon-logo.svg" },
+    { name: "USDT", icon: "/images/usdt-icon.svg" },
+    { name: "USDC", icon: "/images/usdc-icon.svg" },
+  ]}
+  resources={{
+    "Solidity": "https://soliditylang.org/",
+    "Remix": "https://remix.ethereum.org/",
+    "Hardhat": "https://hardhat.org/",
+    "OpenZeppelin": "https://www.openzeppelin.com/",
+  }}
+  supportedTestnet={{
+    "Polygon Amoy testnet": "https://polygon.technology/amoy-testnet",
+  }}
+/>
+<br/>
+<SupportedChainCard
+  chainIcon="/images/sol-icon.svg"
+  chainName="Solana"
+  tokens={[
+    { name: "SOL", icon: "/images/sol-icon.svg" },
+    { name: "USDT", icon: "/images/usdt-icon.svg" },
+    { name: "USDC", icon: "/images/usdc-icon.svg" },
+  ]}
+  resources={{
+    "Solana Docs": "https://soliditylang.org/",
+    "Rust": "https://remix.ethereum.org/",
+    "Anchor": "https://hardhat.org/",
+    "Solana Playground": "https://www.openzeppelin.com/",
+  }}
+  supportedTestnet={{
+    "Solana Devnet": "https://polygon.technology/amoy-testnet",
+  }}
+/>
+<br/>
+<SupportedChainCard
+  chainIcon="/images/base-icon.svg"
+  chainName="Base"
+  tokens={[
+    { name: "ETH", icon: "/images/eth-icon.svg" },
+    { name: "USDC", icon: "/images/usdc-icon.svg" },
+  ]}
+  resources={{
+    "Solidity": "https://soliditylang.org/",
+    "Remix": "https://remix.ethereum.org/",
+    "Hardhat": "https://hardhat.org/",
+    "OpenZeppelin": "https://www.openzeppelin.com/",
+  }}
+  supportedTestnet={{
+    "No Supported Testnet": "#",
+  }}
+/>
+<br/>
+<SupportedChainCard
+  chainIcon="/images/aptos-icon.svg"
+  chainName="Aptos"
+  tokens={[
+    { name: "APTOS", icon: "/images/aptos-icon.svg" },
+    { name: "USDC", icon: "/images/usdc-icon.svg" },
+  ]}
+  resources={{
+    "Aptos Docs": "https://soliditylang.org/",
+    "Move": "https://remix.ethereum.org/",
+    "Aptos CLI": "https://hardhat.org/",
+    "Aptos SDK": "https://www.openzeppelin.com/",
+  }}
+  supportedTestnet={{
+    "Aptos Testnet": "#",
+  }}
+/>
 
 ## Conclusion
 
-The Okto SDK offers robust support for multiple blockchain networks, providing you with the tools to build cross-chain applications with ease. By offering automatic updates on chain functionality, testnet support, and a unified wallet structure, we aim to simplify your development process.
-
 Remember to always check the latest information for each chain you're working with, as capabilities and token support may evolve over time. If you have any questions about a specific chain or token, don't hesitate to reach out to our support team.
 
-For further information on managing chain environments, please refer to the [Admin Panel Documentation](#).
+For further information on managing chain environments, please refer to the [Admin Panel Documentation](/docs/developer-admin-dashboard/overview).
