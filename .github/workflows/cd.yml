@@ -1,0 +1,35 @@
+name: GitHub Pages deploy
+
+on:
+  push:
+    branches:
+      - release
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.7
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: "20.x"
+
+      - name: Installing my packages
+        run: yarn install
+
+      - name: Build my App
+        run: |
+          yarn run export
+          touch out/.nojekyll
+
+      - name: Create CNAME
+        run: echo 'docs.okto.tech' > out/CNAME
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4.5.0
+        with:
+          branch: gh-pages
+          folder: out

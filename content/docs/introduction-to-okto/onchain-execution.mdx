@@ -35,13 +35,18 @@ Throughout its lifecycle, an order can be in one of several states. The main sta
 
 ### State Transition Times
 
-#### State Transition Diagram
-
-![State Transition Diagram](/images/state-transition-diagram.png)
+The state transitions depend on network conditions, and the estimated time for each state can vary based on the chain. For example:
+- **EVM Chains (Ethereum, Polygon):** Transaction time can range from a few seconds to a few minutes.
+- **Solana:** Transactions are typically confirmed in a few seconds.
+- **Aptos:** Confirmation times are generally very fast, often under a second.
 
 <Callout title="Note">
 These are estimates and can vary based on network conditions.
 </Callout>
+
+#### State Transition Diagram
+
+![State Transition Diagram](/images/state-transition-diagram.png)
 
 ## **Understanding Order IDs and Transaction Hashes**
 
