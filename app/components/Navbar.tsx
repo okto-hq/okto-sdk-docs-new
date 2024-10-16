@@ -23,6 +23,9 @@ import Link from "next/link";
 import { Sun, Moon } from 'lucide-react';
 
 const poppins = Poppins({ subsets: ['latin'], weight: '500', display: 'swap' });
+const poppinsLight = Poppins({ subsets: ['latin'], weight: '400', display: 'swap' });
+// const poppins = Poppins({ subsets: ['latin'], weight: '500', display: 'swap' });
+
 
 export default function NavbarComponent() {
   const pathname = usePathname();
@@ -74,7 +77,7 @@ export default function NavbarComponent() {
   const isFrameworkSelected = sdkOptions.some(option => pathname.startsWith(option.href));
 
   return (
-    <Navbar className="nav-spacing border-b sm:border-b-0 border-gray-200 dark:border-gray-700">
+    <Navbar isBordered className="nav-spacing border-b border-gray-200 dark:border-gray-700">
       <NavbarBrand className={`${poppins.className} gap-20 flex items-center`}>
         <ULink href="/docs" color="foreground" className="no-underline">
           <NavbarItem className="flex gap-2 items-center">
@@ -92,8 +95,8 @@ export default function NavbarComponent() {
                 href={`${item.href}${item.subpath}`}
                 color="foreground"
                 className={`text-md ${pathname.startsWith(item.href)
-                  ? "text-blue-600 border-b-2 border-blue-600"
-                  : ""
+                  ? "text-blue-600"
+                  : `${poppinsLight.className}`
                   } pb-1`}
               >
                 {item.label}
@@ -102,8 +105,8 @@ export default function NavbarComponent() {
           ))}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <SCButton variant="ghost" className="text-md flex items-center gap-1 p-0">
-                {getFrameworkLabel()} <ChevronDown className="h-5 w-5" />
+              <SCButton variant="ghost" className={`text-md flex hover:bg-transparent hover:text-inherit items-center gap-1 p-0 ${pathname.startsWith('/docs/react-sdk') || pathname.startsWith('/docs/react-native-sdk') || pathname.startsWith('/docs/flutter-sdk') ? "text-blue-600 hover:text-blue-600" : `${poppinsLight.className} hover:text-inherit` }`}>
+                {getFrameworkLabel()} <ChevronDown className="h-5 w-5 font-normal" />
               </SCButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56 rounded-lg p-2">
