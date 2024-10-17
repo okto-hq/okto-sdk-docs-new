@@ -122,7 +122,6 @@ export default function NavbarComponent() {
                   </Link>
                 </DropdownMenuItem>
               ))}
-              
             </DropdownMenuContent>
           </DropdownMenu>
         </NavbarContent>
