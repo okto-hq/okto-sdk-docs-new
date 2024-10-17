@@ -18,6 +18,7 @@ import { SiFlutter } from "react-icons/si";
 import { useTheme } from "next-themes";
 import GitHubButton from "./GithubButton";
 import DiscordButton from "./DiscordButton";
+import DownloadButton from "./DownloadButton";
 import { Button as SCButton } from "@/components/ui/button";
 import Link from "next/link";
 import { Sun, Moon } from 'lucide-react';
@@ -126,6 +127,9 @@ export default function NavbarComponent() {
         </NavbarContent>
       </NavbarBrand>
       <NavbarContent justify="end">
+        <NavbarItem>
+          <DownloadButton />
+        </NavbarItem>
         <NavbarItem>
           <DiscordButton />
         </NavbarItem>
