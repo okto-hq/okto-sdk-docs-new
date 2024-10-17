@@ -1,6 +1,11 @@
-import React from "react";
+import React, { ReactNode, CSSProperties } from "react";
 
-export const ImageGrid = ({ children, columns }) => (
+interface ImageGridProps {
+  children: ReactNode;
+  columns: number;
+}
+
+export const ImageGrid: React.FC<ImageGridProps> = ({ children, columns }) => (
   <div style={{
     display: 'grid',
     gridTemplateColumns: `repeat(${columns}, 1fr)`,
@@ -11,7 +16,12 @@ export const ImageGrid = ({ children, columns }) => (
   </div>
 );
 
-export const DownloadLinks = ({ svg, png }) => (
+interface DownloadLinksProps {
+  svg: string;
+  png: string;
+}
+
+export const DownloadLinks: React.FC<DownloadLinksProps> = ({ svg, png }) => (
   <div style={{
     display: 'flex',
     justifyContent: 'center',
@@ -23,8 +33,12 @@ export const DownloadLinks = ({ svg, png }) => (
   </div>
 );
 
-// New component to wrap each item
-export const AssetItem = ({ children, maxWidth = '100%' }) => (
+interface AssetItemProps {
+  children: ReactNode;
+  maxWidth?: string;
+}
+
+export const AssetItem: React.FC<AssetItemProps> = ({ children, maxWidth = '100%' }) => (
   <div style={{
     display: 'flex',
     flexDirection: 'column',
@@ -32,18 +46,19 @@ export const AssetItem = ({ children, maxWidth = '100%' }) => (
     maxWidth: maxWidth,
     margin: '0 auto',
   }}>
-    {React.Children.map(children, child => {
-      if (child.type === 'h3') {
-        return React.cloneElement(child, {
+    {React.Children.map(children, (child) => {
+      if (React.isValidElement(child) && child.type === 'h3') {
+        // Cast child as React element with specific props (HTMLHeadingElement)
+        return React.cloneElement(child as React.ReactElement<JSX.IntrinsicElements['h3']>, {
           style: {
             fontSize: '16px',
             fontWeight: 'bold',
             marginBottom: '8px',
             textAlign: 'center',
-          }
+          } as CSSProperties, // Explicit type assertion
         });
       }
-      if (child.type === 'img') {
+      if (React.isValidElement(child) && child.type === 'img') {
         return (
           <div style={{
             backgroundColor: '#9ca3af',
@@ -55,12 +70,12 @@ export const AssetItem = ({ children, maxWidth = '100%' }) => (
             width: '100%',
             aspectRatio: '16/9',
           }}>
-            {React.cloneElement(child, {
+            {React.cloneElement(child as React.ReactElement<JSX.IntrinsicElements['img']>, {
               style: {
                 maxWidth: '100%',
                 maxHeight: '100%',
                 objectFit: 'contain',
-              }
+              } as CSSProperties,
             })}
           </div>
         );
