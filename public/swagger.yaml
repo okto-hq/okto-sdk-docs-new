@@ -29,7 +29,7 @@ tags:
   - name: Server
     description: Everything related to the server side
 paths:
-  "/api/v1/authenticate":
+  "/api/v2/authenticate":
     post:
       tags:
         - Client
