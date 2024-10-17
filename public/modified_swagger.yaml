@@ -1,0 +1,2501 @@
+components:
+  parameters:
+    bulk_order_id:
+      description: Order id of the NFT.
+      in: query
+      name: bulk_order_id
+      schema:
+        example: dd784ad9-68f8-49b9-87dc-13723e933eab
+        type: string
+    collection_address:
+      description: Address of the collection which needs to be transferred.
+      in: query
+      name: collection_address
+      required: true
+      schema:
+        examples: '0x171e643e8e8dabc66b838b9055dbdf88647cf6601b164f5987f50a497bedfbe1'
+        type: string
+    collection_name:
+      description: Name of the collection which needs to be transferred.
+      in: query
+      name: collection_name
+      required: true
+      schema:
+        examples: super avengers
+        type: string
+    id_token:
+      description: The id_token of the user received from the Google OAuth2 provider.
+      in: header
+      name: id_token
+      required: true
+      schema:
+        examples: TOKEN_ID
+        type: string
+    limit:
+      description: The number of items to return
+      in: query
+      name: limit
+      required: false
+      schema:
+        default: 10
+        format: int64
+        type: integer
+    network_name:
+      description: Network used for the transfer.
+      in: query
+      name: network_name
+      required: true
+      schema:
+        examples: APTOS TESTNET
+        type: string
+    nft_address:
+      description: Address of the nft which needs to be transferred.
+      in: query
+      name: nft_address
+      required: true
+      schema:
+        examples: '0x719dad0b2800205ab7bff539bd617b04e21fe311bc30fce6d6d2d3beecd8a14e'
+        type: string
+    offset:
+      description: The number of items to skip
+      in: query
+      name: offset
+      required: false
+      schema:
+        default: 0
+        format: int64
+        type: integer
+    operation_type:
+      description: Type of operation to be performed.
+      in: query
+      name: operation_type
+      required: true
+      schema:
+        examples: NFT_TRANSFER
+        type: string
+    order_id:
+      description: The order ID to get the specific order details.
+      in: query
+      name: order_id
+      required: true
+      schema:
+        examples: 20b57c3f-7ea3-4531-8bb8-313c870ebc1a
+        type: string
+    order_state:
+      description: The order state to filter the orders. Possible values are PENDING,
+        SUCCESS, FAILED.
+      in: query
+      name: order_state
+      required: true
+      schema:
+        examples: PENDING
+        type: string
+    page:
+      default: 1
+      description: Page number
+      in: query
+      name: page
+      required: false
+      schema:
+        examples: 5
+        format: int64
+        type: integer
+    planetId:
+      in: path
+      name: planetId
+      required: true
+      schema:
+        examples:
+        - 1
+        format: int64
+        type: integer
+    quantity:
+      description: Quantity of tokens to be transferred.
+      in: query
+      name: quantity
+      required: true
+      schema:
+        examples: '0.0001'
+        type: string
+    recipient_address:
+      description: Address of the recipient address to send tokens to.
+      in: query
+      name: recipient_address
+      required: true
+      schema:
+        examples: '0x8ff71ae16c88d86f5ec4100951f37a50683e8cd23ca515894854fcfc4ab7399b'
+        type: string
+    size:
+      default: 10
+      description: Number of items per page
+      in: query
+      name: size
+      required: false
+      schema:
+        examples: 100
+        format: int64
+        type: integer
+    token_address:
+      description: Address of the token to be transferred.
+      in: query
+      name: token_address
+      required: true
+      schema:
+        examples: '0x2f7b97837f2d14ba2ed3a4b2282e259126a9b848'
+        type: string
+    user_id:
+      description: User id of the user.
+      in: query
+      name: user_id
+      required: true
+      schema:
+        examples: bb7bee27-a25b-4cff-8784-ae55a3a6ad60
+        type: string
+  responses:
+    BadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Bad Request
+    Forbidden:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Forbidden
+    NotFound:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: NotFound
+  schemas:
+    ClientAuthenticateResponse:
+      properties:
+        data:
+          properties:
+            auth_token:
+              description: The access token used for authenticating requests
+              type: string
+            device_token:
+              description: A token associated with the device for push notifications
+                or device tracking
+              type: string
+            message:
+              description: A message indicating the result of the authentication process
+              type: string
+            refresh_auth_token:
+              description: The refresh token used to obtain a new access token when
+                the current one expires
+              type: string
+          required:
+          - auth_token
+          - refresh_auth_token
+          - device_token
+          - message
+          type: object
+        status:
+          description: Status of the response
+          enum:
+          - success
+          - failure
+          type: string
+      required:
+      - status
+      - data
+      type: object
+    ClientCreateWalletResponse:
+      properties:
+        data:
+          properties:
+            wallets:
+              items:
+                properties:
+                  address:
+                    description: Wallet address created on the network
+                    type: string
+                  network_name:
+                    description: Name of the blockchain network
+                    type: string
+                  success:
+                    description: Indicates if the wallet creation was successful for
+                      this network
+                    type: boolean
+                required:
+                - network_name
+                - address
+                - success
+                type: object
+              type: array
+          required:
+          - wallets
+          type: object
+        status:
+          description: Status of the wallet creation request
+          enum:
+          - success
+          - failure
+          type: string
+      required:
+      - status
+      - data
+      type: object
+    ClientExecuteRawTransactionResponse:
+      properties:
+        data:
+          properties:
+            jobId:
+              description: Unique identifier for the job representing the raw transaction
+                execution
+              type: string
+          type: object
+        status:
+          description: Status of the raw transaction execution
+          enum:
+          - success
+          - failure
+          type: string
+      required:
+      - status
+      - data
+      type: object
+    ClientGetWalletsResponse:
+      properties:
+        data:
+          properties:
+            wallets:
+              items:
+                properties:
+                  address:
+                    description: Wallet address on the network
+                    type: string
+                  network_name:
+                    description: Name of the blockchain network
+                    type: string
+                  success:
+                    description: Indicates if the wallet retrieval was successful
+                      for this network
+                    type: boolean
+                required:
+                - network_name
+                - address
+                - success
+                type: object
+              type: array
+          required:
+          - wallets
+          type: object
+        status:
+          description: Status of the get wallets request
+          enum:
+          - success
+          - failure
+          type: string
+      required:
+      - status
+      - data
+      type: object
+    ClientLogoutResponse:
+      properties:
+        status:
+          description: Status of the logout request
+          enum:
+          - success
+          - failure
+          type: string
+      required:
+      - null
+      type: object
+    ClientOrderDetailsNFTResponse:
+      properties:
+        data:
+          properties:
+            count:
+              description: The total number of NFTs
+              type: integer
+            nfts:
+              description: List of NFTs associated with the order
+              items:
+                properties:
+                  collection_address:
+                    description: Address of the NFT collection smart contract
+                    type: string
+                  collection_id:
+                    description: Unique identifier for the NFT collection
+                    type: string
+                  collection_image:
+                    description: Image URL for the NFT collection
+                    type: string
+                  collection_name:
+                    description: Name of the NFT collection
+                    type: string
+                  description:
+                    description: Description of the NFT
+                    type: string
+                  explorer_smart_contract_url:
+                    description: URL to explore the NFT's smart contract
+                    type: string
+                  id:
+                    description: Unique identifier for the NFT instance
+                    type: string
+                  image:
+                    description: Image URL of the NFT
+                    type: string
+                  network_id:
+                    description: Unique identifier for the network
+                    type: string
+                  network_name:
+                    description: Name of the network (e.g., APTOS_TESTNET)
+                    type: string
+                  nft_name:
+                    description: Name of the NFT
+                    type: string
+                  nft_token_id:
+                    description: Unique identifier for the NFT token
+                    type: string
+                  token_uri:
+                    description: IPFS URI of the NFT metadata
+                    type: string
+                  type:
+                    description: Type of the asset (e.g., NFT)
+                    type: string
+                type: object
+              type: array
+          type: object
+        status:
+          description: Status of the order details request
+          enum:
+          - success
+          - failure
+          type: string
+      required:
+      - status
+      - data
+      type: object
+    ClientOrderHistoryResponse:
+      properties:
+        data:
+          properties:
+            jobs:
+              items:
+                properties:
+                  network_name:
+                    description: Name of the blockchain network associated with the
+                      order
+                    type: string
+                  order_id:
+                    description: Unique identifier for the order
+                    type: string
+                  order_type:
+                    description: Type of the order (e.g., DEFI_TO_EXT)
+                    type: string
+                  status:
+                    description: Status of the order (e.g., SUCCESS, FAILED)
+                    type: string
+                  transaction_hash:
+                    description: Hash of the transaction associated with the order
+                    type: string
+                required:
+                - order_id
+                - order_type
+                - network_name
+                - status
+                - transaction_hash
+                type: object
+              type: array
+            total:
+              description: Total number of jobs in the order history
+              type: integer
+          required:
+          - total
+          - jobs
+          type: object
+        status:
+          description: Status of the order history request
+          enum:
+          - success
+          - failure
+          type: string
+      required:
+      - status
+      - data
+      type: object
+    ClientPortfolioActivityResponse:
+      properties:
+        data:
+          properties:
+            activity:
+              items:
+                properties:
+                  description:
+                    description: Description of the transaction activity
+                    type: string
+                  group_id:
+                    description: Group ID of the token (empty if not applicable)
+                    type: string
+                  id:
+                    description: Unique identifier for the activity
+                    type: string
+                  image:
+                    description: Image URL for the token
+                    type: string
+                  name:
+                    description: Name of the token
+                    type: string
+                  network_explorer_url:
+                    description: URL of the network explorer to view the transaction
+                    type: string
+                  network_id:
+                    description: Network ID where the transaction occurred
+                    type: string
+                  network_name:
+                    description: Name of the blockchain network
+                    type: string
+                  network_symbol:
+                    description: Symbol of the network used in the transaction
+                    type: string
+                  order_type:
+                    description: Type of order (e.g., WALLET_CONNECT)
+                    type: string
+                  quantity:
+                    description: Quantity involved in the transaction
+                    type: string
+                  short_name:
+                    description: Short name of the token
+                    type: string
+                  status:
+                    description: Status of the transaction (e.g., COMPLETED)
+                    type: string
+                  symbol:
+                    description: Symbol of the token involved in the activity
+                    type: string
+                  timestamp:
+                    description: Timestamp of the transaction
+                    type: integer
+                  transfer_type:
+                    description: Type of transfer (e.g., DEPOSIT, WITHDRAW)
+                    type: string
+                  tx_hash:
+                    description: Transaction hash on the blockchain
+                    type: string
+                required:
+                - symbol
+                - name
+                - id
+                - description
+                - quantity
+                - order_type
+                - transfer_type
+                - status
+                - timestamp
+                - tx_hash
+                - network_id
+                - network_name
+                - network_symbol
+                type: object
+              type: array
+            count:
+              description: Total count of activities
+              type: integer
+          required:
+          - count
+          - activity
+          type: object
+        status:
+          description: Status of the portfolio activity request
+          enum:
+          - success
+          - failure
+          type: string
+      required:
+      - status
+      - data
+      type: object
+    ClientRawTransactionStatusResponse:
+      properties:
+        data:
+          properties:
+            jobs:
+              items:
+                properties:
+                  network_name:
+                    description: Name of the blockchain network (e.g., SOLANA_DEVNET)
+                    type: string
+                  order_id:
+                    description: Unique identifier for the order
+                    type: string
+                  status:
+                    description: Status of the transaction
+                    enum:
+                    - PENDING
+                    - SUCCESS
+                    - FAILURE
+                    type: string
+                  transaction_hash:
+                    description: The transaction hash or identifier for the blockchain
+                      transaction
+                    type: string
+                type: object
+              type: array
+          type: object
+        status:
+          description: Status of the raw transaction request
+          enum:
+          - success
+          - failure
+          type: string
+      required:
+      - status
+      - data
+      type: object
+    ClientRefreshTokenResponse:
+      properties:
+        data:
+          properties:
+            auth_token:
+              description: New access token for authenticated session
+              type: string
+            device_token:
+              description: Unique token associated with the client device
+              type: string
+            message:
+              description: Status message of the token refresh process
+              type: string
+            refresh_auth_token:
+              description: New refresh token for obtaining future access tokens
+              type: string
+          required:
+          - auth_token
+          - message
+          - refresh_auth_token
+          - device_token
+          type: object
+        status:
+          description: Status of the token refresh request
+          enum:
+          - success
+          - failure
+          type: string
+      required:
+      - status
+      - data
+      type: object
+    ClientSupportedNetworksResponse:
+      properties:
+        data:
+          properties:
+            network:
+              items:
+                properties:
+                  chain_id:
+                    description: Chain ID of the network
+                    type: string
+                  network_name:
+                    description: Name of the supported blockchain network
+                    type: string
+                required:
+                - network_name
+                - chain_id
+                type: object
+              type: array
+          required:
+          - network
+          type: object
+        status:
+          description: Status of the supported networks request
+          enum:
+          - success
+          - failure
+          type: string
+      required:
+      - status
+      - data
+      type: object
+    ClientSupportedTokensResponse:
+      properties:
+        data:
+          properties:
+            tokens:
+              items:
+                properties:
+                  network_name:
+                    description: Name of the blockchain network the token is supported
+                      on
+                    type: string
+                  token_address:
+                    description: Contract address of the token (empty string for native
+                      tokens)
+                    type: string
+                  token_name:
+                    description: Name of the supported token
+                    type: string
+                required:
+                - token_name
+                - token_address
+                - network_name
+                type: object
+              type: array
+          required:
+          - tokens
+          type: object
+        status:
+          description: Status of the supported tokens request
+          enum:
+          - success
+          - failure
+          type: string
+      required:
+      - status
+      - data
+      type: object
+    ClientTransferNftResponse:
+      properties:
+        data:
+          properties:
+            order_id:
+              description: Unique identifier for the NFT transfer order
+              type: string
+          required:
+          - order_id
+          type: object
+        status:
+          description: Status of the NFT transfer request
+          enum:
+          - success
+          - failure
+          type: string
+      required:
+      - status
+      - data
+      type: object
+    ClientTransferTokensResponse:
+      properties:
+        data:
+          properties:
+            orderId:
+              description: Unique identifier for the token transfer order
+              type: string
+          required:
+          - orderId
+          type: object
+        status:
+          description: Status of the token transfer request
+          enum:
+          - success
+          - failure
+          type: string
+      required:
+      - status
+      - data
+      type: object
+    ClientUserDetailsResponse:
+      properties:
+        data:
+          properties:
+            created_at:
+              description: Timestamp of user creation (Unix timestamp as string)
+              type: string
+            email:
+              description: User's email address
+              format: email
+              type: string
+            freeze_reason:
+              description: Reason for account freeze, if applicable
+              type: string
+            freezed:
+              description: Indicates if the user account is frozen
+              type: boolean
+            user_id:
+              description: Unique identifier for the user
+              format: uuid
+              type: string
+          required:
+          - email
+          - user_id
+          - created_at
+          - freezed
+          - freeze_reason
+          type: object
+        status:
+          description: Status of the user details request
+          enum:
+          - success
+          - failure
+          type: string
+      required:
+      - status
+      - data
+      type: object
+    ClientUserPortfolioResponse:
+      properties:
+        data:
+          properties:
+            aggregated_data:
+              properties:
+                holdings_count:
+                  description: Total number of holdings
+                  type: string
+                holdings_price_inr:
+                  description: Total holdings price in INR
+                  type: string
+                holdings_price_usdt:
+                  description: Total holdings price in USDT
+                  type: string
+                total_holding_price_inr:
+                  description: Overall total holding price in INR
+                  type: string
+                total_holding_price_usdt:
+                  description: Overall total holding price in USDT
+                  type: string
+              required:
+              - holdings_count
+              - holdings_price_inr
+              - holdings_price_usdt
+              - total_holding_price_inr
+              - total_holding_price_usdt
+              type: object
+            group_tokens:
+              items:
+                properties:
+                  aggregation_type:
+                    description: Type of aggregation for the token (e.g., token)
+                    type: string
+                  balance:
+                    description: User's balance of the token
+                    type: string
+                  holdings_price_inr:
+                    description: Holding price in INR
+                    type: string
+                  holdings_price_usdt:
+                    description: Holding price in USDT
+                    type: string
+                  id:
+                    description: Unique identifier of the token
+                    type: string
+                  is_primary:
+                    description: Indicates if the token is primary
+                    type: boolean
+                  name:
+                    description: Name of the token
+                    type: string
+                  network_id:
+                    description: Network ID associated with the token
+                    type: string
+                  short_name:
+                    description: Short name of the token
+                    type: string
+                  symbol:
+                    description: Symbol of the token
+                    type: string
+                  token_image:
+                    description: Image URL for the token
+                    type: string
+                required:
+                - id
+                - name
+                - symbol
+                - short_name
+                - token_image
+                - network_id
+                - is_primary
+                - balance
+                - holdings_price_usdt
+                - holdings_price_inr
+                - aggregation_type
+                type: object
+              type: array
+          required:
+          - aggregated_data
+          - group_tokens
+          type: object
+        status:
+          description: Status of the portfolio request
+          enum:
+          - success
+          - failure
+          type: string
+      required:
+      - status
+      - data
+      type: object
+    Error:
+      description: RFC 7807 (https://datatracker.ietf.org/doc/html/rfc7807)
+      properties:
+        detail:
+          examples:
+          - "Unfortunately, we can\u2019t provide further information."
+          type: string
+        status:
+          examples:
+          - 403
+          format: int64
+          type: integer
+        title:
+          examples:
+          - Something went wrong here.
+          type: string
+        type:
+          examples:
+          - https://example.com/errors/generic-error
+          type: string
+      type: object
+    ExecuteRawTransaction:
+      properties:
+        network_name:
+          example: Mainnet
+          type: string
+        transaction:
+          type: object
+      required:
+      - network_name
+      - transaction
+      type: object
+    ExecuteRawTransactionData:
+      properties:
+        jobId:
+          example: '761'
+          type: string
+      required:
+      - jobId
+      type: object
+    Network:
+      properties:
+        chain_id:
+          example: '1'
+          type: string
+        network_name:
+          example: Mainnet
+          type: string
+      required:
+      - chain_id
+      - network_name
+      type: object
+    NetworkData:
+      items:
+        $ref: '#/components/schemas/Network'
+      type: array
+    NftData:
+      properties:
+        collection_address:
+          examples: '0x171e643e8e8dabc66b838b9055dbdf88647cf6601b164f5987f50a497bedfbe1'
+          type: string
+        collection_name:
+          examples: super avengers
+          type: string
+        erc_type:
+          examples: ERC721
+          type: string
+        metadata:
+          properties:
+            description:
+              examples: Example description
+              type: string
+            nftName:
+              examples: Mint a NFT
+              type: string
+            uri:
+              examples: ipfs://QmVFPvu8aeJHXyNVxpfftVHaKjRsbtH6dXWscJ2TukM3xi
+              type: string
+          required:
+          - uri
+          - nftName
+          - description
+          type: object
+        network_name:
+          examples: APTOS TESTNET
+          type: string
+        operation_type:
+          examples: NFT_MINT
+          type: string
+        quantity:
+          examples: '1'
+          type: string
+      required:
+      - operation_type
+      - erc_type
+      - network_name
+      - collection_address
+      - collection_name
+      - quantity
+      - metadata
+      type: object
+    NftOrderDetails:
+      properties:
+        collection_address:
+          example: '0xabcdef1234567890'
+          type: string
+        collection_id:
+          example: abcd1234
+          type: string
+        collection_image:
+          example: https://example.com/images/collection.png
+          type: string
+        collection_name:
+          example: CryptoPunks
+          type: string
+        explorer_smart_contract_url:
+          example: https://etherscan.io/address/0x1234567890abcdef
+          type: string
+        id:
+          example: order123
+          type: string
+        image:
+          example: https://example.com/images/nft.png
+          type: string
+        network_id:
+          example: '1'
+          type: string
+        network_name:
+          example: Ethereum
+          type: string
+        nft_name:
+          example: 'CryptoPunk #1001'
+          type: string
+        nft_token_id:
+          example: '1001'
+          type: string
+        token_uri:
+          example: https://api.example.com/nft/1001
+          type: string
+        type:
+          example: ERC721
+          type: string
+      required:
+      - explorer_smart_contract_url
+      - type
+      - collection_id
+      - collection_name
+      - nft_token_id
+      - token_uri
+      - id
+      - image
+      - collection_address
+      - collection_image
+      - network_name
+      - network_id
+      - nft_name
+      type: object
+    Order:
+      properties:
+        network_name:
+          example: Ethereum
+          type: string
+        order_id:
+          example: order123
+          type: string
+        order_type:
+          example: transfer
+          type: string
+        status:
+          example: completed
+          type: string
+        transaction_hash:
+          example: '0xabcdef1234567890'
+          type: string
+      required:
+      - order_id
+      - network_name
+      - order_type
+      - status
+      - transaction_hash
+      type: object
+    OrderData:
+      properties:
+        jobs:
+          items:
+            $ref: '#/components/schemas/Order'
+          type: array
+        total:
+          example: 100
+          type: integer
+      required:
+      - total
+      - jobs
+      type: object
+    OrderQuery:
+      properties:
+        limit:
+          example: 10
+          type: integer
+        offset:
+          example: 0
+          type: integer
+        order_id:
+          example: order123
+          type: string
+        order_state:
+          example: pending
+          type: string
+      required:
+      - offset
+      - limit
+      - order_id
+      - order_state
+      type: object
+    PaginatedResource:
+      properties:
+        meta:
+          properties:
+            limit:
+              examples:
+              - 10
+              format: int64
+              type: integer
+            next:
+              examples:
+              - /planets?limit=10&offset=10
+              type:
+              - string
+              - 'null'
+            offset:
+              examples:
+              - 0
+              format: int64
+              type: integer
+            total:
+              examples:
+              - 100
+              format: int64
+              type: integer
+          type: object
+      type: object
+    Portfolio:
+      properties:
+        amount_in_inr:
+          example: 10000'
+          type: string
+        network_name:
+          example: Mainnet
+          type: string
+        quantity:
+          example: '1000'
+          type: string
+        token_address:
+          example: 0x...
+          type: string
+        token_image:
+          example: url
+          type: string
+        token_name:
+          example: ETH
+          type: string
+      required:
+      - token_name
+      - token_image
+      - token_address
+      - network_name
+      - quantity
+      - amount_in_inr
+      type: object
+    PortfolioData:
+      properties:
+        tokens:
+          items:
+            $ref: '#/components/schemas/Portfolio'
+          type: array
+        total:
+          example: 1000
+          type: number
+      required:
+      - tokens
+      - total
+      type: object
+    RawTransactionStatus:
+      properties:
+        network_name:
+          type: string
+        order_id:
+          type: string
+        status:
+          type: string
+        transaction_hash:
+          type: string
+      required:
+      - order_id
+      - network_name
+      - status
+      - transaction_hash
+      type: object
+    RawTransactionStatusData:
+      properties:
+        jobs:
+          items:
+            $ref: '#/components/schemas/RawTransactionStatus'
+          type: array
+        total:
+          type: number
+      required:
+      - total
+      - jobs
+      type: object
+    RawTransactionStatusQuery:
+      properties:
+        order_id:
+          example: order123
+          type: string
+      required:
+      - order_id
+      type: object
+    ServerBulkOrderDetailsResponse:
+      properties:
+        data:
+          properties:
+            executed:
+              items:
+                properties:
+                  bulk_order_id:
+                    description: Unique identifier for the bulk order
+                    type: string
+                  job_id:
+                    description: Unique identifier for the job within the bulk order
+                    type: string
+                  network_id:
+                    description: Identifier for the blockchain network
+                    type: string
+                  order_type:
+                    description: Type of the order (e.g., TOKEN_TRANSFER_EXECUTE)
+                    type: string
+                  status:
+                    description: Status of the order
+                    enum:
+                    - SUCCESS
+                    - FAILURE
+                    type: string
+                required:
+                - bulk_order_id
+                - job_id
+                - status
+                - order_type
+                - network_id
+                type: object
+              type: array
+            open:
+              items:
+                description: Orders that are currently being processed
+                type: object
+              type: array
+            pending:
+              items:
+                description: Acknowledged orders that will be processed after open
+                  orders are completed
+                type: object
+              type: array
+          type: object
+        status:
+          description: Status of the bulk order details request
+          enum:
+          - success
+          - failure
+          type: string
+      required:
+      - status
+      - data
+      type: object
+    ServerMintNFTv2Response:
+      properties:
+        data:
+          properties:
+            bulk_order_id:
+              description: Unique identifier for the bulk minting order
+              type: string
+          type: object
+        status:
+          description: Status of the NFT minting request
+          enum:
+          - success
+          - failure
+          type: string
+      required:
+      - status
+      - data
+      type: object
+    ServerSupportedTokensResponse:
+      properties:
+        data:
+          properties:
+            tokens:
+              items:
+                properties:
+                  network_name:
+                    description: Name of the blockchain network where the token is
+                      supported
+                    type: string
+                  token_address:
+                    description: Address of the token contract (if applicable)
+                    type: string
+                  token_name:
+                    description: Name of the token
+                    type: string
+                required:
+                - token_name
+                - network_name
+                type: object
+              type: array
+          required:
+          - tokens
+          type: object
+        status:
+          description: Status of the response
+          enum:
+          - success
+          - failure
+          type: string
+      required:
+      - status
+      - data
+      type: object
+    ServerTransferNftv2Response:
+      properties:
+        data:
+          properties:
+            bulk_order_id:
+              description: Unique identifier for the bulk NFT transfer order
+              type: string
+          type: object
+        status:
+          description: Status of the NFT transfer request
+          enum:
+          - success
+          - failure
+          type: string
+      required:
+      - status
+      - data
+      type: object
+    ServerTransferTokensv2Response:
+      properties:
+        data:
+          properties:
+            bulk_order_id:
+              description: Unique identifier for the bulk token transfer order
+              type: string
+          type: object
+        status:
+          description: Status of the token transfer request
+          enum:
+          - success
+          - failure
+          type: string
+      required:
+      - status
+      - data
+      type: object
+    ServerUserActivityResponse:
+      properties:
+        data:
+          properties:
+            activity:
+              items:
+                properties:
+                  description:
+                    description: Description of the activity
+                    type: string
+                  group_id:
+                    description: Identifier for the group (if applicable)
+                    type: string
+                  id:
+                    description: Unique identifier for the token or asset
+                    type: string
+                  image:
+                    description: URL to the image representing the token or activity
+                      (if any)
+                    type: string
+                  name:
+                    description: Name of the token or asset
+                    type: string
+                  network_explorer_url:
+                    description: URL to the network explorer for viewing the transaction
+                    type: string
+                  network_id:
+                    description: Unique identifier for the blockchain network
+                    type: string
+                  network_name:
+                    description: Name of the blockchain network
+                    type: string
+                  network_symbol:
+                    description: Symbol of the network
+                    type: string
+                  order_type:
+                    description: Type of order for the activity (e.g., WALLET_CONNECT)
+                    type: string
+                  quantity:
+                    description: Quantity of the asset involved in the activity
+                    type: string
+                  short_name:
+                    description: Short name or abbreviation for the token
+                    type: string
+                  status:
+                    description: Status of the activity (e.g., COMPLETED)
+                    type: string
+                  symbol:
+                    description: Symbol of the token involved in the activity
+                    type: string
+                  timestamp:
+                    description: Timestamp of the activity
+                    type: integer
+                  transfer_type:
+                    description: Type of transfer (e.g., DEPOSIT)
+                    type: string
+                  tx_hash:
+                    description: Transaction hash for the activity
+                    type: string
+                required:
+                - symbol
+                - name
+                - short_name
+                - id
+                - description
+                - quantity
+                - order_type
+                - transfer_type
+                - status
+                - tx_hash
+                - network_id
+                - network_name
+                - network_explorer_url
+                - network_symbol
+                type: object
+              type: array
+            count:
+              description: Number of activities returned in the response
+              type: integer
+          required:
+          - count
+          - activity
+          type: object
+        status:
+          description: Status of the user activity response
+          enum:
+          - success
+          - failure
+          type: string
+      required:
+      - status
+      - data
+      type: object
+    ServerUserNFTResponse:
+      properties:
+        data:
+          properties:
+            count:
+              description: Number of NFTs returned in the response
+              type: integer
+            nfts:
+              items:
+                properties:
+                  collection_address:
+                    description: Address of the collection on the blockchain
+                    type: string
+                  collection_id:
+                    description: Unique identifier for the NFT collection
+                    type: string
+                  collection_image:
+                    description: URL to the image representing the collection
+                    type: string
+                  collection_name:
+                    description: Name of the NFT collection
+                    type: string
+                  description:
+                    description: Description of the NFT
+                    type: string
+                  explorer_smart_contract_url:
+                    description: URL to explore the smart contract of the NFT
+                    type: string
+                  id:
+                    description: Unique identifier for the NFT record
+                    type: string
+                  image:
+                    description: URL to the NFT's image (if any)
+                    type: string
+                  network_id:
+                    description: Unique identifier for the blockchain network
+                    type: string
+                  network_name:
+                    description: Name of the network where the NFT resides
+                    type: string
+                  nft_name:
+                    description: Name of the NFT
+                    type: string
+                  nft_token_id:
+                    description: Unique identifier for the NFT token
+                    type: string
+                  token_uri:
+                    description: URI for the token metadata
+                    type: string
+                  type:
+                    description: Type of the asset (e.g., NFT)
+                    type: string
+                required:
+                - explorer_smart_contract_url
+                - description
+                - type
+                - collection_id
+                - collection_name
+                - nft_token_id
+                - token_uri
+                - id
+                - network_name
+                - network_id
+                - nft_name
+                type: object
+              type: array
+          required:
+          - count
+          - nfts
+          type: object
+        status:
+          description: Status of the user NFT response
+          enum:
+          - success
+          - failure
+          type: string
+      required:
+      - status
+      - data
+      type: object
+    ServerUserPortfolioResponse:
+      properties:
+        data:
+          properties:
+            aggregated_data:
+              properties:
+                holdings_count:
+                  description: Number of holdings in the portfolio
+                  type: string
+                holdings_price_inr:
+                  description: Total value of holdings in INR
+                  type: string
+                holdings_price_usdt:
+                  description: Total value of holdings in USDT
+                  type: string
+                total_holding_price_inr:
+                  description: Total price of all holdings in INR
+                  type: string
+                total_holding_price_usdt:
+                  description: Total price of all holdings in USDT
+                  type: string
+              required:
+              - holdings_count
+              - holdings_price_inr
+              - holdings_price_usdt
+              - total_holding_price_inr
+              - total_holding_price_usdt
+              type: object
+            group_tokens:
+              items:
+                properties:
+                  aggregation_type:
+                    description: Type of aggregation (e.g., token)
+                    type: string
+                  balance:
+                    description: Amount of the token held
+                    type: string
+                  holdings_price_inr:
+                    description: Value of the token holdings in INR
+                    type: string
+                  holdings_price_usdt:
+                    description: Value of the token holdings in USDT
+                    type: string
+                  id:
+                    description: Unique identifier for the token
+                    type: string
+                  is_primary:
+                    description: Indicates if this is the primary token
+                    type: boolean
+                  name:
+                    description: Name of the token
+                    type: string
+                  network_id:
+                    description: Unique identifier for the blockchain network
+                    type: string
+                  short_name:
+                    description: Short name or alias for the token
+                    type: string
+                  symbol:
+                    description: Symbol of the token
+                    type: string
+                  token_image:
+                    description: URL to the token's image (if any)
+                    type: string
+                required:
+                - id
+                - name
+                - symbol
+                - network_id
+                - balance
+                - aggregation_type
+                type: object
+              type: array
+          required:
+          - aggregated_data
+          - group_tokens
+          type: object
+        status:
+          description: Status of the user portfolio response
+          enum:
+          - success
+          - failure
+          type: string
+      required:
+      - status
+      - data
+      type: object
+    ServerUserWalletResponse:
+      properties:
+        data:
+          properties:
+            wallets:
+              items:
+                properties:
+                  address:
+                    description: Address of the wallet on the blockchain
+                    type: string
+                  network_id:
+                    description: Unique identifier for the blockchain network
+                    type: string
+                  network_name:
+                    description: Name of the blockchain network
+                    type: string
+                  network_symbol:
+                    description: Symbol representing the blockchain network
+                    type: string
+                required:
+                - network_name
+                - address
+                - network_id
+                - network_symbol
+                type: object
+              type: array
+          type: object
+        status:
+          description: Status of the user wallet response
+          enum:
+          - success
+          - failure
+          type: string
+      required:
+      - status
+      - data
+      type: object
+    Theme:
+      properties:
+        NftOrderDetailsQuery:
+          properties:
+            order_id:
+              example: order123
+              type: string
+            page:
+              example: 1
+              type: integer
+            size:
+              example: 10
+              type: integer
+          required:
+          - page
+          - size
+          - order_id
+          type: object
+        accent2Color:
+          example: '#C70039'
+          type: string
+        accentColor:
+          example: '#FF5733'
+          type: string
+        backgroundColor:
+          example: '#F5F5F5'
+          type: string
+        strokBorderColor:
+          example: '#DDDDDD'
+          type: string
+        strokDividerColor:
+          example: '#EEEEEE'
+          type: string
+        surfaceColor:
+          example: '#FFFFFF'
+          type: string
+        textPrimaryColor:
+          example: '#000000'
+          type: string
+        textSecondaryColor:
+          example: '#333333'
+          type: string
+        textTertiaryColor:
+          example: '#666666'
+          type: string
+      required:
+      - textPrimaryColor
+      - textSecondaryColor
+      - textTertiaryColor
+      - accentColor
+      - accent2Color
+      - strokBorderColor
+      - strokDividerColor
+      - surfaceColor
+      - backgroundColor
+      type: object
+    Token:
+      properties:
+        token:
+          examples:
+          - eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+          type: string
+      type: object
+    Tokens:
+      properties:
+        network_name:
+          example: Mainnet
+          type: string
+        token_address:
+          example: 0x...
+          type: string
+        token_name:
+          example: '1'
+          type: string
+      required:
+      - network_name
+      - token_name
+      - token_address
+      type: object
+    TokensData:
+      items:
+        $ref: '#/components/schemas/Tokens'
+      type: array
+    TransferNft:
+      properties:
+        collection_address:
+          examples: '0x171e643e8e8dabc66b838b9055dbdf88647cf6601b164f5987f50a497bedfbe1'
+          type: string
+        collection_name:
+          examples: super avengers
+          type: string
+        network_name:
+          examples: APTOS TESTNET
+          type: string
+        nft_address:
+          examples: '0x7c0c2c20facfd3a321d82da7b3c2fcd5e75a3e5d8226ce26c5533f2342e57e0b'
+          type: string
+        operation_type:
+          examples: NFT_MINT
+          type: string
+        quantity:
+          examples: '1'
+          type: string
+        recipient_address:
+          description: Address of the recipient to whom NFT needs to be transferred.
+          examples: '0x719dad0b2800205ab7bff539bd617b04e21fe311bc30fce6d6d2d3beecd8a14e'
+          type: string
+        user_id:
+          description: User ID of the user who is transferring the NFT
+          examples: d6061eab-2da6-4d79-a225-71f995791e45
+          type: string
+      required:
+      - operation_type
+      - network_name
+      - collection_address
+      - collection_name
+      - quantity
+      - recipient_address
+      - nft_address
+      - user_id
+      type: object
+    TransferNftData:
+      properties:
+        collection_address:
+          examples: '0x171e643e8e8dabc66b838b9055dbdf88647cf6601b164f5987f50a497bedfbe1'
+          type: string
+        collection_name:
+          examples: super avengers
+          type: string
+        network_name:
+          examples: APTOS TESTNET
+          type: string
+        nft_address:
+          examples: '0x7c0c2c20facfd3a321d82da7b3c2fcd5e75a3e5d8226ce26c5533f2342e57e0b'
+          type: string
+        operation_type:
+          examples: NFT_MINT
+          type: string
+        quantity:
+          examples: '1'
+          type: string
+        recipient_address:
+          description: Address of the recipient to whom NFT needs to be transferred.
+          examples: '0x719dad0b2800205ab7bff539bd617b04e21fe311bc30fce6d6d2d3beecd8a14e'
+          type: string
+        user_id:
+          description: User ID of the user who is transferring the NFT
+          examples: d6061eab-2da6-4d79-a225-71f995791e45
+          type: string
+      required:
+      - operation_type
+      - network_name
+      - collection_address
+      - collection_name
+      - quantity
+      - recipient_address
+      - nft_address
+      - user_id
+      type: object
+    TransferTokenData:
+      properties:
+        network_name:
+          examples: APTOS TESTNET
+          type: string
+        operation_type:
+          examples: NFT_MINT
+          type: string
+        quantity:
+          examples: '1'
+          type: string
+        recipient_address:
+          description: Address of the recipient to whom NFT needs to be transferred.
+          examples: '0x719dad0b2800205ab7bff539bd617b04e21fe311bc30fce6d6d2d3beecd8a14e'
+          type: string
+        token_address:
+          examples: '0x2f7b97837f2d14ba2ed3a4b2282e259126a9b848'
+          type: string
+      required:
+      - operation_type
+      - network_name
+      - token_address
+      - quantity
+      - recipient_address
+      type: object
+    TransferTokens:
+      properties:
+        network_name:
+          example: Ethereum
+          type: string
+        quantity:
+          example: '100'
+          type: string
+        recipient_address:
+          example: '0xabcdef1234567890'
+          type: string
+        token_address:
+          example: '0x1234567890abcdef'
+          type: string
+      required:
+      - network_name
+      - token_address
+      - quantity
+      - recipient_address
+      type: object
+    TransferTokensData:
+      properties:
+        orderId:
+          example: order123
+          type: string
+      required:
+      - orderId
+      type: object
+    User:
+      properties:
+        created_at:
+          format: date-time
+          type: string
+        email:
+          format: email
+          type: string
+        freeze_reason:
+          type: string
+        freezed:
+          type: string
+        user_id:
+          type: string
+      required:
+      - email
+      - user_id
+      - created_at
+      - freezed
+      - freeze_reason
+      type: object
+    Wallet:
+      properties:
+        address:
+          example: 0x...
+          type: string
+        network_name:
+          example: Mainnet
+          type: string
+        success:
+          example: 'true'
+          type: boolean
+      required:
+      - network_name
+      - success
+      - address
+      type: object
+    WalletData:
+      items:
+        $ref: '#/components/schemas/Wallet'
+      type: array
+  securitySchemes:
+    apiKeyCookie:
+      in: cookie
+      name: api_key
+      type: apiKey
+    apiKeyHeader:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    apiKeyQuery:
+      in: query
+      name: api_key
+      type: apiKey
+    basicAuth:
+      scheme: basic
+      type: http
+    bearerAuth:
+      scheme: bearer
+      type: http
+    oauth2:
+      flows:
+        implicit:
+          authorizationUrl: https://galaxy.scalar.com/oauth/authorize
+          scopes:
+            read:planets: read your planets
+            write:planets: modify planets in your account
+      type: oauth2
+info:
+  contact:
+    email: devrel@coindcx.com
+    name: Ovia Seshadri
+    url: https://okto.tech
+  description: 'Okto SDK is the fastest and easiest way a developer can build on Web3.
+    Okto SDK offers interoperable embedded wallets for developers to onboard users
+    on Web3 in a web2 like experience.
+
+
+    ## Resources
+
+
+    * https://github.com/okto-hq/
+
+    '
+  title: Okto
+  version: 1.0.0
+openapi: 3.1.0
+paths:
+  /api/v2/authenticate:
+    post:
+      description: Authenticates the user and on successfull authentication, it will
+        return the token of the user
+      operationId: authenticateUser
+      parameters:
+      - $ref: '#/components/parameters/id_token'
+      - description: Okto API key
+        in: header
+        name: x-api-key
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                id_token:
+                  description: ID token for authentication
+                  type: string
+              required:
+              - id_token
+              type: object
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientAuthenticateResponse'
+          description: Created
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/BadRequest'
+          description: Bad Request
+      summary: Authenticates a user
+      tags:
+      - Client
+  /api/v1/logout:
+    post:
+      description: Logout the user from the current Okto session. This will remove
+        the user's session from the Okto server and the user will have to login again
+        to access the resources.
+      operationId: logout
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientLogoutResponse'
+          description: Logged out
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/BadRequest'
+          description: Bad Request
+      summary: Logout
+      tags:
+      - Client
+  /api/v1/nft/order_details:
+    get:
+      description: Get order details of all the NFTs transferred and received by the
+        user.
+      operationId: getNftOrderDetails
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/size'
+      - $ref: '#/components/parameters/order_id'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientOrderDetailsNFTResponse'
+          description: Fetched
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/BadRequest'
+          description: Bad Request
+      summary: Get NFT order details
+      tags:
+      - Client
+  /api/v1/nft/transfer:
+    get:
+      description: Used to transfer nft from user wallet address to recipient address.
+        The order ID will be returned in the response. The order ID can be used to
+        track the status of the order.
+      operationId: transferNft
+      parameters:
+      - $ref: '#/components/parameters/operation_type'
+      - $ref: '#/components/parameters/network_name'
+      - $ref: '#/components/parameters/collection_address'
+      - $ref: '#/components/parameters/collection_name'
+      - $ref: '#/components/parameters/quantity'
+      - $ref: '#/components/parameters/recipient_address'
+      - $ref: '#/components/parameters/nft_address'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientTransferNftResponse'
+          description: Fetched
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/BadRequest'
+          description: Bad Request
+      summary: Transfer NFT
+      tags:
+      - Client
+  /api/v1/orders:
+    get:
+      description: Fetch all the orders of the user, which includes the history of
+        tokens sent and received.
+      operationId: getOrderHistory
+      parameters:
+      - $ref: '#/components/parameters/offset'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/order_id'
+      - $ref: '#/components/parameters/order_state'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientOrderHistoryResponse'
+          description: Fetched
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/BadRequest'
+          description: Bad Request
+      summary: Get order history
+      tags:
+      - Client
+  /api/v1/portfolio:
+    get:
+      description: Get the portfolio data of the user, which includes all the tokens
+        owned by the user across all the networks.
+      operationId: getPortfolio
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientUserPortfolioResponse'
+          description: Fetched
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/BadRequest'
+          description: Bad Request
+      summary: Get portfolio
+      tags:
+      - Client
+  /api/v1/portfolio/activity:
+    get:
+      description: Get user's portfolio activity
+      operationId: getPortfolioActivity
+      parameters:
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/offset'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientPortfolioActivityResponse'
+          description: Fetched
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/BadRequest'
+          description: Bad Request
+      summary: Get portfolio activity
+      tags:
+      - Client
+  /api/v1/rawtransaction/execute:
+    post:
+      description: Execute a raw transaction on a network. The API returns a jobId
+        which can be used to track the status of the transaction.
+      operationId: executeRawTransactions
+      parameters:
+      - $ref: '#/components/parameters/network_name'
+      - $ref: '#/components/parameters/transaction'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientExecuteRawTransactionResponse'
+          description: Fetched
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/BadRequest'
+          description: Bad Request
+      summary: Execute raw transactions
+      tags:
+      - Client
+  /api/v1/rawtransaction/status:
+    post:
+      description: Get the details of the raw transaction status by providing the
+        order_id of the transaction. The response will contain the status of the transaction
+        and the transaction hash if the transaction is successful.
+      operationId: getRawTransaction
+      parameters:
+      - $ref: '#/components/parameters/order_id'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientRawTransactionStatusResponse'
+          description: Fetched
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/BadRequest'
+          description: Bad Request
+      summary: Get raw transaction status
+      tags:
+      - Client
+  /api/v1/refresh_token:
+    post:
+      description: Get fresh pair of access and refresh tokens for the user using
+        the previous obtained refresh_token, auth_token and device_token.
+      operationId: refreshToken
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientRefreshTokenResponse'
+          description: Fetched
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/BadRequest'
+          description: Bad Request
+      summary: Refresh token
+      tags:
+      - Client
+  /api/v1/supported/networks:
+    get:
+      description: Get an array of all the whitelisted networks on your API key.
+      operationId: getSupportedNetworks
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientSupportedNetworksResponse'
+          description: Fetched
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/BadRequest'
+          description: Bad Request
+      summary: Get supported networks
+      tags:
+      - Client
+  /api/v1/supported/tokens:
+    get:
+      description: Get an array of all the whitelisted tokens on your API key.
+      operationId: getSupportedTokens
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/size'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientSupportedTokensResponse'
+          description: Fetched
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/BadRequest'
+          description: Bad Request
+      summary: Get supported tokens
+      tags:
+      - Client
+  /api/v1/transfer/tokens/execute:
+    post:
+      description: Place an order by executing a token transfer. This will transfer
+        the specified quantity of tokens to the recipient address. The order ID will
+        be returned in the response. The order ID can be used to track the status
+        of the order.
+      operationId: transferTokens
+      parameters:
+      - $ref: '#/components/parameters/network_name'
+      - $ref: '#/components/parameters/token_address'
+      - $ref: '#/components/parameters/quantity'
+      - $ref: '#/components/parameters/recipient_address'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientTransferTokensResponse'
+          description: Fetched
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/BadRequest'
+          description: Bad Request
+      summary: Transfer tokens
+      tags:
+      - Client
+  /api/v1/user_from_token:
+    get:
+      description: Get user details using token received from Okto.
+      operationId: getUserDetails
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientUserDetailsResponse'
+          description: Fetched
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/BadRequest'
+          description: Bad Request
+      summary: Get user details
+      tags:
+      - Client
+  /api/v1/wallet:
+    get:
+      description: Fetch all the wallets created by the user.
+      operationId: createWallet
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientGetWalletsResponse'
+          description: Fetched
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/BadRequest'
+          description: Bad Request
+      summary: Get wallet
+      tags:
+      - Client
+    post:
+      description: Creates a new wallet for the user. The wallet is created for all
+        the whitelisted networks for your API key.
+      operationId: createWallet
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientCreateWalletResponse'
+          description: Created
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/BadRequest'
+          description: Bad Request
+      summary: Create a wallet
+      tags:
+      - Client
+  /s2s/api/v1/nft/order_details/:userId:
+    get:
+      description: Get order details of the all the jobs ongoing by the user using
+        their user_id and bulk_order_id.
+      operationId: getBulkOrderDetails
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/size'
+      - $ref: '#/components/parameters/bulk_order_id'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerBulkOrderDetailsResponse'
+          description: Fetched
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/BadRequest'
+          description: Bad Request
+      summary: Get bulk order details
+      tags:
+      - Server
+  /s2s/api/v1/portfolio:
+    get:
+      description: Get the portfolio data of a user using their user_id, which includes
+        all the tokens owned by the user across all the networks.
+      operationId: getUserPortfolio
+      parameters:
+      - $ref: '#/components/parameters/user_id'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerUserPortfolioResponse'
+          description: Fetched
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/BadRequest'
+          description: Bad Request
+      summary: Get user portfolio
+      tags:
+      - Server
+  /s2s/api/v1/portfolio/activity:
+    get:
+      description: Get a user's portfolio activity using their user_id.
+      operationId: getUserActivity
+      parameters:
+      - $ref: '#/components/parameters/user_id'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerUserActivityResponse'
+          description: Fetched
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/BadRequest'
+          description: Bad Request
+      summary: Get user activity
+      tags:
+      - Server
+  /s2s/api/v1/portfolio/nft:
+    get:
+      description: Get the details of all the NFT's owned by the user using the user_id.
+      operationId: getNfts
+      parameters:
+      - $ref: '#/components/parameters/user_id'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerUserNFTResponse'
+          description: Fetched
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/BadRequest'
+          description: Bad Request
+      summary: Get all NFTs
+      tags:
+      - Server
+  /s2s/api/v1/supported/tokens:
+    get:
+      description: Get an array of all the whitelisted tokens on your API key.
+      operationId: getSupportedTokens
+      parameters:
+      - $ref: '#/components/parameters/user_id'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerSupportedTokensResponse'
+          description: Fetched
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/BadRequest'
+          description: Bad Request
+      summary: Get supported tokens
+      tags:
+      - Server
+  /s2s/api/v1/wallet:
+    get:
+      description: Fetch all the wallets created by a user using their user_id.
+      operationId: getUserWallets
+      parameters:
+      - $ref: '#/components/parameters/user_id'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerUserWalletResponse'
+          description: Fetched
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/BadRequest'
+          description: Bad Request
+      summary: Get user wallets
+      tags:
+      - Server
+  s2s/api/v2/nft/mint:
+    post:
+      description: Used to mint a new NFT on a specific network.
+      operationId: mintNftV2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NftData'
+        description: NFT Data
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerMintNFTv2Response'
+          description: Fetched
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/BadRequest'
+          description: Bad Request
+      summary: Mint NFT V2
+      tags:
+      - Server
+  s2s/api/v2/nft/transfer:
+    post:
+      description: Used to transfer nft from user wallet address to recipient address.
+        The order ID will be returned in the response. The order ID can be used to
+        track the status of the order.
+      operationId: transferNftV2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferNftData'
+        description: TransferNftData
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerTransferNftv2Response'
+          description: Fetched
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/BadRequest'
+          description: Bad Request
+      summary: Transfer NFT V2
+      tags:
+      - Server
+  s2s/api/v2/transfer/tokens/execute/{userId}:
+    post:
+      description: Used to transfer ERC20/Native Tokens from user wallet address to
+        recipient address. The order ID will be returned in the response. The bulk
+        order ID can be used to track the status of the order.
+      operationId: transferTokensV2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferTokenData'
+        description: TransferTokenData
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerTransferTokensv2Response'
+          description: Fetched
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/BadRequest'
+          description: Bad Request
+      summary: Transfer Tokens V2
+      tags:
+      - Server
+security:
+- bearerAuth: []
+- basicAuth: []
+- apiKeyQuery: []
+- apiKeyHeader: []
+- apiKeyCookie: []
+- oauth2: []
+servers:
+- url: https://sandbox-api.okto.tech
+- description: Responds with your request data
+  url: https://apigw.okto.tech
+tags:
+- description: Everything related to client side
+  name: Client
+- description: Everything related to the server side
+  name: Server
