@@ -29,28 +29,28 @@ tags:
   - name: Server
     description: Everything related to the server side
 paths:
-  "/api/v2/authenticate":
-    post:
-      tags:
-        - Client
-      summary: Authenticates a user
-      description: Authenticates the user and on successfull authentication, it will return the token of the user
-      operationId: authenticateUser
-      parameters:
-        - "$ref": "#/components/parameters/id_token"
-      responses:
-        "201":
-          description: Created
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ClientAuthenticateResponse"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/responses/BadRequest"
+  # "/api/v2/authenticate":
+  #   post:
+  #     tags:
+  #       - Client
+  #     summary: Authenticates a user
+  #     description: Authenticates the user and on successfull authentication, it will return the token of the user
+  #     operationId: authenticateUser
+  #     parameters:
+  #       - "$ref": "#/components/parameters/id_token"
+  #     responses:
+  #       "201":
+  #         description: Created
+  #         content:
+  #           application/json:
+  #             schema:
+  #               "$ref": "#/components/schemas/ClientAuthenticateResponse"
+  #       "400":
+  #         description: Bad Request
+  #         content:
+  #           application/json:
+  #             schema:
+  #               "$ref": "#/components/responses/BadRequest"
   "/api/v1/wallet":
     get:
       tags:
