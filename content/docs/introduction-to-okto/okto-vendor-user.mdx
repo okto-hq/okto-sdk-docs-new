@@ -4,7 +4,47 @@ description: "In the Okto documentation, you'll frequently encounter three main 
 full: false
 ---
 
-import PersonaCard from "../../../app/components/mdx/PersonaCard.tsx";
+import PersonaCard from "../../../app/components/mdx/PersonaCard";
+import PersonaDescriptionCard from "../../../app/components/mdx/PersonaDescriptionCard";
 
 ## Overview
 
+<div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <PersonaCard
+        icon="/images/okto-persona.svg"
+        title="Okto"
+        description="Okto refers to our company, our platform, and the suite of services we provide, including Wallet and Lite."
+      />
+      <PersonaCard
+        icon="/images/vendor-persona.svg"
+        title="Vendor"
+        description="Vendor is any developer or company building an application that integrates Okto's services"
+      />
+      <PersonaCard
+        icon="/images/user-persona.svg"
+        title="User"
+        description="User is any individual who uses a Vendor's app and, by extension, uses Okto's services"
+      />
+</div>
+
+## Dive deep into what & how each personas work
+
+<PersonaDescriptionCard/>
+<br/>
+<PersonaDescriptionCard
+  iconPath="/images/vendor-persona-description.svg"
+  title="Vendor"
+  description="Vendor is any developer or company building an application that integrates Okto's services"
+  whatItDoes={["Builds applications using Okto's API and SDK", "Integrates Okto's wallet and services into their own apps", "Serves as the intermediary bringing Okto's functionalities to end-users"]}
+  whatItIs={["Each Vendor has a unique Vendor ID", "Vendors receive an API ID and secret for secure integration", "Vendors can onboard Users to the Okto ecosystem through their apps"]}
+  howToIdentify={["Each Vendor receives a unique Vendor ID", "Vendors also get an API ID and secret for secure API calls", "This system ensures each Vendor's app is distinctly recognized on our platform"]}
+/>
+<br/>
+<PersonaDescriptionCard
+  iconPath="/images/user-persona-description.svg"
+  title="User"
+  description="User is any individual who uses a Vendor's app and, by extension, uses Okto's services"
+  whatItDoes={["Interacts with Vendor applications", "Manages wallets, sends tokens, and engages with blockchain features", "Benefits from the simplified blockchain experience provided by Okto and the Vendor"]}
+  whatItIs={["Each User has a unique User ID within the Okto ecosystem", "Users can interact with multiple Vendor apps using the same Okto account", "User experiences are tailored by Vendors but powered by Okto"]}
+  howToIdentify={["Every User is assigned a unique User ID", "This ID manages their interactions, wallets, and transactions across the Okto ecosystem", "The same User ID works across multiple Vendor apps, providing a unified experience", "Since Okto is interoperable, the same user ID can be associated with multiple Vendor apps, allowing Users to have a unified experience across different applications while leveraging the same Okto infrastructure."]}
+/>

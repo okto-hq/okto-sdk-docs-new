@@ -46,29 +46,29 @@ export default function SupportedChainCard({
     },
 }: SupportedChainCardProps) {
     return (
-        <Card style={{ maxWidth: 'none' }} className="bg-[#F5F6FE] dark:bg-[#121212] rounded-2xl shadow-sm border-none mx-auto">
-            <CardContent className="p-6">
-                <div className="flex items-start">
-                    <div className="w-1/4">
+        <Card className="bg-[#F5F6FE] dark:bg-[#121212] rounded-2xl shadow-sm border-none mx-auto w-full">
+            <CardContent className="p-4 sm:p-6">
+                <div className="flex flex-col sm:flex-row items-start">
+                    <div className="w-full sm:w-1/4 mb-4 sm:mb-0">
                         <img src={chainIcon} alt={`${chainName} logo`} className="w-12 h-12 m-0 pb-2" />
-                        <div className="text-2xl font-semibold">{chainName}</div>
+                        <div className="text-xl sm:text-2xl font-semibold">{chainName}</div>
                     </div>
-                    <div className="w-3/4 flex-col">
-                        <div className="flex gap-2">
-                            <div className="w-1/2 bg-[#FFFFFF] rounded-xl p-4 dark:bg-[#0D0D0D]">
-                                <div className="text-lg font-semibold mb-2">Supported Tokens</div>
-                                <div className="flex space-x-2">
+                    <div className="w-full sm:w-3/4 flex flex-col">
+                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-2">
+                            <div className="w-full sm:w-1/2 bg-[#FFFFFF] rounded-xl p-4 dark:bg-[#0D0D0D]">
+                                <div className="text-base sm:text-lg font-semibold mb-2">Supported Tokens</div>
+                                <div className="flex flex-wrap gap-2">
                                     {tokens.map((token, index) => (
-                                        <Button variant={"outline"} className="rounded-full text-xs flex gap-2 pl-1" key={index} size={"sm"}>
+                                        <Button variant="outline" className="rounded-full text-xs flex gap-2 pl-1" key={index} size="sm">
                                             <img src={token.icon} alt={token.name} className="w-5 h-5 m-0" /> {token.name}
                                         </Button>
                                     ))}
                                 </div>
                             </div>
-                            <div className="w-1/2 bg-[#FFFFFF] rounded-xl p-4 dark:bg-[#0D0D0D]">
-                                <div className="text-lg font-semibold mb-2">Supported Testnet</div>
+                            <div className="w-full sm:w-1/2 bg-[#FFFFFF] rounded-xl p-4 dark:bg-[#0D0D0D]">
+                                <div className="text-base sm:text-lg font-semibold mb-2">Supported Testnet</div>
                                 {Object.entries(supportedTestnet).map(([name, link], index) => (
-                                    <Button variant={"outline"} className="rounded-full text-xs flex gap-2 pl-1 dark:bg-[#0D0D0D]" key={index} size={"sm"}>
+                                    <Button variant="outline" className="rounded-full text-xs flex gap-2 pl-1 dark:bg-[#0D0D0D]" key={index} size="sm">
                                         <img src={chainIcon} alt={chainName} className="w-5 h-5 m-0 dark:bg-[#0D0D0D]" />
                                         <Link href={link} className="py-1 dark:text-white dark:bg-[#0D0D0D] bg-white text-xs rounded-full text-black hover:bg-gray-100 transition-colors duration-200 flex items-center no-underline">
                                             {name}
@@ -77,12 +77,12 @@ export default function SupportedChainCard({
                                 ))}
                             </div>
                         </div>
-                        <div className="mt-6 bg-[#FFFFFF] rounded-xl p-4 dark:bg-[#0D0D0D]">
-                            <div className="text-lg font-semibold mb-2">Resources</div>
+                        <div className="mt-4 sm:mt-6 bg-[#FFFFFF] rounded-xl p-4 dark:bg-[#0D0D0D]">
+                            <div className="text-base sm:text-lg font-semibold mb-2">Resources</div>
                             <div className="flex flex-wrap gap-2">
                                 {Object.entries(resources).map(([name, link], index) => (
-                                    <Button key={index} variant="outline" className="rounded-full flex gap-1 dark:bg-[#0D0D0D]" size={"sm"}>
-                                        <Link href={link} className="py-1 dark:text-white dark:bg-[#0D0D0D] bg-white rounded-full  hover:bg-gray-100 text-black transition-colors duration-200 flex items-center no-underline">
+                                    <Button key={index} variant="outline" className="rounded-full flex gap-1 dark:bg-[#0D0D0D]" size="sm">
+                                        <Link href={link} className="py-1 dark:text-white dark:bg-[#0D0D0D] bg-white rounded-full hover:bg-gray-100 text-black transition-colors duration-200 flex items-center no-underline">
                                             {name}
                                             <ArrowUpRight className="w-4 h-4 ml-1" />
                                         </Link>
