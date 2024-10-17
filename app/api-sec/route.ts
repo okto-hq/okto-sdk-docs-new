@@ -3,7 +3,7 @@ import { promises as fs } from 'fs';
 import path from 'path';
 
 export async function GET() {
-  const filePath = path.join(process.cwd(), 'public', 'modified_swagger.yaml');
+  const filePath = path.join(process.cwd(), 'public', 'swagger.yaml');
   
   try {
     const fileContents = await fs.readFile(filePath);
@@ -11,7 +11,7 @@ export async function GET() {
     return new NextResponse(fileContents, {
       headers: {
         'Content-Type': 'application/octet-stream',
-        'Content-Disposition': 'attachment; filename="modified_swagger.yaml"'
+        'Content-Disposition': 'attachment; filename="swagger.yaml"'
       }
     });
   } catch (error) {
