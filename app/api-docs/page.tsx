@@ -37,13 +37,13 @@ const App = () => {
   return (
     <>
       <Head>
-        <title>Okto API Reference</title>
+        <title>API Reference</title>
         <link rel="icon" href="/logo/okto-icon.png" sizes="any" />
       </Head>
       <ApiReferenceReact
         configuration={{
           spec: {
-            url: 'https://okto-docs-black.vercel.app/api-sec',
+            url: 'https://docs.okto.tech/api-sec',
           },
           theme: 'none',
           darkMode: theme === 'dark',
