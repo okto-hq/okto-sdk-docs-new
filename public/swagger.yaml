@@ -23,6 +23,7 @@ security:
   - apiKeyHeader: []
   - apiKeyCookie: []
   - oauth2: []
+  - v1auth: []
 tags:
   - name: Client
     description: Everything related to client side
@@ -36,7 +37,11 @@ paths:
       summary: Authenticate a user
       description: Authenticates the user and on successfull authentication, it will return the token of the user
       operationId: authenticateUser
-      security: []
+      security: [
+        {
+          apiKeyHeader: []
+        }
+      ]
       parameters:
         - "$ref": "#/components/parameters/x_api_key" 
       requestBody:
@@ -679,6 +684,12 @@ components:
       type: apiKey
       in: cookie
       name: api_key
+    v1Auth: {
+        "type": "apiKey",
+        "name": "X-Api-Key",
+        "in": "header",
+        "description": "Okto App Secret"
+      }
     oauth2:
       type: oauth2
       flows:
