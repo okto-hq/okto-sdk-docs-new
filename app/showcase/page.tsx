@@ -112,8 +112,8 @@ export default function Showcase() {
             name: 'GCaller',
             url: 'https://gcaller.in/',
             githubUrl: 'https://github.com/Ronakkkkk/G-Caller',
-            sdk: <ReactLogo />,
-            sdkName: 'React Native'
+            sdk: <FlutterLogo />,
+            sdkName: 'Flutter'
         },
         {
             image: Pixiverse,
@@ -136,8 +136,8 @@ export default function Showcase() {
             name: 'Seconds',
             url: 'http://seconds.fi',
             githubUrl: 'https://github.com/shah-aman/seconds-fi-backend',
-            sdk: <ReactLogo />,
-            sdkName: 'React'
+            sdk: <ApiLogo />,
+            sdkName: 'API'
         },
         {
             image: Poynt,
@@ -145,7 +145,7 @@ export default function Showcase() {
             url: 'https://drive.google.com/drive/folders/1_jpVT_uNJa7-uEOBoqw-mlD1UeEI8XuS',
             githubUrl: 'https://github.com/Solana-Poynt',
             sdk: <ReactLogo />,
-            sdkName: 'React'
+            sdkName: 'React Native'
         },
         {
             image: Nixarcade,
@@ -159,7 +159,7 @@ export default function Showcase() {
             image: Sublinks,
             name: 'Sublinks',
             url: 'https://sublinks-frontend.vercel.app/home',
-            githubUrl: 'https://github.com/HD-Delta-H/sublinkss',
+            githubUrl: 'https://github.com/HD-Delta-H/sublinks',
             sdk: <ReactLogo />,
             sdkName: 'React'
         },
@@ -167,9 +167,9 @@ export default function Showcase() {
             image: OktoDeFiBot,
             name: 'Okto DeFi Bot',
             url: 'https://discord.com/oauth2/authorize?client_id=1293702542072479907&permissions=67584&integration_type=0&scope=bot',
-            githubUrl: 'https://cybersam.notion.site/Okto-DeFi-Bot-11a7fbab7fb280b3ab12f4dba1a615d5',
-            sdk: <ReactLogo />,
-            sdkName: 'React'
+            githubUrl: 'https://github.com/samblackspy/Okto-DeFi-Bot/',
+            sdk: <ApiLogo />,
+            sdkName: 'API'
         },
     ];
 
