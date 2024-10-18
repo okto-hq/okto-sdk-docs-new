@@ -347,7 +347,22 @@ paths:
       operationId: executeRawTransactions
       parameters:
         - "$ref": "#/components/parameters/network_name"
-        - "$ref": "#/components/parameters/transaction"
+        - "$ref": "#/components/parameters/transaction_EVM"
+        - "$ref": "#/components/parameters/transaction_SOL"
+        - "$ref": "#/components/parameters/transaction_APT"
+      requestBody:
+        description: Raw transaction details
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                network_name:
+                  type: string
+                  example: "POLYGON_TESTNET"
+                transaction:
+                  type: object
       responses:
         "201":
           description: Fetched
@@ -689,6 +704,65 @@ components:
       schema:
         type: string
         examples: "0x2f7b97837f2d14ba2ed3a4b2282e259126a9b848"
+    transaction_EVM:
+      name: transaction_EVM
+      description: Execute raw transactions (EVM). Use this transaction object if "network_name" is any "BASE", "POLYGON" or "POLYGON_TESTNET_AMOY".
+      in: query
+      required: false
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              from: 
+                type: string
+                example: "0x0342A54DD44E8744FD185579Af57845Cb0ac6cB0"
+              to:
+                type: string
+                example: "0x80322ea18633A1f713e987d65Ae78AcCDAB6e55e"
+              data: 
+                type: string
+                example: "0x..."
+              value: 
+                type: string
+                example: "0x10000"
+    transaction_SOL:
+      name: transaction_SOL
+      description: Execute raw transactions (Solana). Use this transaction object if "network_name" is "SOLANA" or "SOLANA_DEVNET".
+      in: query
+      required: false
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              instructions:
+                type: object
+                properties:
+                  keys:
+                    type: array
+                  programId: 
+                    type: string
+                  data: 
+                    type: array
+              signer:
+                type: string
+    transaction_APT:
+      name: transaction_APT
+      description: Execute raw transactions (Aptos). Use this transaction object if "network_name" is "APTOS" or "APTOS_TESTNET".
+      in: query
+      required: false
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              function:
+                type: function
+              typeArugements:
+                type: array
+              fuctionArugements:
+                type: array
     quantity:
       name: quantity
       in: query
