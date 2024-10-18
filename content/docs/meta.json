@@ -10,7 +10,8 @@
       "react-sdk",
       "flutter-sdk",
       "react-native-sdk",
-      "---Community---",
+      "---Resources---",
+      "brand-kit",
       "[Showcase](https://docs.okto.tech/showcase)"
     ],
     "root": true
