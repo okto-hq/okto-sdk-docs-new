@@ -2,6 +2,14 @@ import { Link as ULink, Tooltip } from "@nextui-org/react"
 import { Button } from "@/components/ui/button";
 import Image, { type StaticImageData } from 'next/image';
 import DisbursalApp from "@/public/images/DisbursalApp.png"
+import OktoDeFiBot from "@/public/images/OktoDeFiBot.png"
+import Emojipay from "@/public/images/Emojipay.png"
+import Gcaller from "@/public/images/Gcaller.png"
+import Seconds from "@/public/images/Seconds.png"
+import Poynt from "@/public/images/Poynt.png"
+import Pixiverse from "@/public/images/Pixiverse.png"
+import Sublinks from "@/public/images/Sublinks.png"
+import Nixarcade from "@/public/images/Nixarcade.png"
 import Lifafa from "@/public/images/Lifafa.png"
 import TelegramBot from "@/public/images/TelegramBot.png"
 import Stan from "@/public/images/Stan.webp"
@@ -100,11 +108,68 @@ export default function Showcase() {
             sdkName: 'React Native'
         },
         {
+            image: Gcaller,
             name: 'GCaller',
             url: 'https://gcaller.in/',
-            githubUrl: '#',
+            githubUrl: 'https://github.com/Ronakkkkk/G-Caller',
+            sdk: <FlutterLogo />,
+            sdkName: 'Flutter'
+        },
+        {
+            image: Pixiverse,
+            name: 'Pixiverse',
+            url: 'https://rpg-game-six.vercel.app',
+            githubUrl: 'https://github.com/0xClint/Pixiverse',
             sdk: <ReactLogo />,
             sdkName: 'React Native'
+        },
+        {
+            image: Emojipay,
+            name: 'Emojipay',
+            url: 'https://emojipay.vercel.app/',
+            githubUrl: 'https://github.com/0xPasho/emojipay.it',
+            sdk: <ReactLogo />,
+            sdkName: 'React'
+        },
+        {
+            image: Seconds,
+            name: 'Seconds',
+            url: 'http://seconds.fi',
+            githubUrl: 'https://github.com/shah-aman/seconds-fi-backend',
+            sdk: <ApiLogo />,
+            sdkName: 'API'
+        },
+        {
+            image: Poynt,
+            name: 'Poynt',
+            url: 'https://drive.google.com/drive/folders/1_jpVT_uNJa7-uEOBoqw-mlD1UeEI8XuS',
+            githubUrl: 'https://github.com/Solana-Poynt',
+            sdk: <ReactLogo />,
+            sdkName: 'React Native'
+        },
+        {
+            image: Nixarcade,
+            name: 'NIXARCADE',
+            url: 'https://nixarcade.fun/',
+            githubUrl: 'https://github.com/NIXBLACK11/Nixarcade',
+            sdk: <ReactLogo />,
+            sdkName: 'React'
+        },
+        {
+            image: Sublinks,
+            name: 'Sublinks',
+            url: 'https://sublinks-frontend.vercel.app/home',
+            githubUrl: 'https://github.com/HD-Delta-H/sublinks',
+            sdk: <ReactLogo />,
+            sdkName: 'React'
+        },
+        {
+            image: OktoDeFiBot,
+            name: 'Okto DeFi Bot',
+            url: 'https://discord.com/oauth2/authorize?client_id=1293702542072479907&permissions=67584&integration_type=0&scope=bot',
+            githubUrl: 'https://github.com/samblackspy/Okto-DeFi-Bot/',
+            sdk: <ApiLogo />,
+            sdkName: 'API'
         },
     ];
 
