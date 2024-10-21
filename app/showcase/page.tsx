@@ -121,7 +121,7 @@ export default function Showcase() {
             url: 'https://rpg-game-six.vercel.app',
             githubUrl: 'https://github.com/0xClint/Pixiverse',
             sdk: <ReactLogo />,
-            sdkName: 'React Native'
+            sdkName: 'React'
         },
         {
             image: Emojipay,
