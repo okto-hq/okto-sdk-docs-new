@@ -14,8 +14,9 @@ info:
     email: devrel@coindcx.com
 servers:
   - url: https://sandbox-api.okto.tech
+    description: Sandbox URL
   - url: https://apigw.okto.tech
-    description: Responds with your request data
+    description: Production URL
 security:
   - bearerAuth: []
   - basicAuth: []
@@ -27,8 +28,6 @@ security:
 tags:
   - name: Client
     description: Everything related to client side
-  - name: Server
-    description: Everything related to the server side
 paths:
   "/api/v2/authenticate":
     post:
@@ -54,6 +53,7 @@ paths:
               properties:
                 id_token:
                   type: string
+                  required: true
                   example: "GOOGLE_OAUTH2_TOKEN_ID"
       responses:
         "201":
@@ -451,218 +451,6 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/responses/BadRequest"
-  "s2s/api/v2/nft/mint":
-    post:
-      tags:
-        - Server
-      summary: Mint NFT V2
-      description: Used to mint a new NFT on a specific network.
-      operationId: mintNftV2
-      requestBody:
-        description: NFT Data
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/NftData"
-      responses:
-        "201":
-          description: Fetched
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ServerMintNFTv2Response"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/responses/BadRequest"
-  "s2s/api/v2/nft/transfer":
-    post:
-      tags:
-        - Server
-      summary: Transfer NFT V2
-      description: Used to transfer nft from user wallet address to recipient address. The order ID will be returned in the response. The order ID can be used to track the status of the order.
-      operationId: transferNftV2
-      requestBody:
-        description: TransferNftData
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/TransferNftData"
-      responses:
-        "201":
-          description: Fetched
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ServerTransferNftv2Response"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/responses/BadRequest"
-  "s2s/api/v2/transfer/tokens/execute/{userId}":
-    post:
-      tags:
-        - Server
-      summary: Transfer Tokens V2
-      description: Used to transfer ERC20/Native Tokens from user wallet address to recipient address. The order ID will be returned in the response. The bulk order ID can be used to track the status of the order.
-      operationId: transferTokensV2
-      requestBody:
-        description: TransferTokenData
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/TransferTokenData"
-      responses:
-        "201":
-          description: Fetched
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ServerTransferTokensv2Response"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/responses/BadRequest"
-  "/s2s/api/v1/nft/order_details/:userId":
-    get:
-      tags:
-        - Server
-      summary: Get bulk order details
-      description: Get order details of the all the jobs ongoing by the user using their user_id and bulk_order_id.
-      operationId: getBulkOrderDetails
-      parameters:
-        - "$ref": "#/components/parameters/page"
-        - "$ref": "#/components/parameters/size"
-        - "$ref": "#/components/parameters/bulk_order_id"
-      responses:
-        "201":
-          description: Fetched
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ServerBulkOrderDetailsResponse"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/responses/BadRequest"
-  "/s2s/api/v1/wallet":
-    get:
-      tags:
-        - Server
-      summary: Get user wallets
-      description: Fetch all the wallets created by a user using their user_id.
-      operationId: getUserWallets
-      parameters:
-        - "$ref": "#/components/parameters/user_id"
-      responses:
-        "201":
-          description: Fetched
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ServerUserWalletResponse"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/responses/BadRequest"
-  "/s2s/api/v1/portfolio":
-    get:
-      tags:
-        - Server
-      summary: Get user portfolio
-      description: Get the portfolio data of a user using their user_id, which includes all the tokens owned by the user across all the networks.
-      operationId: getUserPortfolio
-      parameters:
-        - "$ref": "#/components/parameters/user_id"
-      responses:
-        "201":
-          description: Fetched
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ServerUserPortfolioResponse"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/responses/BadRequest"
-  "/s2s/api/v1/portfolio/nft":
-    get:
-      tags:
-        - Server
-      summary: Get all NFTs
-      description: Get the details of all the NFT's owned by the user using the user_id.
-      operationId: getNfts
-      parameters:
-        - "$ref": "#/components/parameters/user_id"
-      responses:
-        "201":
-          description: Fetched
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ServerUserNFTResponse"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/responses/BadRequest"
-  "/s2s/api/v1/portfolio/activity":
-    get:
-      tags:
-        - Server
-      summary: Get user activity
-      description: Get a user's portfolio activity using their user_id.
-      operationId: getUserActivity
-      parameters:
-        - "$ref": "#/components/parameters/user_id"
-      responses:
-        "201":
-          description: Fetched
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ServerUserActivityResponse"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/responses/BadRequest"
-  "/s2s/api/v1/supported/tokens":
-    get:
-      tags:
-        - Server
-      summary: Get supported tokens
-      description: Get an array of all the whitelisted tokens on your API key.
-      operationId: getSupportedTokens
-      parameters:
-        - "$ref": "#/components/parameters/user_id"
-      responses:
-        "201":
-          description: Fetched
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ServerSupportedTokensResponse"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/responses/BadRequest"
 
 components:
   securitySchemes:
@@ -676,6 +464,8 @@ components:
       type: apiKey
       in: header
       name: X-API-Key
+      description: "Okto App Secret"
+      example: "OKTO_APP_SECRET"
     apiKeyQuery:
       type: apiKey
       in: query
@@ -684,12 +474,18 @@ components:
       type: apiKey
       in: cookie
       name: api_key
-    v1Auth: {
-        "type": "apiKey",
-        "name": "X-Api-Key",
-        "in": "header",
-        "description": "Okto App Secret"
-      }
+    v1auth:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+      description: Okto App Secret
+      example: YOUR_OKTO_APP_SECRET
+    oktoAppSecretAuth:
+      type: apiKey
+      in: header
+      name: Okto App Secret
+      description: Okto App Secret
+      example: "YOUR_OKTO_APP_SECRET"
     oauth2:
       type: oauth2
       flows:
@@ -895,9 +691,10 @@ components:
       name: x-api-key
       in: header
       required: true
+      description: "Your Okto App Secret"
       schema:
         type: string
-        example: "OKTO_APP_SECRET"
+      example: "YOUR_OKTO_APP_SECRET"
     page:
       name: page
       in: query

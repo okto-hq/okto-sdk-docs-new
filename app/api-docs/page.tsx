@@ -43,7 +43,7 @@ const App = () => {
       <ApiReferenceReact
         configuration={{
           spec: {
-            url: 'https://docs.okto.tech/api-sec',
+            url: 'http://localhost:3000/api-sec',
           },
           theme: 'none',
           darkMode: theme === 'dark',
