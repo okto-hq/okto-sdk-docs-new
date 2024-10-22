@@ -6,7 +6,6 @@ import { ApiReferenceReact } from '@scalar/api-reference-react';
 import '@scalar/api-reference-react/style.css';
 import Head from 'next/head';
 
-
 const App = () => {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -38,18 +37,19 @@ const App = () => {
     <>
       <Head>
         <title>API Reference</title>
+        <meta name="robots" content="noindex, nofollow" /> {/* Prevent indexing */}
         <link rel="icon" href="/logo/okto-icon.png" sizes="any" />
       </Head>
       <ApiReferenceReact
         configuration={{
           spec: {
-            url: 'https://docs.okto.tech/api-sec',
+            url: 'https://docs.okto.tech/server-api-sec',
           },
           theme: 'none',
           darkMode: theme === 'dark',
           hiddenClients: [],
           metadata: {
-            title: 'API Reference'
+            title: 'API Reference',
           },
           hideDarkModeToggle: true,
         }}
