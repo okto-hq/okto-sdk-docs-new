@@ -26,16 +26,16 @@ security:
   - oauth2: []
   - v1auth: []
 tags:
-  - name: Client
-    description: Everything related to client side
+  - name: Server
+    description: Everything related to the server side
 paths:
-  "/api/v2/authenticate":
+  "s2s/api/v2/nft/mint":
     post:
       tags:
-        - Client
-      summary: Authenticate a user
-      description: Authenticates the user and on successfull authentication, it will return the token of the user
-      operationId: authenticateUser
+        - Server
+      summary: Mint NFT V2
+      description: Used to mint a new NFT on a specific network.
+      operationId: mintNftV2
       security: [
         {
           apiKeyHeader: []
@@ -44,407 +44,254 @@ paths:
       parameters:
         - "$ref": "#/components/parameters/x_api_key" 
       requestBody:
-        description: Id Token
-        required: true
+        description: NFT Data
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                id_token:
-                  type: string
-                  required: true
-                  example: "GOOGLE_OAUTH2_TOKEN_ID"
-      responses:
-        "201":
-          description: Created
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ClientAuthenticateResponse"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/responses/BadRequest"
-  "/api/v1/wallet":
-    get:
-      tags:
-        - Client
-      summary: Get wallet
-      description: Fetch all the wallets created by the user.
-      operationId: createWallet
+              "$ref": "#/components/schemas/NftData"
       responses:
         "201":
           description: Fetched
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/ClientGetWalletsResponse"
+                "$ref": "#/components/schemas/ServerMintNFTv2Response"
         "400":
           description: Bad Request
           content:
             application/json:
               schema:
                 "$ref": "#/components/responses/BadRequest"
+  "s2s/api/v2/nft/transfer":
     post:
       tags:
-        - Client
-      summary: Create a wallet
-      description: Creates a new wallet for the user. The wallet is created for all the whitelisted networks for your API key.
-      operationId: createWallet
+        - Server
+      summary: Transfer NFT V2
+      description: Used to transfer nft from user wallet address to recipient address. The order ID will be returned in the response. The order ID can be used to track the status of the order.
+      operationId: transferNftV2
+      security: [
+        {
+          apiKeyHeader: []
+        }
+      ]
+      parameters:
+        - "$ref": "#/components/parameters/x_api_key" 
+      requestBody:
+        description: TransferNftData
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/TransferNftData"
       responses:
         "201":
-          description: Created
+          description: Fetched
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/ClientCreateWalletResponse"
+                "$ref": "#/components/schemas/ServerTransferNftv2Response"
         "400":
           description: Bad Request
           content:
             application/json:
               schema:
                 "$ref": "#/components/responses/BadRequest"
-  "/api/v1/refresh_token":
+  "s2s/api/v2/transfer/tokens/execute/{userId}":
     post:
       tags:
-        - Client
-      summary: Refresh token
-      description: Get fresh pair of access and refresh tokens for the user using the previous obtained refresh_token, auth_token and device_token.
-      operationId: refreshToken
+        - Server
+      summary: Transfer Tokens V2
+      description: Used to transfer ERC20/Native Tokens from user wallet address to recipient address. The order ID will be returned in the response. The bulk order ID can be used to track the status of the order.
+      operationId: transferTokensV2
+      security: [
+        {
+          apiKeyHeader: []
+        }
+      ]
+      parameters:
+        - "$ref": "#/components/parameters/x_api_key" 
+      requestBody:
+        description: TransferTokenData
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/TransferTokenData"
       responses:
         "201":
           description: Fetched
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/ClientRefreshTokenResponse"
+                "$ref": "#/components/schemas/ServerTransferTokensv2Response"
         "400":
           description: Bad Request
           content:
             application/json:
               schema:
                 "$ref": "#/components/responses/BadRequest"
-  "/api/v1/logout":
-    post:
-      tags:
-        - Client
-      summary: Logout
-      description: Logout the user from the current Okto session. This will remove the user's session from the Okto server and the user will have to login again to access the resources.
-      operationId: logout
-      responses:
-        "201":
-          description: Logged out
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ClientLogoutResponse"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/responses/BadRequest"
-  "/api/v1/user_from_token":
+  "/s2s/api/v1/nft/order_details/:userId":
     get:
       tags:
-        - Client
-      summary: Get user details
-      description: Get user details using token received from Okto.
-      operationId: getUserDetails
+        - Server
+      summary: Get bulk order details
+      description: Get order details of the all the jobs ongoing by the user using their user_id and bulk_order_id.
+      operationId: getBulkOrderDetails
+      security: [
+        {
+          apiKeyHeader: []
+        }
+      ]
+      parameters:
+        - "$ref": "#/components/parameters/x_api_key" 
+        - "$ref": "#/components/parameters/page"
+        - "$ref": "#/components/parameters/size"
+        - "$ref": "#/components/parameters/bulk_order_id"
       responses:
         "201":
           description: Fetched
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/ClientUserDetailsResponse"
+                "$ref": "#/components/schemas/ServerBulkOrderDetailsResponse"
         "400":
           description: Bad Request
           content:
             application/json:
               schema:
                 "$ref": "#/components/responses/BadRequest"
-  "/api/v1/supported/networks":
+  "/s2s/api/v1/wallet":
     get:
       tags:
-        - Client
-      summary: Get supported networks
-      description: Get an array of all the whitelisted networks on your API key.
-      operationId: getSupportedNetworks
+        - Server
+      summary: Get user wallets
+      description: Fetch all the wallets created by a user using their user_id.
+      operationId: getUserWallets
+      security: [
+        {
+          apiKeyHeader: []
+        }
+      ]
+      parameters:
+        - "$ref": "#/components/parameters/x_api_key" 
+        - "$ref": "#/components/parameters/user_id"
       responses:
         "201":
           description: Fetched
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/ClientSupportedNetworksResponse"
+                "$ref": "#/components/schemas/ServerUserWalletResponse"
         "400":
           description: Bad Request
           content:
             application/json:
               schema:
                 "$ref": "#/components/responses/BadRequest"
-  "/api/v1/supported/tokens":
+  "/s2s/api/v1/portfolio":
     get:
       tags:
-        - Client
+        - Server
+      summary: Get user portfolio
+      description: Get the portfolio data of a user using their user_id, which includes all the tokens owned by the user across all the networks.
+      operationId: getUserPortfolio
+      security: [
+        {
+          apiKeyHeader: []
+        }
+      ]
+      parameters:
+        - "$ref": "#/components/parameters/x_api_key" 
+        - "$ref": "#/components/parameters/user_id"
+      responses:
+        "201":
+          description: Fetched
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ServerUserPortfolioResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/responses/BadRequest"
+  "/s2s/api/v1/portfolio/nft":
+    get:
+      tags:
+        - Server
+      summary: Get all NFTs
+      description: Get the details of all the NFT's owned by the user using the user_id.
+      operationId: getNfts
+      security: [
+        {
+          apiKeyHeader: []
+        }
+      ]
+      parameters:
+        - "$ref": "#/components/parameters/x_api_key" 
+        - "$ref": "#/components/parameters/user_id"
+      responses:
+        "201":
+          description: Fetched
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ServerUserNFTResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/responses/BadRequest"
+  "/s2s/api/v1/portfolio/activity":
+    get:
+      tags:
+        - Server
+      summary: Get user activity
+      description: Get a user's portfolio activity using their user_id.
+      operationId: getUserActivity
+      security: [
+        {
+          apiKeyHeader: []
+        }
+      ]
+      parameters:
+        - "$ref": "#/components/parameters/x_api_key" 
+        - "$ref": "#/components/parameters/user_id"
+      responses:
+        "201":
+          description: Fetched
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ServerUserActivityResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/responses/BadRequest"
+  "/s2s/api/v1/supported/tokens":
+    get:
+      tags:
+        - Server
       summary: Get supported tokens
       description: Get an array of all the whitelisted tokens on your API key.
       operationId: getSupportedTokens
+      security: [
+        {
+          apiKeyHeader: []
+        }
+      ]
       parameters:
-        - "$ref": "#/components/parameters/page"
-        - "$ref": "#/components/parameters/size"
+        - "$ref": "#/components/parameters/x_api_key" 
+        - "$ref": "#/components/parameters/user_id"
       responses:
         "201":
           description: Fetched
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/ClientSupportedTokensResponse"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/responses/BadRequest"
-  "/api/v1/portfolio":
-    get:
-      tags:
-        - Client
-      summary: Get portfolio
-      description: Get the portfolio data of the user, which includes all the tokens owned by the user across all the networks.
-      operationId: getPortfolio
-      responses:
-        "201":
-          description: Fetched
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ClientUserPortfolioResponse"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/responses/BadRequest"
-  "/api/v1/portfolio/activity":
-    get:
-      tags:
-        - Client
-      summary: Get portfolio activity
-      description: Get user's portfolio activity
-      operationId: getPortfolioActivity
-      parameters:
-        - "$ref": "#/components/parameters/limit"
-        - "$ref": "#/components/parameters/offset"
-      responses:
-        "201":
-          description: Fetched
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ClientPortfolioActivityResponse"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/responses/BadRequest"
-  "/api/v1/transfer/tokens/execute":
-    post:
-      tags:
-        - Client
-      summary: Transfer tokens
-      description: Place an order by executing a token transfer. This will transfer the specified quantity of tokens to the recipient address. The order ID will be returned in the response. The order ID can be used to track the status of the order.
-      operationId: transferTokens
-      requestBody:
-        description: Transfer token details
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                network_name:
-                  type: string
-                  example: "POLYGON_TESTNET"
-                token_address:
-                  type: string
-                  example: "0x2f7b97837f2d14ba2ed3a4b2282e259126a9b848"
-                quantity:
-                  type: string
-                  example: "0.0001"
-                recipient_address:
-                  type: string
-                  example: "0x8ff71ae16c88d86f5ec4100951f37a50683e8cd23ca515894854fcfc4ab7399b"
-      responses:
-        "201":
-          description: Fetched
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ClientTransferTokensResponse"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/responses/BadRequest"
-  "/api/v1/orders":
-    get:
-      tags:
-        - Client
-      summary: Get order history
-      description: Fetch all the orders of the user, which includes the history of tokens sent and received.
-      operationId: getOrderHistory
-      parameters:
-        - "$ref": "#/components/parameters/offset"
-        - "$ref": "#/components/parameters/limit"
-        - "$ref": "#/components/parameters/order_id"
-        - "$ref": "#/components/parameters/order_state"
-      responses:
-        "201":
-          description: Fetched
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ClientOrderHistoryResponse"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/responses/BadRequest"
-  "/api/v1/nft/transfer":
-    post:
-      tags:
-        - Client
-      summary: Transfer NFT
-      description: Used to transfer nft from user wallet address to recipient address. The order ID will be returned in the response. The order ID can be used to track the status of the order.
-      operationId: transferNft
-      requestBody:
-        description: Raw transaction details
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                opteration_type:
-                  type: string
-                  example: "NFT_TRANSFER"
-                network_name:
-                  type: string
-                  example: "APTOS_TESTNET"
-                collection_address:
-                  type: string
-                  example: "0x171e643e8e8dabc66b838b9055dbdf88647cf6601b164f5987f50a497bedfbe1"
-                collection_name:
-                  type: string
-                  example: "super avengers"
-                quantity:
-                  type: string
-                  example: "1"
-                recipient_address:
-                  type: string
-                  example: "0x7c0c2c20facfd3a321d82da7b3c2fcd5e75a3e5d8226ce26c5533f2342e57e0b"
-                nft_address:
-                  type: string
-                  example: "0x719dad0b2800205ab7bff539bd617b04e21fe311bc30fce6d6d2d3beecd8a14e"
-      responses:
-        "201":
-          description: Fetched
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ClientTransferNftResponse"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/responses/BadRequest"
-  "/api/v1/nft/order_details":
-    get:
-      tags:
-        - Client
-      summary: Get NFT order details
-      description: Get order details of all the NFTs transferred and received by the user.
-      operationId: getNftOrderDetails
-      parameters:
-        - "$ref": "#/components/parameters/page"
-        - "$ref": "#/components/parameters/size"
-        - "$ref": "#/components/parameters/order_id"
-      responses:
-        "201":
-          description: Fetched
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ClientOrderDetailsNFTResponse"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/responses/BadRequest"
-  "/api/v1/rawtransaction/execute":
-    post:
-      tags:
-        - Client
-      summary: Execute raw transactions
-      description: Execute a raw transaction on a network. The API returns a jobId which can be used to track the status of the transaction.
-      operationId: executeRawTransactions
-      parameters:
-        - "$ref": "#/components/parameters/network_name"
-        - "$ref": "#/components/parameters/transaction_EVM"
-        - "$ref": "#/components/parameters/transaction_SOL"
-        - "$ref": "#/components/parameters/transaction_APT"
-      requestBody:
-        description: Raw transaction details
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                network_name:
-                  type: string
-                  example: "POLYGON_TESTNET"
-                transaction:
-                  type: object
-      responses:
-        "201":
-          description: Fetched
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ClientExecuteRawTransactionResponse"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/responses/BadRequest"
-  "/api/v1/rawtransaction/status":
-    get:
-      tags:
-        - Client
-      summary: Get raw transaction status
-      description: Get the details of the raw transaction status by providing the order_id of the transaction. The response will contain the status of the transaction and the transaction hash if the transaction is successful.
-      operationId: getRawTransaction
-      parameters:
-        - "$ref": "#/components/parameters/order_id"
-      responses:
-        "201":
-          description: Fetched
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ClientRawTransactionStatusResponse"
+                "$ref": "#/components/schemas/ServerSupportedTokensResponse"
         "400":
           description: Bad Request
           content:
@@ -691,7 +538,7 @@ components:
       name: x-api-key
       in: header
       required: true
-      description: "Your Okto App Secret"
+      description: "Your Okto Server API Key"
       schema:
         type: string
       example: "YOUR_OKTO_APP_SECRET"
