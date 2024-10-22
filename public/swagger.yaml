@@ -1512,15 +1512,19 @@ components:
             auth_token:
               type: string
               description: The access token used for authenticating requests
+              example: "eyJh...CI6lk"
             refresh_auth_token:
               type: string
               description: The refresh token used to obtain a new access token when the current one expires
+              example: "eyJh...CI6lk"
             device_token:
               type: string
               description: A token associated with the device for push notifications or device tracking
+              example: "2345...7e4a"
             message:
               type: string
               description: A message indicating the result of the authentication process
+              example: "success"
           required:
             - auth_token
             - refresh_auth_token
@@ -1547,9 +1551,11 @@ components:
                   network_name:
                     type: string
                     description: Name of the blockchain network
+                    example: "BASE"
                   address:
                     type: string
                     description: Wallet address created on the network
+                    example: "0xdca7F8E25091B927DB769337d7eFDedBf772bb9A"
                   success:
                     type: boolean
                     description: Indicates if the wallet creation was successful for this network
@@ -1575,15 +1581,19 @@ components:
             auth_token:
               type: string
               description: New access token for authenticated session
+              example: "eyJh...AI5lg"
             message:
               type: string
               description: Status message of the token refresh process
+              example: "success"
             refresh_auth_token:
               type: string
               description: New refresh token for obtaining future access tokens
+              example: "eyJh...AI5lg"
             device_token:
               type: string
               description: Unique token associated with the client device
+              example: "2345...7e4a"
           required:
             - auth_token
             - message
@@ -1615,16 +1625,20 @@ components:
               type: string
               format: email
               description: User's email address
+              example: "ovia.seshadri@coindcx.com"
             user_id:
               type: string
               format: uuid
               description: Unique identifier for the user
+              example: "8ef08234-54a5-432b-af46-4bbe110f57d6"
             created_at:
               type: string
               description: Timestamp of user creation (Unix timestamp as string)
+              example: "1721732487"
             freezed:
               type: boolean
               description: Indicates if the user account is frozen
+              example: False
             freeze_reason:
               type: string
               description: Reason for account freeze, if applicable
@@ -1655,9 +1669,11 @@ components:
                   network_name:
                     type: string
                     description: Name of the blockchain network
+                    example: "APTOS"
                   address:
                     type: string
                     description: Wallet address on the network
+                    example: "0xa845e8f79e8848600540dd39eb766ad127b90bb5836a23ed0786ef22fb8a9d54"
                   success:
                     type: boolean
                     description: Indicates if the wallet retrieval was successful for this network
@@ -1688,9 +1704,15 @@ components:
                   network_name:
                     type: string
                     description: Name of the supported blockchain network
+                    example: "POLYGON"
                   chain_id:
                     type: string
                     description: Chain ID of the network
+                    example: "137"
+                  logo:
+                    type: string
+                    description: Logo of the supported blockchain
+                    example: "https://s2.coinmarketcap.com/static/img/coins/64x64/28321.png"
                 required:
                   - network_name
                   - chain_id
@@ -1717,12 +1739,15 @@ components:
                   token_name:
                     type: string
                     description: Name of the supported token
+                    example: "Temp USDC"
                   token_address:
                     type: string
                     description: Contract address of the token (empty string for native tokens)
+                    example: "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359"
                   network_name:
                     type: string
                     description: Name of the blockchain network the token is supported on
+                    example: "POLYGON"
                 required:
                   - token_name
                   - token_address
@@ -1742,83 +1767,37 @@ components:
         data:
           type: object
           properties:
-            aggregated_data:
+            total:
+              type: integer
+              description: Total number of jobs in the order history
+              example: 1
+            tokens:
               type: object
               properties:
-                holdings_count:
+                token_name:
                   type: string
                   description: Total number of holdings
-                holdings_price_inr:
+                  example: ""
+                quantity:
                   type: string
                   description: Total holdings price in INR
-                holdings_price_usdt:
+                  Example: ""
+                amount_in_inr:
                   type: string
                   description: Total holdings price in USDT
-                total_holding_price_inr:
+                  example: ""
+                token_image:
                   type: string
                   description: Overall total holding price in INR
-                total_holding_price_usdt:
+                  example: ""
+                token_address:
                   type: string
                   description: Overall total holding price in USDT
-              required:
-                - holdings_count
-                - holdings_price_inr
-                - holdings_price_usdt
-                - total_holding_price_inr
-                - total_holding_price_usdt
-            group_tokens:
-              type: array
-              items:
-                type: object
-                properties:
-                  id:
-                    type: string
-                    description: Unique identifier of the token
-                  name:
-                    type: string
-                    description: Name of the token
-                  symbol:
-                    type: string
-                    description: Symbol of the token
-                  short_name:
-                    type: string
-                    description: Short name of the token
-                  token_image:
-                    type: string
-                    description: Image URL for the token
-                  network_id:
-                    type: string
-                    description: Network ID associated with the token
-                  is_primary:
-                    type: boolean
-                    description: Indicates if the token is primary
-                  balance:
-                    type: string
-                    description: User's balance of the token
-                  holdings_price_usdt:
-                    type: string
-                    description: Holding price in USDT
-                  holdings_price_inr:
-                    type: string
-                    description: Holding price in INR
-                  aggregation_type:
-                    type: string
-                    description: Type of aggregation for the token (e.g., token)
-                required:
-                  - id
-                  - name
-                  - symbol
-                  - short_name
-                  - token_image
-                  - network_id
-                  - is_primary
-                  - balance
-                  - holdings_price_usdt
-                  - holdings_price_inr
-                  - aggregation_type
-          required:
-            - aggregated_data
-            - group_tokens
+                  example: ""
+                network_name:
+                  type: string
+                  description: Name of the network
+                  example: ""
       required:
         - status
         - data
