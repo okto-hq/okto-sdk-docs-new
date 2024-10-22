@@ -75,6 +75,8 @@ paths:
       summary: Get wallet
       description: Fetch all the wallets created by the user.
       operationId: createWallet
+      parameters:
+        - "$ref": "#/components/parameters/bearer_auth" 
       responses:
         "201":
           description: Fetched
@@ -94,6 +96,8 @@ paths:
       summary: Create a wallet
       description: Creates a new wallet for the user. The wallet is created for all the whitelisted networks for your API key.
       operationId: createWallet
+      parameters:
+        - "$ref": "#/components/parameters/bearer_auth" 
       responses:
         "201":
           description: Created
@@ -114,6 +118,8 @@ paths:
       summary: Refresh token
       description: Get fresh pair of access and refresh tokens for the user using the previous obtained refresh_token, auth_token and device_token.
       operationId: refreshToken
+      parameters:
+        - "$ref": "#/components/parameters/bearer_auth" 
       responses:
         "201":
           description: Fetched
@@ -134,6 +140,8 @@ paths:
       summary: Logout
       description: Logout the user from the current Okto session. This will remove the user's session from the Okto server and the user will have to login again to access the resources.
       operationId: logout
+      parameters:
+        - "$ref": "#/components/parameters/bearer_auth" 
       responses:
         "201":
           description: Logged out
@@ -154,6 +162,8 @@ paths:
       summary: Get user details
       description: Get user details using token received from Okto.
       operationId: getUserDetails
+      parameters:
+        - "$ref": "#/components/parameters/bearer_auth" 
       responses:
         "201":
           description: Fetched
@@ -174,6 +184,8 @@ paths:
       summary: Get supported networks
       description: Get an array of all the whitelisted networks on your API key.
       operationId: getSupportedNetworks
+      parameters:
+        - "$ref": "#/components/parameters/bearer_auth" 
       responses:
         "201":
           description: Fetched
@@ -195,6 +207,7 @@ paths:
       description: Get an array of all the whitelisted tokens on your API key.
       operationId: getSupportedTokens
       parameters:
+        - "$ref": "#/components/parameters/bearer_auth" 
         - "$ref": "#/components/parameters/page"
         - "$ref": "#/components/parameters/size"
       responses:
@@ -217,6 +230,8 @@ paths:
       summary: Get portfolio
       description: Get the portfolio data of the user, which includes all the tokens owned by the user across all the networks.
       operationId: getPortfolio
+      parameters:
+        - "$ref": "#/components/parameters/bearer_auth"
       responses:
         "201":
           description: Fetched
@@ -238,6 +253,7 @@ paths:
       description: Get user's portfolio activity
       operationId: getPortfolioActivity
       parameters:
+        - "$ref": "#/components/parameters/bearer_auth"
         - "$ref": "#/components/parameters/limit"
         - "$ref": "#/components/parameters/offset"
       responses:
@@ -260,6 +276,8 @@ paths:
       summary: Transfer tokens
       description: Place an order by executing a token transfer. This will transfer the specified quantity of tokens to the recipient address. The order ID will be returned in the response. The order ID can be used to track the status of the order.
       operationId: transferTokens
+      parameters:
+        - "$ref": "#/components/parameters/bearer_auth"
       requestBody:
         description: Transfer token details
         required: true
@@ -270,16 +288,16 @@ paths:
               properties:
                 network_name:
                   type: string
-                  example: "POLYGON_TESTNET"
+                  example: "POLYGON"
                 token_address:
                   type: string
-                  example: "0x2f7b97837f2d14ba2ed3a4b2282e259126a9b848"
+                  example: ""
                 quantity:
                   type: string
-                  example: "0.0001"
+                  example: "0.1"
                 recipient_address:
                   type: string
-                  example: "0x8ff71ae16c88d86f5ec4100951f37a50683e8cd23ca515894854fcfc4ab7399b"
+                  example: "0xCDAC489b062A5d057Bd15DdE758829eCF3A14e5B"
       responses:
         "201":
           description: Fetched
@@ -301,6 +319,7 @@ paths:
       description: Fetch all the orders of the user, which includes the history of tokens sent and received.
       operationId: getOrderHistory
       parameters:
+        - "$ref": "#/components/parameters/bearer_auth"
         - "$ref": "#/components/parameters/offset"
         - "$ref": "#/components/parameters/limit"
         - "$ref": "#/components/parameters/order_id"
@@ -325,6 +344,8 @@ paths:
       summary: Transfer NFT
       description: Used to transfer nft from user wallet address to recipient address. The order ID will be returned in the response. The order ID can be used to track the status of the order.
       operationId: transferNft
+      parameters:
+        - "$ref": "#/components/parameters/bearer_auth"
       requestBody:
         description: Raw transaction details
         required: true
@@ -338,22 +359,20 @@ paths:
                   example: "NFT_TRANSFER"
                 network_name:
                   type: string
-                  example: "APTOS_TESTNET"
+                  example: "POLYGON"
                 collection_address:
                   type: string
-                  example: "0x171e643e8e8dabc66b838b9055dbdf88647cf6601b164f5987f50a497bedfbe1"
-                collection_name:
-                  type: string
-                  example: "super avengers"
+                  example: "0x68ee2dddcbb1c03df5fc4b6235d993b8b4d1d0e5"
+
                 quantity:
                   type: string
                   example: "1"
                 recipient_address:
                   type: string
-                  example: "0x7c0c2c20facfd3a321d82da7b3c2fcd5e75a3e5d8226ce26c5533f2342e57e0b"
+                  example: "0xCDAC489b062A5d057Bd15DdE758829eCF3A14e5B"
                 nft_address:
                   type: string
-                  example: "0x719dad0b2800205ab7bff539bd617b04e21fe311bc30fce6d6d2d3beecd8a14e"
+                  example: "56"
       responses:
         "201":
           description: Fetched
@@ -375,6 +394,7 @@ paths:
       description: Get order details of all the NFTs transferred and received by the user.
       operationId: getNftOrderDetails
       parameters:
+        - "$ref": "#/components/parameters/bearer_auth"
         - "$ref": "#/components/parameters/page"
         - "$ref": "#/components/parameters/size"
         - "$ref": "#/components/parameters/order_id"
@@ -399,6 +419,7 @@ paths:
       description: Execute a raw transaction on a network. The API returns a jobId which can be used to track the status of the transaction.
       operationId: executeRawTransactions
       parameters:
+        - "$ref": "#/components/parameters/bearer_auth"
         - "$ref": "#/components/parameters/network_name"
         - "$ref": "#/components/parameters/transaction_EVM"
         - "$ref": "#/components/parameters/transaction_SOL"
@@ -437,6 +458,7 @@ paths:
       description: Get the details of the raw transaction status by providing the order_id of the transaction. The response will contain the status of the transaction and the transaction hash if the transaction is successful.
       operationId: getRawTransaction
       parameters:
+        - "$ref": "#/components/parameters/bearer_auth"
         - "$ref": "#/components/parameters/order_id"
       responses:
         "201":
@@ -457,6 +479,7 @@ components:
     bearerAuth:
       type: http
       scheme: bearer
+      name: Authentication
     basicAuth:
       type: http
       scheme: basic
@@ -694,7 +717,13 @@ components:
       description: "Your Okto App Secret"
       schema:
         type: string
-      example: "YOUR_OKTO_APP_SECRET"
+        example: "YOUR_OKTO_APP_SECRET"
+    bearer_auth:
+      name: Authorization
+      in: header
+      required: true
+      schema:
+        type: string
     page:
       name: page
       in: query
@@ -1573,28 +1602,38 @@ components:
               properties:
                 token_name:
                   type: string
-                  description: Total number of holdings
-                  example: ""
+                  description: Name of the token
+                  example: "Temp USDC"
                 quantity:
                   type: string
-                  description: Total holdings price in INR
-                  Example: ""
+                  description: Quantity of tokens
+                  example: "51.1233"
                 amount_in_inr:
                   type: string
-                  description: Total holdings price in USDT
-                  example: ""
+                  description: Value of tokens in INR
+                  example: "3833.4303"
                 token_image:
                   type: string
-                  description: Overall total holding price in INR
+                  description: Logo of token
                   example: ""
                 token_address:
                   type: string
-                  description: Overall total holding price in USDT
-                  example: ""
+                  description: Address of the token
+                  example: "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359"
                 network_name:
                   type: string
-                  description: Name of the network
-                  example: ""
+                  description: Name of the blockchain network
+                  example: "POLYGON"
+              required:
+                  - token_name
+                  - quantity
+                  - amount_in_inr
+                  - token_image
+                  - token_address
+                  - network_name
+          required:
+            - total
+            - tokens
       required:
         - status
         - data
@@ -1608,7 +1647,7 @@ components:
         data:
           type: object
           properties:
-            count:
+            total:
               type: integer
               description: Total count of activities
             activity:
@@ -1616,73 +1655,49 @@ components:
               items:
                 type: object
                 properties:
-                  symbol:
-                    type: string
-                    description: Symbol of the token involved in the activity
-                  image:
-                    type: string
-                    description: Image URL for the token
-                  name:
-                    type: string
-                    description: Name of the token
-                  short_name:
-                    type: string
-                    description: Short name of the token
-                  id:
-                    type: string
-                    description: Unique identifier for the activity
-                  group_id:
-                    type: string
-                    description: Group ID of the token (empty if not applicable)
                   description:
                     type: string
                     description: Description of the transaction activity
-                  quantity:
+                    example: "Withdraw"
+                  order_state:
                     type: string
-                    description: Quantity involved in the transaction
+                    description: Status of order
+                    example: "PUBLISHED"
                   order_type:
                     type: string
-                    description: Type of order (e.g., WALLET_CONNECT)
-                  transfer_type:
+                    description: Type of order
+                    example: "EXTERNAL_WITHDRAWAL"
+                  token_name:
                     type: string
-                    description: Type of transfer (e.g., DEPOSIT, WITHDRAW)
-                  status:
-                    type: string
-                    description: Status of the transaction (e.g., COMPLETED)
-                  timestamp:
-                    type: integer
-                    description: Timestamp of the transaction
-                  tx_hash:
-                    type: string
-                    description: Transaction hash on the blockchain
-                  network_id:
-                    type: string
-                    description: Network ID where the transaction occurred
+                    description: Name of the token
+                    example: "POL"
                   network_name:
                     type: string
                     description: Name of the blockchain network
-                  network_explorer_url:
+                    example: "POLYGON"
+                  quantity:
                     type: string
-                    description: URL of the network explorer to view the transaction
-                  network_symbol:
+                    description: Quantity involved in the transaction
+                    example: "104380768011487676"
+                  tx_hash:
                     type: string
-                    description: Symbol of the network used in the transaction
+                    description: Transaction hash on the blockchain
+                    example: 0x582f8d392ccb77af6c96779452ac48db4a781af448e1fa7a8d646e588b60aae7"
+                  timestamp:
+                    type: integer
+                    description: Timestamp of the transaction
+                    example: "1729575979"
                 required:
-                  - symbol
-                  - name
-                  - id
                   - description
+                  - order_state
                   - quantity
                   - order_type
-                  - transfer_type
-                  - status
+                  - token_name
+                  - network_name
                   - timestamp
                   - tx_hash
-                  - network_id
-                  - network_name
-                  - network_symbol
           required:
-            - count
+            - total
             - activity
       required:
         - status
@@ -1700,6 +1715,7 @@ components:
             orderId:
               type: string
               description: Unique identifier for the token transfer order
+              example: "a49bbd8b-d26a-4c0f-840d-65d2727f486d"
           required:
             - orderId
       required:
@@ -1718,6 +1734,7 @@ components:
             total:
               type: integer
               description: Total number of jobs in the order history
+              example: 1
             jobs:
               type: array
               items:
@@ -1726,18 +1743,31 @@ components:
                   order_id:
                     type: string
                     description: Unique identifier for the order
+                    example: "a49bbd8b-d26a-4c0f-840d-65d2727f486d"
                   order_type:
                     type: string
-                    description: Type of the order (e.g., DEFI_TO_EXT)
+                    description: Type of the order
+                    example: "TOKEN_TRANSFER_EXECUTE"
                   network_name:
                     type: string
                     description: Name of the blockchain network associated with the order
+                    example: "POLYGON"
                   status:
                     type: string
-                    description: Status of the order (e.g., SUCCESS, FAILED)
+                    description: Status of the order
+                    example: "SUCCESS"
                   transaction_hash:
                     type: string
                     description: Hash of the transaction associated with the order
+                    example: "0x582f8d392ccb77af6c96779452ac48db4a781af448e1fa7a8d646e588b60aae7"
+                  created_at:
+                    type: string
+                    format: date-time
+                    example: "2024-10-22 05:46:04.626179 +0000 UTC"
+                  updated_at:
+                    type: string
+                    format: date-time
+                    example: "2024-10-22 05:47:14.677592 +0000 UTC"
                 required:
                   - order_id
                   - order_type
@@ -1763,6 +1793,7 @@ components:
             order_id:
               type: string
               description: Unique identifier for the NFT transfer order
+              example: "bf7bad08-0a1e-4782-a3d5-886e558adc31"
           required:
             - order_id
       required:
@@ -1778,57 +1809,64 @@ components:
         data:
           type: object
           properties:
-            count:
+            total:
               type: integer
               description: The total number of NFTs
-            nfts:
+              example: 1
+            details:
               type: array
               description: List of NFTs associated with the order
               items:
                 type: object
                 properties:
-                  explorer_smart_contract_url:
+                  order_id:
                     type: string
-                    description: URL to explore the NFT's smart contract
-                  description:
+                    description: Unique identifier for the order
+                    example: "bf7bad08-0a1e-4782-a3d5-886e558adc31"
+                  user_id:
                     type: string
-                    description: Description of the NFT
-                  type:
+                    description: Unique identifier for the user
+                    example: "8ef08234-54a5-432b-af46-4bbe110f57d6"
+                  status:
                     type: string
-                    description: Type of the asset (e.g., NFT)
-                  collection_id:
+                    description: Status of the order
+                    example: "RUNNING"
+                  network_name:
                     type: string
-                    description: Unique identifier for the NFT collection
-                  collection_name:
+                    description: Name of the network
+                    example: "POLYGON"
+                  entity_type:
                     type: string
-                    description: Name of the NFT collection
-                  nft_token_id:
-                    type: string
-                    description: Unique identifier for the NFT token
-                  token_uri:
-                    type: string
-                    description: IPFS URI of the NFT metadata
-                  id:
-                    type: string
-                    description: Unique identifier for the NFT instance
-                  image:
-                    type: string
-                    description: Image URL of the NFT
+                    description: Type of the asset
+                    example: "ERC721"
                   collection_address:
                     type: string
                     description: Address of the NFT collection smart contract
-                  collection_image:
+                    example: "0x68ee2dddcbb1c03df5fc4b6235d993b8b4d1d0e5"
+                  collection_name:
                     type: string
-                    description: Image URL for the NFT collection
-                  network_name:
+                    description: Name of the NFT collection
+                    example: ""
+                  nft_id:
                     type: string
-                    description: Name of the network (e.g., APTOS_TESTNET)
-                  network_id:
+                    description: Unique identifier for the NFT 
+                    example: "56"
+                  order_type:
                     type: string
-                    description: Unique identifier for the network
-                  nft_name:
+                    description: Type of the order
+                    example: "NFT_TRANSFER"
+                  transaction_hash:
                     type: string
-                    description: Name of the NFT
+                    description: Hash of the transaction associated with the order
+                    example: ""
+                  created_at:
+                    type: string
+                    format: date-time
+                    example: "2024-10-22T08:01:43.250076Z"
+                  updated_at:
+                    type: string
+                    format: date-time
+                    example: "2024-10-22T08:01:54.480806Z"
       required:
         - status
         - data
@@ -1845,6 +1883,7 @@ components:
             jobId:
               type: string
               description: Unique identifier for the job representing the raw transaction execution
+              example: "f15c07cb-2d29-4670-8492-b1236fdd41dc"
       required:
         - status
         - data
@@ -1866,16 +1905,20 @@ components:
                   order_id:
                     type: string
                     description: Unique identifier for the order
+                    example: "f15c07cb-2d29-4670-8492-b1236fdd41dc"
                   network_name:
                     type: string
-                    description: Name of the blockchain network (e.g., SOLANA_DEVNET)
+                    description: Name of the blockchain network
+                    example: "POLYGON"
                   status:
                     type: string
                     description: Status of the transaction
                     enum: [PENDING, SUCCESS, FAILURE]
+                    example: "SUCCESS"
                   transaction_hash:
                     type: string
                     description: The transaction hash or identifier for the blockchain transaction
+                    example: "0x56c1fb351bfc3991ff1726d2a70b798cd6ba645b036f35f67a40f879333e910a"
       required:
         - status
         - data
