@@ -44,7 +44,6 @@ paths:
       parameters:
         - "$ref": "#/components/parameters/x_api_key" 
       requestBody:
-        description: Id Token
         required: true
         content:
           application/json:
@@ -53,6 +52,7 @@ paths:
               properties:
                 id_token:
                   type: string
+                  description: The ID Token of the user received from the google OAuth2 provider.
                   required: true
                   example: "GOOGLE_OAUTH2_TOKEN_ID"
       responses:
@@ -279,7 +279,7 @@ paths:
       parameters:
         - "$ref": "#/components/parameters/bearer_auth"
       requestBody:
-        description: Transfer token details
+        description: Transfer token details.
         required: true
         content:
           application/json:
@@ -288,15 +288,23 @@ paths:
               properties:
                 network_name:
                   type: string
+                  required: true
+                  description: Network used for the transfer.
                   example: "POLYGON"
                 token_address:
                   type: string
+                  required: true
+                  description: Address of the token to be transferred. Native token address is an empty string.
                   example: ""
                 quantity:
                   type: string
+                  required: true
+                  description: Quantity of tokens to be transferred.
                   example: "0.1"
                 recipient_address:
                   type: string
+                  required: true
+                  description: Address of the recipient address to send tokens to.
                   example: "0xCDAC489b062A5d057Bd15DdE758829eCF3A14e5B"
       responses:
         "201":
@@ -356,22 +364,37 @@ paths:
               properties:
                 opteration_type:
                   type: string
+                  description: Type of operation to be performed.
+                  required: true
                   example: "NFT_TRANSFER"
                 network_name:
                   type: string
+                  description: Name of the network to perform tranfer on.
+                  required: true
                   example: "POLYGON"
                 collection_address:
                   type: string
+                  description: Address of the collection which needs to be transferred.
+                  required: true
                   example: "0x68ee2dddcbb1c03df5fc4b6235d993b8b4d1d0e5"
-
+                collection_name: 
+                  type: string
+                  description: Name of the collection which needs to be transferred.
+                  example: "super orchestrators"
                 quantity:
                   type: string
+                  description: Quantity of the NFT to be transferred.
+                  required: true
                   example: "1"
                 recipient_address:
                   type: string
+                  description: Address of the recipient to whom NFT needs to be transferred.
+                  required: true
                   example: "0xCDAC489b062A5d057Bd15DdE758829eCF3A14e5B"
                 nft_address:
                   type: string
+                  description: Address of the NFT which needs to be transferred.
+                  required: true
                   example: "56"
       responses:
         "201":
@@ -397,7 +420,7 @@ paths:
         - "$ref": "#/components/parameters/bearer_auth"
         - "$ref": "#/components/parameters/page"
         - "$ref": "#/components/parameters/size"
-        - "$ref": "#/components/parameters/order_id"
+        - "$ref": "#/components/parameters/order_id_nft"
       responses:
         "201":
           description: Fetched
@@ -431,12 +454,33 @@ paths:
           application/json:
             schema:
               type: object
+              required: ["network_name", "transaction"]
               properties:
                 network_name:
                   type: string
-                  example: "POLYGON_TESTNET"
+                  description: Name of network to execute transaction on.
+                  example: "POLYGON"
                 transaction:
                   type: object
+                  description: |
+                    The relevant transaction object of the network. 
+                    See schema details for:
+                    - `transaction_EVM` - Ethereum/EVM transaction format
+                    - `transaction_SOL` - Solana transaction format
+                    - `transaction_APT` - Aptos transaction format
+                  properties:
+                    from:
+                      type: string
+                      example: "0xdca7F8E25091B927DB769337d7eFDedBf772bb9A"
+                    to:
+                      type: string
+                      example: "0xCDAC489b062A5d057Bd15DdE758829eCF3A14e5B"
+                    data:
+                      type: string
+                      example: "0x"
+                    value:
+                      type: string
+                      example: "0x100000"
       responses:
         "201":
           description: Fetched
@@ -459,7 +503,7 @@ paths:
       operationId: getRawTransaction
       parameters:
         - "$ref": "#/components/parameters/bearer_auth"
-        - "$ref": "#/components/parameters/order_id"
+        - "$ref": "#/components/parameters/order_id_txn"
       responses:
         "201":
           description: Fetched
@@ -562,6 +606,21 @@ components:
       name: order_id
       in: query
       description: The order ID to get the specific order details.
+      schema:
+        type: string
+        examples: "20b57c3f-7ea3-4531-8bb8-313c870ebc1a"
+    order_id_nft:
+      name: order_id
+      in: query
+      description: Order ID of the NFT.
+      required: true
+      schema:
+        type: string
+        examples: "20b57c3f-7ea3-4531-8bb8-313c870ebc1a"
+    order_id_txn:
+      name: order_id
+      in: query
+      description: Order ID of the transaction to check.
       required: true
       schema:
         type: string
@@ -570,7 +629,6 @@ components:
       name: order_state
       in: query
       description: The order state to filter the orders. Possible values are PENDING, SUCCESS, FAILED.
-      required: true
       schema:
         type: string
         examples: "PENDING"
@@ -722,6 +780,7 @@ components:
       name: Authorization
       in: header
       required: true
+      description: Authorization token received from Okto
       schema:
         type: string
     page:
