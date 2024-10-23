@@ -512,15 +512,18 @@ paths:
                     <details>
                     <summary>transaction_APT</summary>
                     Use this transaction object if <code>network_name</code> is <code>APTOS</code> or <code>APTOS_TESTNET</code>.
+                    <details>
+                    <summary><b>transactions</b><code>array object[]</code></summary>
+                    <ul>
+                    <li><b>function</b><code>function</code> Required:
+                    This is the identifier for the smart contract entry function on-chain that will trigger when you execute this transaction.</li>
+                    <li><b>typeArugements</b><code>array</code> Required:
+                    Data type for each function arguement in the same order.</li>
 
-                    - **function** `function`:
-                    This is the identifier for the smart contract entry function on-chain that will trigger when you execute this transaction.
-
-                    - **typeArugements** `array`:
-                    Data type for each function arguement in the same order.
-
-                    - **fuctionArugements** `array`
-                    This is any data the function needs to run.
+                    <li><b>fuctionArugements</b><code>array</code> Required:
+                    This is any data the function needs to run.</li>
+                    </ul>
+                    </details>
                     </details>
                   properties:
                     from:
