@@ -366,12 +366,12 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/responses/BadRequest"
-  "/s2s/api/v1/nft/order_details/:userId":
+  "/s2s/api/v2/bulk_order_details/{orderId}":
     get:
       tags:
         - Server
       summary: Get bulk order details
-      description: Get order details of the all the jobs ongoing by the user using their user_id and bulk_order_id.
+      description: Get order details of all ongoing jobs by using `order_id`.
       operationId: getBulkOrderDetails
       security: [
         {
@@ -382,7 +382,6 @@ paths:
         - "$ref": "#/components/parameters/x_api_key" 
         - "$ref": "#/components/parameters/page"
         - "$ref": "#/components/parameters/size"
-        - "$ref": "#/components/parameters/bulk_order_id"
       responses:
         "201":
           description: Fetched
@@ -479,15 +478,18 @@ paths:
                     <details>
                     <summary>transaction_APT</summary>
                     Use this transaction object if <code>network_name</code> is <code>APTOS</code> or <code>APTOS_TESTNET</code>.
+                    <details>
+                    <summary><b>transactions</b><code>array object[]</code></summary>
+                    <ul>
+                    <li><b>function</b><code>function</code> Required:
+                    This is the identifier for the smart contract entry function on-chain that will trigger when you execute this transaction.</li>
+                    <li><b>typeArugements</b><code>array</code> Required:
+                    Data type for each function arguement in the same order.</li>
 
-                    - **function** `function`:
-                    This is the identifier for the smart contract entry function on-chain that will trigger when you execute this transaction.
-
-                    - **typeArugements** `array`:
-                    Data type for each function arguement in the same order.
-
-                    - **fuctionArugements** `array`
-                    This is any data the function needs to run.
+                    <li><b>fuctionArugements</b><code>array</code> Required:
+                    This is any data the function needs to run.</li>
+                    </ul>
+                    </details>
                     </details>
                   properties:
                     transactions:
