@@ -29,6 +29,244 @@ tags:
   - name: Server
     description: Everything related to the server side
 paths:
+  "/s2s/api/v1/wallet":
+    get:
+      tags:
+        - Server
+      summary: Get user wallets
+      description: Fetch all the wallets created by a user using their user_id.
+      operationId: getUserWallets
+      security: [
+        {
+          apiKeyHeader: []
+        }
+      ]
+      parameters:
+        - "$ref": "#/components/parameters/x_api_key" 
+        - "$ref": "#/components/parameters/user_id"
+      responses:
+        "201":
+          description: Fetched
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ServerUserWalletResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/responses/BadRequest"
+    post:
+      tags:
+        - Server
+      summary: Create treasury wallets
+      description: Create a treasury wallet for the vendor
+      operationId: createTreasuryWallet
+      security: [
+        {
+          apiKeyHeader: []
+        }
+      ]
+      parameters:
+        - "$ref": "#/components/parameters/x_api_key" 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - network_name
+                - purpose
+              properties:
+                network_name:
+                  type: string
+                  example: "APTOS"
+                  description: "The network on which the treasury wallet needs to be created"
+                purpose:
+                  type: string
+                  description: "Can be `nft` or `token` depending on use case of the Central/Treasury Wallet"
+                  example: "token"
+      responses:
+        "201":
+          description: Fetched
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ServerTreasuryWalletResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/responses/BadRequest"
+  "/s2s/api/v1/portfolio":
+    get:
+      tags:
+        - Server
+      summary: Get user portfolio
+      description: Get the portfolio data of a user using their user_id, which includes all the tokens owned by the user across all the networks.
+      operationId: getUserPortfolio
+      security: [
+        {
+          apiKeyHeader: []
+        }
+      ]
+      parameters:
+        - "$ref": "#/components/parameters/x_api_key" 
+        - "$ref": "#/components/parameters/user_id"
+      responses:
+        "201":
+          description: Fetched
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ServerUserPortfolioResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/responses/BadRequest"
+  "/s2s/api/v1/portfolio/nft":
+    get:
+      tags:
+        - Server
+      summary: Get all NFTs
+      description: Get the details of all the NFT's owned by the user using the user_id.
+      operationId: getNfts
+      security: [
+        {
+          apiKeyHeader: []
+        }
+      ]
+      parameters:
+        - "$ref": "#/components/parameters/x_api_key" 
+        - "$ref": "#/components/parameters/user_id"
+      responses:
+        "201":
+          description: Fetched
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ServerUserNFTResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/responses/BadRequest"
+  "/s2s/api/v1/portfolio/activity":
+    get:
+      tags:
+        - Server
+      summary: Get user activity
+      description: Get a user's portfolio activity using their user_id.
+      operationId: getUserActivity
+      security: [
+        {
+          apiKeyHeader: []
+        }
+      ]
+      parameters:
+        - "$ref": "#/components/parameters/x_api_key" 
+        - "$ref": "#/components/parameters/user_id"
+      responses:
+        "201":
+          description: Fetched
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ServerUserActivityResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/responses/BadRequest"
+  "/s2s/api/v1/supported/tokens":
+    get:
+      tags:
+        - Server
+      summary: Get supported tokens
+      description: Get an array of all the whitelisted tokens on your API key.
+      operationId: getSupportedTokens
+      security: [
+        {
+          apiKeyHeader: []
+        }
+      ]
+      parameters:
+        - "$ref": "#/components/parameters/x_api_key" 
+        - "$ref": "#/components/parameters/user_id"
+      responses:
+        "201":
+          description: Fetched
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ServerSupportedTokensResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/responses/BadRequest"
+  "/s2s/api/v1/bulk-wallets":
+    post:
+      tags:
+        - Server
+      summary: Create bulk wallets
+      description: Creates multiple wallets in bulk for the specified network and purpose
+      operationId: createBulkWallets
+      security: [
+        {
+          apiKeyHeader: []
+        }
+      ]
+      parameters:
+        - "$ref": "#/components/parameters/x_api_key" 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - network_name
+                - purpose
+                - wallet_count
+              properties:
+                network_name:
+                  type: string
+                  example: "APTOS"
+                  description: "The network on which the bulk wallets needs to be created"
+                purpose:
+                  type: string
+                  example: "token"
+                  description: "Can be `nft` or `token` depending on use case of the wallet"
+                wallet_count:
+                  type: integer
+                  description: "The number of wallets that need to be created"
+                  example: 100
+                num_request:
+                  type: integer
+                  description: "Threads that run internally to speed up processing. Should be >1 and <=50. Default value internally is 25"
+                  example: 20  
+      responses:
+        "201":
+          description: Fetched
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ServerBulkWalletsResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/responses/BadRequest"
   "s2s/api/v2/nft/mint":
     post:
       tags:
@@ -158,13 +396,13 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/responses/BadRequest"
-  "/s2s/api/v1/wallet":
-    get:
+  "/s2s/api/v1/rawtransaction/execute":
+    post:
       tags:
         - Server
-      summary: Get user wallets
-      description: Fetch all the wallets created by a user using their user_id.
-      operationId: getUserWallets
+      summary: Execute raw transaction
+      description: Execute a raw transaction for a specific user
+      operationId: executeRawTransaction
       security: [
         {
           apiKeyHeader: []
@@ -172,126 +410,122 @@ paths:
       ]
       parameters:
         - "$ref": "#/components/parameters/x_api_key" 
-        - "$ref": "#/components/parameters/user_id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - network_name
+                - transaction
+              properties:
+                network_name:
+                  type: string
+                  description: "The network on which the raw transaction needs to be executed"
+                  example: "APTOS"
+                transaction:
+                  type: object
+                  description: |
+                    Execute a raw transaction on a network. The API returns a `order_id` which can be used to track the status of the transaction. Choose the appropriate transaction object based on the ecosystem it is meant for, such as `EVM`, `SOL`, or `APT`.
+                    See schema details below:
+                    <details>
+                    <summary>transaction_EVM</summary>
+                    Use this transaction object if <code>network_name</code> is any <code>BASE</code>, <code>POLYGON</code> or <code>POLYGON_TESTNET_AMOY</code>.
+
+                    - **from** `string`:
+                    The address for the sending account.
+
+                    - **to** `string`:
+                    The destination address of the message, left undefined for a contract-creation transaction.
+
+                    - **data** `string`:
+                    Either a ABI byte string containing the data of the function call on a contract, or in the case of a contract-creation transaction the initialisation code.
+
+                    - **value** `string`:
+                    The value transferred for the transaction in wei, also the endowment if it's a contract-creation transaction.
+                    </details>
+
+                    <details>
+                    <summary>transaction_SOL</summary>
+                    Use this transaction object if <code>network_name</code> is <code>SOLANA</code> or <code>SOLANA_DEVNET</code>.
+
+                    - **instructions** `object`:
+                    The instructions to atomically execute
+                      
+                      <details>
+                      <summary>instructions</summary>
+                      <ul><li><b>keys</b><code>array object[]</code></li>
+                      Includes the AccountMeta for each account required by an instruction.
+                        <details>
+                        <summary>keys</summary>
+                        <ul>
+                        <li><b>pubkey</b><code>string</code> Required</li>
+                        <li><b>isSigner</b><code>boolean</code> Required</li>
+                        <li><b>isWritable</b><code>boolean</code> Required</li>
+                        </ul>
+                        </details>
+                      
+                      <li><b>programId</b><code>string</code></li>
+                      The address of the program which contains the execution logic for the instruction invoked.
+
+                      <li><b>data</b><code>array</code></li>
+                      The instruction data for the instruction as a buffer of bytes
+                      </ul>
+                      </details>
+                    - **signer** `string`
+                    </details>
+
+                    <details>
+                    <summary>transaction_APT</summary>
+                    Use this transaction object if <code>network_name</code> is <code>APTOS</code> or <code>APTOS_TESTNET</code>.
+
+                    - **function** `function`:
+                    This is the identifier for the smart contract entry function on-chain that will trigger when you execute this transaction.
+
+                    - **typeArugements** `array`:
+                    Data type for each function arguement in the same order.
+
+                    - **fuctionArugements** `array`
+                    This is any data the function needs to run.
+                    </details>
+                  properties:
+                    transactions:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          function:
+                            type: string
+                            example: "0x865116a70e31ef6990f34237cf65e048114ef195042718242cac86276555306d::jio_token::open_airdrop"
+                          typeArguments:
+                            type: array
+                            items:
+                              type: string
+                            example: []
+                          functionArguments:
+                            type: array
+                            items:
+                              type: array
+                              items:
+                                type: string
+                            example: [
+                              [
+                                "0x649b767c20254973717328324b5059608e4f88951ac3db3f7d81176b2dc68a58",
+                                "0xd907556ef9881a16d6488f6629f0ef2f3e1f172a7265039d602520d3d982a52a"
+                              ],
+                              [
+                                "1",
+                                "1"
+                              ]
+                            ]
       responses:
         "201":
           description: Fetched
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/ServerUserWalletResponse"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/responses/BadRequest"
-  "/s2s/api/v1/portfolio":
-    get:
-      tags:
-        - Server
-      summary: Get user portfolio
-      description: Get the portfolio data of a user using their user_id, which includes all the tokens owned by the user across all the networks.
-      operationId: getUserPortfolio
-      security: [
-        {
-          apiKeyHeader: []
-        }
-      ]
-      parameters:
-        - "$ref": "#/components/parameters/x_api_key" 
-        - "$ref": "#/components/parameters/user_id"
-      responses:
-        "201":
-          description: Fetched
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ServerUserPortfolioResponse"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/responses/BadRequest"
-  "/s2s/api/v1/portfolio/nft":
-    get:
-      tags:
-        - Server
-      summary: Get all NFTs
-      description: Get the details of all the NFT's owned by the user using the user_id.
-      operationId: getNfts
-      security: [
-        {
-          apiKeyHeader: []
-        }
-      ]
-      parameters:
-        - "$ref": "#/components/parameters/x_api_key" 
-        - "$ref": "#/components/parameters/user_id"
-      responses:
-        "201":
-          description: Fetched
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ServerUserNFTResponse"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/responses/BadRequest"
-  "/s2s/api/v1/portfolio/activity":
-    get:
-      tags:
-        - Server
-      summary: Get user activity
-      description: Get a user's portfolio activity using their user_id.
-      operationId: getUserActivity
-      security: [
-        {
-          apiKeyHeader: []
-        }
-      ]
-      parameters:
-        - "$ref": "#/components/parameters/x_api_key" 
-        - "$ref": "#/components/parameters/user_id"
-      responses:
-        "201":
-          description: Fetched
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ServerUserActivityResponse"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/responses/BadRequest"
-  "/s2s/api/v1/supported/tokens":
-    get:
-      tags:
-        - Server
-      summary: Get supported tokens
-      description: Get an array of all the whitelisted tokens on your API key.
-      operationId: getSupportedTokens
-      security: [
-        {
-          apiKeyHeader: []
-        }
-      ]
-      parameters:
-        - "$ref": "#/components/parameters/x_api_key" 
-        - "$ref": "#/components/parameters/user_id"
-      responses:
-        "201":
-          description: Fetched
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ServerSupportedTokensResponse"
+                "$ref": "#/components/schemas/ServerRawTransactionStatusResponse"
         "400":
           description: Bad Request
           content:
@@ -1859,6 +2093,44 @@ components:
       required:
         - status
         - data
+    ServerTreasuryWalletResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the user wallet response
+          enum: [success, failure]
+        data:
+          type: object
+          properties:
+            user_id:
+              type: string
+              description: The User ID
+              example: "4980be95-7c53-4f50-a401-b2f9de36353e"
+            network_name:
+              type: string
+              description: Name of the blockchain network
+              example: "APTOS"
+            address:
+              type: string
+              description: Address of the wallet on the blockchain
+              example: "0x263c66cd3523f8e2814920433604047f16e0b93496c8c544a11c16523514e121"
+            purpose:
+              type: string
+              description: Purpose of the wallet
+              example: "TOKEN"
+            status:
+              type: string
+              description: Status of the request
+              example: "ACTIVE"
+          required:
+            - network_name
+            - address
+            - network_id
+            - network_symbol
+      required:
+        - status
+        - data
     ServerUserPortfolioResponse:
       type: object
       properties:
@@ -2144,6 +2416,47 @@ components:
       required:
         - status
         - data
+    ServerRawTransactionStatusResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the raw transaction request
+          enum: [success, failure]
+        data:
+          type: object
+          properties:
+            order_id:
+              type: string
+              description: Unique identifier for the order
+              example: "417d232d-f688-4ff1-bc40-0026678b39a1"
+      required:
+        - status
+        - data
+    ServerBulkWalletsResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the response
+          enum: [success, failure]
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              address:
+                type: string
+              user_id:
+                type: string
+          example:
+            - address: "0xd907556ef9881a16d6488f6629f0ef2f3e1f172a7265039d602520d3d982a52a"
+              user_id: "15e4d6af-6628-49f4-ac76-04a369fb99ab"
+            - address: "0x649b767c20254973717328324b5059608e4f88951ac3db3f7d81176b2dc68a58"
+              user_id: "2b558fda-65ef-499a-a098-58ddaea68699"          
+      required:
+        - status
+        - data  
     PaginatedResource:
       type: object
       properties:
