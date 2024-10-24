@@ -129,21 +129,21 @@
   max-width: none !important;
 }
 
-#nd-docs-layout div:nth-of-type(1) article div:last-child a {
+#nd-docs-layout > div:nth-of-type(1) > article > div:last-child > a {
   background-color: #F5F6FE;
 }
 
-.dark #nd-docs-layout div:nth-of-type(1) article div:last-child a {
+.dark #nd-docs-layout > div:nth-of-type(1) > article > div:last-child > a {
   background-color: #252630; /* dark mode background color */
   color: #FFFFFF; /* dark mode text color */
 }
 
-#nd-docs-layout div:nth-of-type(1) article div:last-child a:hover {
+#nd-docs-layout > div:nth-of-type(1) > article > div:last-child > a:hover {
   background-color: #F5F6FE; /* light mode hover background color */
   color: #5166EE; /* light mode hover text color */
 }
 
-.dark #nd-docs-layout div:nth-of-type(1) article div:last-child a:hover {
+.dark #nd-docs-layout > div:nth-of-type(1) > article div:last-child > a:hover {
   background-color: #252630;  /* dark mode hover background color */
   color: #7C8FFF; /* dark mode hover text color */
 }

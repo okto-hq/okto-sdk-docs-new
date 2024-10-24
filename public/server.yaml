@@ -1975,6 +1975,7 @@ components:
             bulk_order_id:
               type: string
               description: Unique identifier for the bulk minting order
+              example: ec887fc8-74f5-4342-8ca2-43ac239733f6
       required:
         - status
         - data
@@ -1991,6 +1992,7 @@ components:
             bulk_order_id:
               type: string
               description: Unique identifier for the bulk NFT transfer order
+              example: dd784ad9-68f8-49b9-87dc-13723e933eab
       required:
         - status
         - data
@@ -2007,6 +2009,7 @@ components:
             bulk_order_id:
               type: string
               description: Unique identifier for the bulk token transfer order
+              example: dd784ad9-68f8-49b9-87dc-13723e933eab
       required:
         - status
         - data
@@ -2028,19 +2031,24 @@ components:
                   bulk_order_id:
                     type: string
                     description: Unique identifier for the bulk order
+                    example: 53825c2a-50c1-49bf-84ef-9b2fe7487b52
                   job_id:
                     type: string
                     description: Unique identifier for the job within the bulk order
+                    example: afac7dca-942c-4081-bd88-7cea1d651ccb
                   status:
                     type: string
                     description: Status of the order
                     enum: [SUCCESS, FAILURE]
+                    example: SUCCESS
                   order_type:
                     type: string
                     description: Type of the order (e.g., TOKEN_TRANSFER_EXECUTE)
+                    example: TOKEN_TRANSFER_EXECUTE
                   network_id:
                     type: string
                     description: Identifier for the blockchain network
+                    example: APTOS_TESTNET
                 required:
                   - bulk_order_id
                   - job_id
@@ -2078,15 +2086,19 @@ components:
                   network_name:
                     type: string
                     description: Name of the blockchain network
+                    example: APTOS_TESTNET
                   address:
                     type: string
                     description: Address of the wallet on the blockchain
+                    example: "0x52316b3addb115bedcff4e986d19d013089b99494a5c77bd7439d54301692672"
                   network_id:
                     type: string
                     description: Unique identifier for the blockchain network
+                    example: d6fd4680-c28d-37b2-994e-b9d3d4026f91
                   network_symbol:
                     type: string
                     description: Symbol representing the blockchain network
+                    example: APT TESTNET
                 required:
                   - network_name
                   - address
@@ -2149,18 +2161,23 @@ components:
                 holdings_count:
                   type: string
                   description: Number of holdings in the portfolio
+                  example: 1
                 holdings_price_inr:
                   type: string
                   description: Total value of holdings in INR
+                  example: 0
                 holdings_price_usdt:
                   type: string
                   description: Total value of holdings in USDT
+                  example: 0
                 total_holding_price_inr:
                   type: string
                   description: Total price of all holdings in INR
+                  example: 0
                 total_holding_price_usdt:
                   type: string
                   description: Total price of all holdings in USDT
+                  example: 0
               required:
                 - holdings_count
                 - holdings_price_inr
@@ -2175,36 +2192,47 @@ components:
                   id:
                     type: string
                     description: Unique identifier for the token
+                    example: "6ddfc36b-55d2-3b1f-8c45-4b076ae3bb9e"
                   name:
                     type: string
                     description: Name of the token
+                    example: APT
                   symbol:
                     type: string
                     description: Symbol of the token
+                    example: "APT_TESTNET"
                   short_name:
                     type: string
                     description: Short name or alias for the token
+                    example: "APT_TESTNET"
                   token_image:
                     type: string
                     description: URL to the token's image (if any)
+                    example: ""
                   network_id:
                     type: string
                     description: Unique identifier for the blockchain network
+                    example: "d6fd4680-c28d-37b2-994e-b9d3d4026f91"
                   is_primary:
                     type: boolean
                     description: Indicates if this is the primary token
+                    example: false
                   balance:
                     type: string
                     description: Amount of the token held
+                    example: "0.006347"
                   holdings_price_usdt:
                     type: string
                     description: Value of the token holdings in USDT
+                    example: "0"
                   holdings_price_inr:
                     type: string
                     description: Value of the token holdings in INR
+                    example: "0"
                   aggregation_type:
                     type: string
                     description: Type of aggregation (e.g., token)
+                    example: "token"
                 required:
                   - id
                   - name
@@ -2239,45 +2267,59 @@ components:
                   explorer_smart_contract_url:
                     type: string
                     description: URL to explore the smart contract of the NFT
+                    example: "https://explorer.aptoslabs.com/0x171e643e8e8dabc66b838b9055dbdf88647cf6601b164f5987f50a497bedfbe1/0x171e643e8e8dabc66b838b9055dbdf88647cf6601b164f5987f50a497bedfbe1?network=testnet"
                   description:
                     type: string
                     description: Description of the NFT
+                    example: "Lets check"
                   type:
                     type: string
                     description: Type of the asset (e.g., NFT)
+                    example: "NFT"
                   collection_id:
                     type: string
                     description: Unique identifier for the NFT collection
+                    example: "267e0396-1148-51e2-8554-708f40c64e73"
                   collection_name:
                     type: string
                     description: Name of the NFT collection
+                    example: "super avengers"
                   nft_token_id:
                     type: string
                     description: Unique identifier for the NFT token
+                    example: "0xebed26b4575706f5d650e8edb3533ffa54f3499fdddeb4b1ade18337ecf8c20f"
                   token_uri:
                     type: string
                     description: URI for the token metadata
+                    example: "ipfs://QmVFPvu8aeJHXyNVxpfftVHaKjRsbtH6dXWscJ2TukM3xi"
                   id:
                     type: string
                     description: Unique identifier for the NFT record
+                    example: "e3b6db62-eb6e-5e59-b5ee-d67e239124b4"
                   image:
                     type: string
                     description: URL to the NFT's image (if any)
+                    example: ""
                   collection_address:
                     type: string
                     description: Address of the collection on the blockchain
+                    example: "0x171e643e8e8dabc66b838b9055dbdf88647cf6601b164f5987f50a497bedfbe1"
                   collection_image:
                     type: string
                     description: URL to the image representing the collection
+                    example: "super.avengers.net/vk"
                   network_name:
                     type: string
                     description: Name of the network where the NFT resides
+                    example: "APTOS_TESTNET"
                   network_id:
                     type: string
                     description: Unique identifier for the blockchain network
+                    example: "d6fd4680-c28d-37b2-994e-b9d3d4026f91"
                   nft_name:
                     type: string
                     description: Name of the NFT
+                    example: "Starting again"
                 required:
                   - explorer_smart_contract_url
                   - description
@@ -2309,6 +2351,7 @@ components:
             count:
               type: integer
               description: Number of activities returned in the response
+              example: 1
             activity:
               type: array
               items:
@@ -2317,54 +2360,71 @@ components:
                   symbol:
                     type: string
                     description: Symbol of the token involved in the activity
+                    example: "USDC"
                   image:
                     type: string
                     description: URL to the image representing the token or activity (if any)
+                    example: ""
                   name:
                     type: string
                     description: Name of the token or asset
+                    example: "USD Coin"
                   short_name:
                     type: string
                     description: Short name or abbreviation for the token
+                    example: "USDC"
                   id:
                     type: string
                     description: Unique identifier for the token or asset
+                    example: "113b8bdb-d0a5-33f4-a95e-46f87f1f34fa"
                   group_id:
                     type: string
                     description: Identifier for the group (if applicable)
+                    example: ""
                   description:
                     type: string
                     description: Description of the activity
+                    example: "Transaction with DAPP"
                   quantity:
                     type: string
                     description: Quantity of the asset involved in the activity
+                    example: "0.1"
                   order_type:
                     type: string
                     description: Type of order for the activity (e.g., WALLET_CONNECT)
+                    example: "WALLET_CONNECT"
                   transfer_type:
                     type: string
                     description: Type of transfer (e.g., DEPOSIT)
+                    example: "DEPOSIT"
                   status:
                     type: string
                     description: Status of the activity (e.g., COMPLETED)
+                    example: "COMPLETED"
                   timestamp:
                     type: integer
                     description: Timestamp of the activity
+                    example: 0
                   tx_hash:
                     type: string
                     description: Transaction hash for the activity
+                    example: "5eZVUhHAw5uwbnHUEofPFESZCcY65RMaqbkbkS6WzC5HAthcsuDXzpYcu3uRqcXJvyqbvfzQ79nX9cdTKmkkCghz"
                   network_id:
                     type: string
                     description: Unique identifier for the blockchain network
+                    example: "fb10a9ca-d197-378d-8fb3-fd95345571f3"
                   network_name:
                     type: string
                     description: Name of the blockchain network
+                    example: "SOLANA_DEVNET"
                   network_explorer_url:
                     type: string
                     description: URL to the network explorer for viewing the transaction
+                    example: "https://solscan.io/tx/5eZVUhHAw5uwbnHUEofPFESZCcY65RMaqbkbkS6WzC5HAthcsuDXzpYcu3uRqcXJvyqbvfzQ79nX9cdTKmkkCghz?cluster=devnet"
                   network_symbol:
                     type: string
                     description: Symbol of the network
+                    example: "SOL DEVNET"
                 required:
                   - symbol
                   - name
@@ -2396,24 +2456,56 @@ components:
         data:
           type: object
           properties:
+            count:
+              type: integer
+              description: Number of tokens in the response
             tokens:
               type: array
               items:
                 type: object
                 properties:
-                  token_name:
+                  symbol:
+                    type: string
+                    description: Symbol of the token
+                    example: "APT"
+                  image:
+                    type: string
+                    description: URL to the image representing the token
+                    example: "https://s2.coinmarketcap.com/static/img/coins/64x64/21794.png"
+                  name:
                     type: string
                     description: Name of the token
-                  token_address:
+                    example: "APT"
+                  short_name:
                     type: string
-                    description: Address of the token contract (if applicable)
-                  network_name:
+                    description: Short name or abbreviation for the token
+                    example: "APT"
+                  id:
                     type: string
-                    description: Name of the blockchain network where the token is supported
+                    description: Unique identifier for the token
+                    example: "286e53ec-8991-3f7d-a276-1484a5800ea4"
+                  group_id:
+                    type: string
+                    description: Identifier for the group (if applicable)
+                    example: ""
+                  is_primary:
+                    type: boolean
+                    description: Whether this token is the primary token for its network
+                    example: false
+                  network_id:
+                    type: string
+                    description: Unique identifier for the blockchain network
+                    example: "dd50ef5f-58f4-3133-8e25-9c2673a9122f"
                 required:
-                  - token_name
-                  - network_name
+                  - symbol
+                  - image
+                  - name
+                  - short_name
+                  - id
+                  - is_primary
+                  - network_id
           required:
+            - count
             - tokens
       required:
         - status
