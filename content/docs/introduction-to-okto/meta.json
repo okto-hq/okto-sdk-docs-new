@@ -5,10 +5,7 @@
         "overview-embedded-wallets",
         "okto-sdk-architecture",
         "chains-supported-tokens",
-        "okto-vendor-user",
-        "how-okto-manages-keys",
-        "onchain-execution",
-        "future-sdk-scope"
+        "okto-vendor-user"
     ],
     "icon": "BookMarked",
     "root": true
