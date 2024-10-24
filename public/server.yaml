@@ -499,7 +499,7 @@ paths:
                         properties:
                           function:
                             type: string
-                            example: "0x865116a70e31ef6990f34237cf65e048114ef195042718242cac86276555306d::jio_token::open_airdrop"
+                            example: "0x865116a37cf65e048114ef19570e31ef6990f342042718242cac86276555306d::custom_token::open_airdrop"
                           typeArguments:
                             type: array
                             items:
