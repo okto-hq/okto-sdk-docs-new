@@ -7,8 +7,15 @@ full: false
 import { Step, Steps } from 'fumadocs-ui/components/steps';
 import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 
-Follow the steps below to get started quickly with building an Okto-powered React app to onboard your users to Web3!
+You can create an Okto-powered application in three different ways. Choose the approach that best suits your needs: 
+1. Traditional Create React App setup with manual configuration 
+2. Streamlined Okto React setup
+3. Streamlined Okto Next.js-based setup
 
+<Tabs items={['create-react-app', 'create-okto-app React', 'create-okto-app Next.js']}>
+
+<Tab value="create-react-app">
+This approach uses Create React App and manually configures the Okto SDK. This gives you the most control over your setup and is great if you need to integrate Okto into an existing React application.
 <Steps>
 
 <Step>
@@ -17,7 +24,7 @@ Follow the steps below to get started quickly with building an Okto-powered Reac
     npx create-react-app my-okto-app
     cd my-okto-app
     ```
-    This will scaffold a new React application in the my-okto-app directory.
+    This creates a new React application in the my-okto-app directory with all the necessary code.
 </Step>
 
 <Step>
@@ -147,6 +154,134 @@ Follow the steps below to get started quickly with building an Okto-powered Reac
 </Step>
 
 </Steps>
+
+</Tab>
+
+<Tab value="create-okto-app React">
+This is the quickest way to get started with Okto in a React application. Our CLI tool will set up everything you need with minimal configuration required.
+<Steps>
+
+<Step>
+    ## Create New Project
+    ```bash title="bash"
+    npx create-okto-app@latest
+    ```
+
+    You'll be prompted to:
+    1. Choose 'React' as your template using arrow keys
+    2. Enter your project name
+
+    ```bash
+    Welcome to create-okto-app!
+    ✔ Choose a template: › React
+    ✔ Enter your project name: › my-okto-app
+    ```
+
+    After creation is complete:
+    ```bash
+    cd my-okto-app
+    npm install    # Install dependencies
+    ```
+</Step>
+
+<Step>
+    ## Configure Environment Variables
+    Create a `.env` file in the root directory:
+
+    ```bash title=".env"
+    REACT_APP_GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID"
+    REACT_APP_OKTO_CLIENT_API_KEY = "YOUR_OKTO_CLIENT_API_KEY"
+    ```   
+</Step>
+
+<Step>
+    ## Start Development Server
+
+    ```bash
+    npm start
+    ```
+    This will start your application on http://localhost:3000
+</Step>
+
+<Step>
+    ## Congratulations!
+
+    🎉 Congratulations! You now have a fully configured Okto-powered React application. All the necessary components and configurations are already set up, so you can start building your Web3 features right away. You can checkout how to use other features in the [Template Repo](https://github.com/okto-hq/okto-sdk-react-template-app/).
+</Step>
+
+</Steps>
+</Tab>
+
+<Tab value="create-okto-app Next.js">
+
+Follow the steps below to get started quickly with building an Okto-powered Next.js app app!
+<Steps>
+
+<Step>
+    ## Create New Project
+
+    ```bash title="bash"
+    npx create-okto-app@latest
+    ```
+
+    You'll be prompted to:
+    - Choose 'Next JS' as your template using arrow keys
+    - Enter your project name
+
+    ```bash
+    Welcome to create-okto-app!
+    ✔ Choose a template: › Next JS
+    ✔ Enter your project name: › my-okto-app
+    ```
+
+    After creation is complete:
+    ```bash
+    cd my-okto-app
+    npm install    # Install dependencies
+    ```
+
+</Step>
+
+<Step>
+    ## Configure Environment Variables
+    Create a `.env.local` file in the root directory:
+
+    ```bash title=".env.local"
+    GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID"
+    GOOGLE_CLIENT_SECRET = "YOUR_OKTO_CLIENT_API_KEY"
+
+    # Add these Next-Auth configurations
+    AUTH_SECRET = "generate-a-secret-key"  # Use: openssl rand -base64 32
+    ```
+</Step>
+
+<Step>
+    ## Start Development Server
+
+    For development:
+    ```bash
+    npm run dev    # Starts development server
+    ```
+
+    For production:
+    ```bash
+    npm run build  # Creates optimized production build
+    npm start      # Starts production server
+    ```
+</Step>
+
+<Step>
+    ## Congratulations!
+
+    🎉 Congratulations! You now have a powerful Next.js application powered by Okto. Your application is ready for both development and production environments.
+</Step>
+
+</Steps>
+
+</Tab>
+
+</Tabs>
+
 
 <Callout>
 For more details, refer to the [Template Repo](https://github.com/okto-hq/okto-sdk-react-template-app/) and the [Okto SDK Cheatsheet](https://docs.google.com/document/d/1ePHrAjiTvLOkBwOaaDvTQlv8qeRu7ATwh7dicnzfK2E/edit) for commonly used methods and configurations. 
