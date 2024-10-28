@@ -1,41 +1,42 @@
 ---
-title: New Okto React Native Project Setup
+title: React Native Setup
 description: In this guide, you'll learn how to create a React Native app and initialize it with the Okto SDK, including setting up authentication using Google OAuth and the Okto Provider.
 full: false
 ---
 
-import { Steps, Step } from 'fumadocs-ui/components/steps'
-import { Tabs, Tab } from 'fumadocs-ui/components/tabs'
-import { Callout } from 'fumadocs-ui/components/callout'
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 
+You can create an Okto-powered React Native application in three different ways. Choose the approach that best suits your needs: 
+1. Using the React Native Community CLI to setup with manual configuration 
+2. Streamlined Okto React Native setup
 
-This quickstart guide will help you set up a basic React Native app using the Okto SDK. Follow these steps to get your app up and running quickly.
+<Tabs items={['react-native', 'create-okto-app React Native']}>
 
+<Tab value="react-native">
+This approach uses React Native Community CLI to generate a new project and you can manually configures the Okto SDK. This gives you the most control over your setup and is great if you need to integrate Okto into an existing application.
 <Steps>
 
-<Step title="Prerequisites">
-  ## Prerequisites
-  1. Ensure you have Node installed and set up on your system. Run the following command to verify your Node version is >= 18:
-  
-  ```bash title="bash"
-  node --version
-  ```
+<Step>
+    ## Initialize React Native App
+    ```bash title="bash"
+    npx @react-native-community/cli@latest init OktoApp
+	cd OktoApp
+	```
+    This creates a new React Native project in the OktoApp directory with all the necessary code.
 
-  2. Ensure you have a Okto API Key, if not, you can get it from our [dashboard](https://dashboard.okto.tech).
-</Step>
+	Now we will install some required dependencies to integrate Google Login and Okto SDK.
 
-<Step title="Create a new React Native project">
-  ## Create a new React Native project
-  Create a new React Native project using [Expo](https://expo.dev/) by running:
-  ```bash title="bash"
-  npx create-expo-app@latest
-  ```
+    ```bash title="bash"
+    npm i @react-native-community/google-signin @react-native-async-storage/async-storage okto-sdk-react-native
+	npx pod-install
+    ```
 </Step>
 
 <Step>
-  ## Set up Google Cloud Console
+  ## Setup Google Console
   1. Go to the [Google Cloud Console](https://console.cloud.google.com/).
-  2. Follow our [Google Authentication Setup Guide](https://sdk-docs.okto.tech/guide/google-authentication-setup) to create a new project and obtain the necessary credentials.
+  2. Follow our [Google Authentication Setup Guide](/docs/react-native-sdk/advanced-sdk-config/authenticate-users/google-oauth/learn) to create a new project and obtain the necessary credentials.
   <Callout type="info" title="Required Client IDs">
     Depending on your target platforms, you'll need:
     - Android devices: Web Client ID and Android Client ID
@@ -44,268 +45,145 @@ This quickstart guide will help you set up a basic React Native app using the Ok
   </Callout>
 </Step>
 
-<Step title="Configure dependencies">
-  ## Configure dependencies
-  Update your `package.json` file to include the following dependencies:
-  ```json title="package.json"
-  "dependencies": {
-    "@react-native-async-storage/async-storage": "^1.23.1",
-    "@react-native-google-signin/google-signin": "^11.0.1",
-    "axios": "^1.6.8",
-    "expo": "~50.0.14",
-    "expo-status-bar": "~1.11.1",
-    "okto-sdk-react-native": "^0.2.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-native": "0.73.6",
-    "react-native-web": "~0.19.6",
-    "react-native-webview": "^13.8.6"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.20.0",
-    "@expo/webpack-config": "^18.0.1",
-    "babel-loader": "^8.1.0",
-    "babel-plugin-module-resolver": "^5.0.0",
-    "react-native-dotenv": "^3.4.11"
-  }
-  ```
-  Then run: 
-  ```bash title="bash"
-  npm install
-  ```
-</Step>
+<Step>
+    ## Initialize Okto SDK 
+    To get started with authentication, we'll initialize the OktoProvider provider in the `index.js` file.
+    ```javascript title="index.js"
+        /**
+		* @format
+		*/
 
-<Step title="Create environment variables">
-    ## Create environment variables
-    Create a `.env` file inside your root folder and add the following variables:
-    ```bash title=".env"
-    OKTO_CLIENT_API=YOUR_OKTO_CLIENT_API_KEY
-    GOOGLE_WEB_CLIENT_ID=YOUR_GOOGLE_WEB_CLIENT_ID
-    GOOGLE_ANDROID_CLIENT_ID=YOUR_GOOGLE_ANDROID_CLIENT_ID
-    ```
+		import { AppRegistry } from 'react-native';
+		import App from './src/App';
+		import { name as appName } from './app.json';
+		import { OktoProvider, BuildType } from 'okto-sdk-react-native';
 
-    Create a root folder called `types` which contains a `env.d.ts` to define the types of the respective environment variables:
-    ```typescript title=".env.d.ts"
-    declare module '@env' {
-    export const GOOGLE_ANDROID_CLIENT_ID: string;
-    export const GOOGLE_WEB_CLIENT_ID: string;
-    export const OKTO_CLIENT_API: string;
-    }
-    ```
-</Step>
-
-<Step title="Setup OktoProvider">
-    ## Setup OktoProvider
-    ```typescript title="App.js"
-    import React from 'react';
-    import App from './src/App';
-    import { OktoProvider } from 'okto-sdk-react-native';
-    import { OKTO_CLIENT_API } from '@env';
-    import { BuildType } from 'okto-sdk-react-native';
-
-    export default function AppMain() {
-    return (
-        <OktoProvider apiKey={OKTO_CLIENT_API} buildType={BuildType.SANDBOX}>
-        <App />
-        </OktoProvider>
-    );
-    }
-    ```
-</Step>
-
-<Step title="Create necessary files">
-    ## Create necessary files
-    ```typescript title="App.js"
-    import React from 'react';
-    import App from './src/App';
-    import { OktoProvider } from 'okto-sdk-react-native';
-    import { OKTO_CLIENT_API } from '@env';
-    import { BuildType } from 'okto-sdk-react-native';
-
-    export default function AppMain() {
-    return (
-        <OktoProvider apiKey={OKTO_CLIENT_API} buildType={BuildType.SANDBOX}>
-        <App />
-        </OktoProvider>
-    );
-    }
-    ```
-	```typescript title="src/App.tsx"
-    import * as React from 'react';
-
-	import {
-	StyleSheet,
-	View,
-	Text,
-	Button,
-	SafeAreaView,
-	ScrollView,
-	} from 'react-native';
-	import { useOkto, type OktoContextType } from 'okto-sdk-react-native';
-	import SignIn from './SignIn';
-	import GetButton from './components/GetButton';
-	import TransferTokens from './components/TransferTokens';
-
-	export default function App() {
-	const [idToken, setIdToken] = React.useState<string>();
-
-	const {
-		showWidgetSheet,
-		authenticate,
-		getPortfolio,
-		getSupportedNetworks,
-		getSupportedTokens,
-		getUserDetails,
-		getWallets,
-		createWallet,
-		orderHistory,
-		getNftOrderDetails,
-	} = useOkto() as OktoContextType;
-
-	function handleAuthenticate(result: any, error: any) {
-		if (result) {
-		console.log('authentication successful');
+		// Create a Root component that wraps App with OktoProvider
+		function Root() {
+			return (
+				<OktoProvider apiKey={OKTO_CLIENT_APP_SECRET} buildType={BuildType.SANDBOX}>
+					<App />
+				</OktoProvider>
+			);
 		}
-		if (error) {
-		console.error('authentication error:', error);
-		}
+
+		// Register the Root component instead of App
+		AppRegistry.registerComponent(appName, () => Root);
+    ```
+    <div style={{ textAlign: "right", fontSize: "14px", margin: "0", padding: "0", marginTop: "-1rem"}}>
+        View [here](https://github.com/okto-hq/okto-sdk-react-template-app/blob/main/src/index.js)
+    </div>
+</Step>
+
+<Step>
+	##  iOS Setup 
+
+	In Xcode, open `Info` tab as below:  
+	![](/images/react-native-quickstart/image2.png)
+	Under the URL Types section, click `+` button. In the `URL Schemes` field, enter your reversed iOS client ID  
+	![](/images/react-native-quickstart/image8.png)
+
+</Step>
+
+<Step>
+	##  Initialize Google OAuth
+
+	Create new directory called `src/components` with a file called `GoogleSignInButton.tsx` in your root folder.
+
+	Now, we'll start with our Google OAuth setup.
+   
+	```typescript title="components/GoogleSignInButton.tsx"
+	import React, {useState} from 'react';
+	import {Button, Text, View, StyleSheet} from 'react-native';
+	import {GoogleSignin, User} from '@react-native-community/google-signin';
+
+	GoogleSignin.configure({
+		webClientId:'OAUTH_WEB_CLIENT_ID',
+		iOSClientId:'OAUTH_IOS_CLIENT_ID',
+		offlineAccess: false,
+	});
+
+	interface GoogleSignInButtonProps {
+		onSignInSuccess: (userInfo: User | null) => void;
 	}
 
-	function handleSignIn(_idToken: string) {
-		console.log('Google signIn: Success');
-		authenticate(_idToken, handleAuthenticate);
-		setIdToken(_idToken);
-	}
+	const GoogleSignInButton: React.FC<GoogleSignInButtonProps> = ({onSignInSuccess}) => {
+	const [userInfo, setUserInfo] = useState<User | null>(null);
 
-	return (
-		<SafeAreaView>
-		<ScrollView style={styles.container}>
-			<Text style={styles.title}>Okto SDK TEST App</Text>
-			<View style={styles.buttonGroup}>
-			<SignIn onSignIn={handleSignIn} />
-			<View style={styles.padding} />
-			<Button
-				title="authenticate"
-				onPress={() => {
-				authenticate(idToken!, handleAuthenticate);
-				}}
-			/>
-			<View style={styles.padding} />
-			<Button
-				title="openOktoBottomsheet"
-				onPress={() => {
-				showWidgetSheet();
-				}}
-			/>
-			</View>
+	const onSignIn = () => {
+		GoogleSignin.hasPlayServices()
+		.then(() => GoogleSignin.signIn())
+		.then((response) => {
+			console.log('Sign-in successful! User info:', response); // Log the user info
+			setUserInfo(response);
+			onSignInSuccess(response); // Pass the user info to the parent component
+		})
+		.catch((err) => {
+		console.error('Error during sign-in:', err); // Handle error
+		});
+	};
 
-			<GetButton title="getPortfolio" apiFn={getPortfolio} />
-			<GetButton title="getSupportedNetworks" apiFn={getSupportedNetworks} />
-			<GetButton title="getSupportedTokens" apiFn={getSupportedTokens} />
-			<GetButton title="getUserDetails" apiFn={getUserDetails} />
-			<GetButton title="getWallets" apiFn={getWallets} />
-			<GetButton title="createWallet" apiFn={createWallet} />
-			<GetButton title="orderHistory" apiFn={orderHistory} />
-			<GetButton
-			title="getNftOrderDetails"
-			apiFn={() => getNftOrderDetails({})}
-			/>
+	const onSignOut = () => {
+		GoogleSignin.signOut()
+		.then(() => {
+			setUserInfo(null);
+			onSignInSuccess(null); // Clear user info on sign-out
+		})
+		.catch((err) => {
+		console.error('Error during sign-out:', err); // Handle error
+		});
+	};
 
-			<View style={styles.padding} />
-			<TransferTokens />
-		</ScrollView>
-		</SafeAreaView>
+	return userInfo ? (
+		<View style={styles.container}>
+			<Text style={styles.welcomeText}>
+				Welcome, {`${userInfo.user.givenName} ${userInfo.user.familyName}`}
+			</Text>
+			<Button title="Sign out" onPress={onSignOut} />
+		</View>
+		) : (
+		<Button title="Sign in with Google" onPress={onSignIn} />
 	);
-	}
+};
 
 	const styles = StyleSheet.create({
 	container: {
-		padding: 10,
+		width: '100%',
 	},
-	title: {
-		fontSize: 20,
-		fontWeight: 'bold',
-		marginVertical: 20,
-	},
-	buttonGroup: {
-		marginBottom: 20,
-		justifyContent: 'space-around',
-	},
-	padding: {
-		padding: 5,
+	welcomeText: {
+		fontSize: 16,
+		marginBottom: 10,
+		textAlign: 'center',
+		color: '#333',
 	},
 	});
-    ```
-</Step>
 
-<Step title="Create Sign-in page">
-	## Create sign-in page
-	```typescript title="src/SignIn.tsx"
-	import { Button } from 'react-native';
-	import {
-	GoogleSignin,
-	type ConfigureParams,
-	} from '@react-native-google-signin/google-signin';
-	import { GOOGLE_WEB_CLIENT_ID, GOOGLE_ANDROID_CLIENT_ID } from '@env';
-	import React, { useEffect } from 'react';
-
-	GoogleSignin.configure({
-	webClientId: GOOGLE_WEB_CLIENT_ID,
-	androidClientId: GOOGLE_ANDROID_CLIENT_ID,
-	scopes: ['profile', 'email'],
-	} as ConfigureParams);
-
-	const GoogleLogin = async () => {
-	await GoogleSignin.hasPlayServices();
-	const userInfo = await GoogleSignin.signIn();
-	return userInfo;
-	};
-
-	interface SignInProps {
-	onSignIn: (idToken: string) => void; // Define the type of the onSignIn prop
-	}
-
-	export default function SignIn({ onSignIn }: SignInProps) {
-	const handleGoogleLogin = async () => {
-		try {
-		const response = await GoogleLogin();
-		if (response && response.idToken) {
-			const { idToken } = response;
-			onSignIn(idToken);
-		} else {
-			console.error('Google Login, No idToken found', response);
-		}
-		} catch (apiError) {
-		console.error(apiError);
-		}
-	};
-
-	useEffect(()=>{
-		handleGoogleLogin();
-	});
-
-	return <Button title="SignIn" onPress={handleGoogleLogin} />;
-	}
-
+	export default GoogleSignInButton;
 	```
+	<Callout title="Note">
+		In case of android app, you don’t have to specify your `OAUTH_ANDROID_CLIENT_ID`, only `OAUTH_WEB_CLIENT_ID` is sufficient.
+	</Callout>
 </Step>
 
-<Step title="Create components">
-	## Create components
+<Step>
+	##  Create Necessary Files 
+
+	Create another file called `src/components/GetButton.tsx`.
+
 	```typescript title="src/components/GetButton.tsx"
 	import React, { useState } from 'react';
 	import {
-	View,
-	Button,
-	Modal,
-	Text,
-	StyleSheet,
-	ScrollView,
+		View,
+		Button,
+		Modal,
+		Text,
+		StyleSheet,
+		ScrollView,
 	} from 'react-native';
 
 	interface GetButtonProps {
-	title: string;
-	apiFn: () => Promise<any>;
+		title: string;
+		apiFn: () => Promise<any>;
 	}
 
 	function GetButton({ title, apiFn }: GetButtonProps) {
@@ -314,49 +192,49 @@ This quickstart guide will help you set up a basic React Native app using the Ok
 
 	return (
 		<View style={styles.container}>
-		<View style={styles.buttonGroup}>
-			<Button
-			title={title}
-			onPress={() => {
-				apiFn()
-				.then((result) => {
-					console.log(`${title}:`, result);
-					setResultData(JSON.stringify(result, null, 2)); // Pretty print the JSON
-					setModalVisible(true);
-				})
-				.catch((error) => {
+			<View style={styles.buttonGroup}>
+				<Button
+					title={title}
+					onPress={() => {
+						apiFn()
+						.then((result) => {
+						console.log(`${title}:`, result);
+						setResultData(JSON.stringify(result, null, 2)); // Pretty print the JSON
+						setModalVisible(true);
+					})
+					.catch((error) => {
 					console.error(`${title} error:`, error);
-				});
-			}}
-			/>
-		</View>
-		<Modal
-			animationType="slide"
-			transparent={false}
-			visible={modalVisible}
-			onRequestClose={() => {
-			setModalVisible(!modalVisible);
-			}}
-		>
-			<ScrollView style={styles.modalView} nestedScrollEnabled={true}>
-			<Text style={styles.modalText}>{resultData}</Text>
-			</ScrollView>
-			<Button title="Close" onPress={() => setModalVisible(!modalVisible)} />
-		</Modal>
+					});
+				}}
+				/>
+			</View>
+			<Modal
+				animationType="slide"
+				transparent={false}
+				visible={modalVisible}
+				onRequestClose={() => {
+					setModalVisible(!modalVisible);
+				}}
+				>
+					<ScrollView style={styles.modalView} nestedScrollEnabled={true}>
+						<Text style={styles.modalText}>{resultData}</Text>
+					</ScrollView>
+					<Button title="Close" onPress={() => setModalVisible(!modalVisible)} />
+			</Modal>
 		</View>
 	);
-	}
+}
 
 	const styles = StyleSheet.create({
 	container: {
-		justifyContent: 'center',
-		alignItems: 'center',
+		width: '100%',
 	},
 	buttonGroup: {
 		width: '100%',
-		paddingVertical: 5,
+		marginVertical: 5,
 	},
 	modalView: {
+		flex: 1,
 		marginTop: 22,
 		padding: 20,
 		backgroundColor: 'white',
@@ -364,125 +242,338 @@ This quickstart guide will help you set up a basic React Native app using the Ok
 	modalText: {
 		marginBottom: 15,
 		textAlign: 'left',
+		fontSize: 14,
+		fontFamily: 'monospace',
 	},
 	});
 
 	export default GetButton;
 
-	```
-	```typescript title="TransferTokens.tsx"
-	import React, { useState } from 'react';
-	import { View, Button, TextInput, Text, StyleSheet } from 'react-native';
-	import { useOkto, type OktoContextType } from 'okto-sdk-react-native';
 
-	function TransferTokens() {
-	const { transferTokensWithJobStatus } =
-		useOkto() as OktoContextType;
-	const [networkName, setNetworkName] = useState('SOLANA_DEVNET');
-	const [tokenAddress, setTokenAddress] = useState('');
-	const [quantity, setQuantity] = useState('0.1');
-	const [recipientAddress, setRecipientAddress] = useState(
-		'Eeaq9tfNzk2f8ijdiHNZpjsBV96agB2F3bNmwx6fdVr6'
-	);
-	const handleSubmit = () => {
-		console.log('Calling transfer funds: ', {
-		networkName,
-		tokenAddress,
-		recipientAddress,
-		quantity,
-		});
-		transferTokensWithJobStatus({
-		network_name: networkName,
-		token_address: tokenAddress,
-		recipient_address: recipientAddress,
-		quantity,
-		})
-		.then((result) => {
-			console.log('Transfer success', result);
-		})
-		.catch((error) => {
-			console.log('Transfer error', error);
-		});
+	```
+</Step>
+
+<Step>
+	##  Update `src/App.tsx`
+
+	If you haven't already, create a `src/App.tsx`, this would be our main entry-point into the application.
+
+	```typescript title="src/App.tsx"
+	import React, { useState } from 'react';
+	import {
+		SafeAreaView,
+		StatusBar,
+		StyleSheet,
+		Button,
+		View,
+		Text,
+		Modal,
+		ScrollView
+	} from 'react-native';
+	import GoogleSignInButton from './components/GoogleSignInButton';
+	import { User } from '@react-native-community/google-signin';
+	import { useOkto, type OktoContextType } from 'okto-sdk-react-native';
+	import GetButton from './components/GetButton';
+
+	const App: React.FC = () => {
+	const [userInfo, setUserInfo] = useState<User | null>(null);
+	const [authModalVisible, setAuthModalVisible] = useState(false);
+	const [authResult, setAuthResult] = useState<string>('');
+
+	const {
+		authenticate,
+		getPortfolio
+	} = useOkto() as OktoContextType;
+
+	function handleAuthenticate(result: any, error: any) {
+		if (result) {
+			console.log('authentication successful');
+			setAuthResult(JSON.stringify(result, null, 2));
+			setAuthModalVisible(true);
+		}
+		if (error) {
+			console.error('authentication error:', error);
+			setAuthResult(JSON.stringify(error, null, 2));
+			setAuthModalVisible(true);
+		}
+	}
+
+	const handleSignInSuccess = (userInfo: User | null) => {
+		setUserInfo(userInfo);
 	};
 
 	return (
-		<View style={styles.container}>
-		<Text style={styles.title}>Transfer Tokens</Text>
-		<TextInput
-			style={styles.input}
-			value={networkName}
-			onChangeText={(value) => setNetworkName(value)}
-			placeholder="Enter Network Name"
-		/>
-		<TextInput
-			style={styles.input}
-			value={tokenAddress}
-			onChangeText={(value) => setTokenAddress(value)}
-			placeholder="Enter Token Address"
-		/>
-		<TextInput
-			style={styles.input}
-			value={quantity}
-			onChangeText={(value) => setQuantity(value)}
-			placeholder="Enter Quantity"
-		/>
-		<TextInput
-			style={styles.input}
-			value={recipientAddress}
-			onChangeText={(value) => setRecipientAddress(value)}
-			placeholder="Enter Recipient Address"
-		/>
-		<Button title="Transfer Tokens" onPress={handleSubmit} />
-		</View>
+	<>
+		<StatusBar barStyle="dark-content" />
+		<SafeAreaView style={styles.container}>
+			<View style={styles.content}>
+				<Text style={styles.title}>Okto Demo App</Text>
+
+				{/* Authentication Section */}
+				<View style={styles.authSection}>
+					<View style={styles.buttonGroup}>
+						<GoogleSignInButton onSignInSuccess={handleSignInSuccess} />
+						<View style={styles.buttonSpacing} />
+						<Button
+						title="Authenticate"
+						onPress={() => {
+						authenticate(userInfo?.idToken!, handleAuthenticate);
+						}}
+						/>
+						</View>
+					</View>
+
+					{/* API Section */}
+					<View style={styles.apiSection}>
+					<Text style={styles.sectionTitle}>API Actions</Text>
+					<GetButton title="Get Portfolio" apiFn={getPortfolio} />
+				</View>
+			</View>
+
+			{/* Authentication Modal */}
+			<Modal
+				animationType="slide"
+				transparent={false}
+				visible={authModalVisible}
+				onRequestClose={() => {
+				setAuthModalVisible(false);
+			}}
+			>
+				<SafeAreaView style={styles.modalContainer}>
+					<View style={styles.modalHeader}>
+						<Text style={styles.modalTitle}>Authentication Result</Text>
+					</View>
+					<ScrollView style={styles.modalContent} nestedScrollEnabled={true}>
+						<Text style={styles.modalText}>{authResult}</Text>
+					</ScrollView>
+					<View style={styles.modalFooter}>
+						<Button
+						title="Close"
+						onPress={() => setAuthModalVisible(false)}
+						/>
+					</View>
+				</SafeAreaView>
+			</Modal>
+		</SafeAreaView>
+	</>
 	);
-	}
+};
 
 	const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#fff',
+		backgroundColor: '#f5f5f5',
+	},
+	content: {
+		flex: 1,
+		padding: 20,
+	},
+	title: {
+		fontSize: 24,
+		fontWeight: 'bold',
+		textAlign: 'center',
+		marginBottom: 30,
+		color: '#333',
+	},
+	authSection: {
+		backgroundColor: 'white',
 		padding: 20,
 		borderRadius: 10,
 		shadowColor: '#000',
 		shadowOffset: {
-		width: 0,
-		height: 2,
+			width: 0,
+			height: 2,
+		},
+		shadowOpacity: 0.25,
+		shadowRadius: 3.84,
+		elevation: 5,
+		marginBottom: 20,
+	},
+	buttonGroup: {
+		width: '100%',
+	},
+	buttonSpacing: {
+		height: 15,
+	},
+	apiSection: {
+		backgroundColor: 'white',
+		padding: 20,
+		borderRadius: 10,
+		shadowColor: '#000',
+		shadowOffset: {
+			width: 0,
+			height: 2,
 		},
 		shadowOpacity: 0.25,
 		shadowRadius: 3.84,
 		elevation: 5,
 	},
-	title: {
-		fontSize: 20,
-		fontWeight: 'bold',
-		marginBottom: 20,
+	sectionTitle: {
+		fontSize: 18,
+		fontWeight: '600',
+		marginBottom: 15,
+		color: '#333',
 	},
-	input: {
-		height: 40,
-		borderColor: '#ccc',
-		borderWidth: 1,
-		borderRadius: 5,
-		marginBottom: 10,
-		paddingHorizontal: 10,
+	// Modal Styles
+	modalContainer: {
+		flex: 1,
+		backgroundColor: '#f5f5f5',
+	},
+	modalHeader: {
+		padding: 20,
+		backgroundColor: 'white',
+		borderBottomWidth: 1,
+		borderBottomColor: '#e0e0e0',
+	},
+	modalTitle: {
+		fontSize: 20,
+		fontWeight: '600',
+		color: '#333',
+	},
+	modalContent: {
+		flex: 1,
+		padding: 20,
+	},
+	modalText: {
+		fontSize: 14,
+		fontFamily: 'monospace',
+		color: '#333',
+	},
+	modalFooter: {
+		padding: 20,
+		backgroundColor: 'white',
+		borderTopWidth: 1,
+		borderTopColor: '#e0e0e0',
 	},
 	});
 
-	export default TransferTokens;
-
-	```	
+	export default App;
+	```
 </Step>
 
-		<Step title="Run your app">
-		    ## Run your app
-			You can now run your Okto-integrated Flutter app:
-			```bash title='bash'
-			yarn start
-			```
-			Your app should now have basic Okto SDK integration with Google Sign-In functionality.
-		</Step>
+<Step>
+	##  Android Setup (Optional)
+
+	If in any case, your Android app fails to build, you can try fixing this using the steps given below.
+
+	Update `android/build.gradle` file.
+
+	```bash title="android/build.gradle"
+	buildscript {
+		ext {
+			buildToolsVersion = "29.0.2"
+			minSdkVersion = 16
+			compileSdkVersion = 29
+			targetSdkVersion = 29
+			googlePlayServicesAuthVersion = "19.0.0" // <-- add this
+		}
+		repositories {
+			google()
+			jcenter()
+		}
+		dependencies {
+			classpath("com.android.tools.build:gradle:4.1.0")
+			classpath('com.google.gms:google-services:4.3.4') // <-- add this
+			// NOTE: Do not place your application dependencies here; they belong
+			// in the individual module build.gradle files
+		}
+	}
+	```
+</Step>
+
+<Step>
+	##  Run Application
+	<Tabs items={["iOS", "Android"]}>
+		<Tab value="iOS">
+			```bash
+    		npx react-native run-ios
+    		```
+		</Tab>
+		<Tab value="Android">
+			```bash
+    		npx react-native run-android
+    		```
+		</Tab>
+	</Tabs>
+</Step>
+
+<Step>
+    ## Congratulations!
+
+    🎉 Congratulations! You now have a basic app powered by Okto. You can focus on your business logic and UI/UX now. You can checkout how to use other features in the [Template Repo](https://github.com/okto-hq/okto-sdk-reactnative-template-app/).
+</Step>
 
 </Steps>
 
-## Congratulations!
+</Tab>
 
-🎉 Congratulations! You now have a Flutter app powered by Okto. You can focus on your business logic and UI/UX now. You can checkout how to use other features in our [React Native Template Repo](https://github.com/okto-hq/okto-sdk-reactnative-template-app).
+<Tab value="create-okto-app React Native">
+This is the quickest way to get started with Okto in a React Native application. Our CLI tool will set up everything you need with minimal configuration required.
+<Steps>
+
+<Step>
+    ## Create New Project
+    ```bash title="bash"
+    npx create-okto-app@latest
+    ```
+
+    You'll be prompted to:
+    1. Choose 'React Native' as your template using arrow keys
+    2. Enter your project name
+
+    ```bash
+    Welcome to create-okto-app!
+    ✔ Choose a template: › React Native
+    ✔ Enter your project name: › my-okto-app
+    ```
+
+    After creation is complete:
+    ```bash
+    cd my-okto-app
+    npm install    # Install dependencies
+    ```
+</Step>
+
+<Step>
+    ## Configure Environment Variables
+    Create a `.env` file in the root directory:
+
+	```bash title=".env"
+   	OKTO_CLIENT_API_KEY = "YOUR_OKTO_CLIENT_APP_SECRET"
+	GOOGLE_WEB_CLIENT_ID = "YOUR_GOOGLE_WEB_CLIENT_ID"
+	GOOGLE_IOS_CLIENT_ID = "YOUR_GOOGLE_ANDROID_CLIENT_ID"
+    ```   
+</Step>
+
+<Step>
+    ## Run Application
+
+   <Tabs items={["iOS", "Android"]}>
+		<Tab value="iOS">
+			```bash
+    		npx react-native run-ios
+    		```
+		</Tab>
+		<Tab value="Android">
+			```bash
+    		npx react-native run-android
+    		```
+		</Tab>
+	</Tabs>
+</Step>
+
+<Step>
+    ## Congratulations!
+
+    🎉 Congratulations! You now have a fully configured Okto-powered React application. All the necessary components and configurations are already set up, so you can start building your Web3 features right away. You can checkout how to use other features in the [Template Repo](https://github.com/okto-hq/okto-sdk-reactnative-template-app/).
+</Step>
+
+</Steps>
+</Tab>
+
+</Tabs>
+
+
+<Callout>
+For more details, refer to the [Template Repo](https://github.com/okto-hq/okto-sdk-reactnative-template-app/) and the [Okto SDK Cheatsheet](https://docs.google.com/document/d/1nJdiVNlqPyDu9eHhQOhoY9jG7mkjr3fP-OFVYuSsai8/edit?usp=sharing) for commonly used methods and configurations. 
+</Callout>
