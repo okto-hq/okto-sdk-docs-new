@@ -2041,6 +2041,10 @@ components:
                     description: Status of the order
                     enum: [SUCCESS, FAILURE]
                     example: SUCCESS
+                  transaction_hash:
+                    type: string
+                    description: Transaction hash verifiable on the blockchain explorer
+                    example: "0xe33496e554e0b322fb6ed141a99a8e7592d93b8893802840260b0000dccfa130"
                   order_type:
                     type: string
                     description: Type of the order (e.g., TOKEN_TRANSFER_EXECUTE)
