@@ -432,16 +432,16 @@ paths:
                     <summary>transaction_EVM</summary>
                     Use this transaction object if <code>network_name</code> is any <code>BASE</code>, <code>POLYGON</code> or <code>POLYGON_TESTNET_AMOY</code>.
 
-                    - **from** `string`:
+                    - **from** `string` *Required* :
                     The address for the sending account.
 
-                    - **to** `string`:
+                    - **to** `string` *Required* :
                     The destination address of the message, left undefined for a contract-creation transaction.
 
-                    - **data** `string`:
+                    - **data** `string` *Required* :
                     Either a ABI byte string containing the data of the function call on a contract, or in the case of a contract-creation transaction the initialisation code.
 
-                    - **value** `string`:
+                    - **value** `string` *Required* :
                     The value transferred for the transaction in wei, also the endowment if it's a contract-creation transaction.
                     </details>
 
@@ -449,44 +449,44 @@ paths:
                     <summary>transaction_SOL</summary>
                     Use this transaction object if <code>network_name</code> is <code>SOLANA</code> or <code>SOLANA_DEVNET</code>.
 
-                    - **instructions** `object`:
+                    - **instructions** `object` *Required* :
                     The instructions to atomically execute
                       
                       <details>
                       <summary>instructions</summary>
-                      <ul><li><b>keys</b><code>array object[]</code></li>
+                      <ul><li><b>keys</b> <code>array object[]</code> <i>Required</i> </li>
                       Includes the AccountMeta for each account required by an instruction.
                         <details>
                         <summary>keys</summary>
                         <ul>
-                        <li><b>pubkey</b><code>string</code> Required</li>
-                        <li><b>isSigner</b><code>boolean</code> Required</li>
-                        <li><b>isWritable</b><code>boolean</code> Required</li>
+                        <li><b>pubkey</b><code>string</code> <i>Required</i></li>
+                        <li><b>isSigner</b><code>boolean</code> <i>Required</i></li>
+                        <li><b>isWritable</b><code>boolean</code> <i>Required</i></li>
                         </ul>
                         </details>
                       
-                      <li><b>programId</b><code>string</code></li>
+                      <li><b>programId</b> <code>string</code> <i>Required</i></li>
                       The address of the program which contains the execution logic for the instruction invoked.
 
-                      <li><b>data</b><code>array</code></li>
+                      <li><b>data</b> <code>array</code> <i>Required</i></li>
                       The instruction data for the instruction as a buffer of bytes
                       </ul>
                       </details>
-                    - **signer** `string`
+                    - **signer** `string` *Required*
                     </details>
 
                     <details>
                     <summary>transaction_APT</summary>
                     Use this transaction object if <code>network_name</code> is <code>APTOS</code> or <code>APTOS_TESTNET</code>.
                     <details>
-                    <summary><b>transactions</b><code>array object[]</code></summary>
+                    <summary><b>transactions</b> <code>array object[]</code> <i>Required</i></summary>
                     <ul>
-                    <li><b>function</b><code>function</code> Required:
+                    <li><b>function</b> <code>function</code> <i>Required</i>:
                     This is the identifier for the smart contract entry function on-chain that will trigger when you execute this transaction.</li>
-                    <li><b>typeArugements</b><code>array</code> Required:
+                    <li><b>typeArugements</b> <code>array</code> <i>Required</i>:
                     Data type for each function arguement in the same order.</li>
 
-                    <li><b>fuctionArugements</b><code>array</code> Required:
+                    <li><b>fuctionArugements</b> <code>array</code> <i>Required</i>:
                     This is any data the function needs to run.</li>
                     </ul>
                     </details>
