@@ -7,10 +7,14 @@ full: false
 import { Step, Steps } from 'fumadocs-ui/components/steps';
 import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 
-You can create an Okto-powered application in three different ways. Choose the approach that best suits your needs: 
-1. Traditional Create React App setup with manual configuration 
-2. Streamlined Okto React setup
-3. Streamlined Okto Next.js-based setup
+You can create an Okto-powered application in three different ways. Choose the approach that best suits your needs:
+
+1. **Traditional Create React App setup with manual configuration:**  
+   Best for developers who need full control and customization over their project.
+2. **Streamlined Okto React setup:**  
+   The easiest way to get started with a pre-configured setup.
+3. **Streamlined Okto Next.js-based setup:**  
+   Ideal for Next.js developers looking to leverage Okto with minimal configuration.
 
 <Tabs items={['create-react-app', 'create-okto-app React', 'create-okto-app Next.js']}>
 
@@ -20,16 +24,21 @@ This approach uses Create React App and manually configures the Okto SDK. This g
 
 <Step>
     ## Create React App
+
+    Run the following commands in your terminal to create a new React app:
+
     ```bash title="bash"
     npx create-react-app my-okto-app
     cd my-okto-app
     ```
-    This creates a new React application in the my-okto-app directory with all the necessary code.
+    This sets up a new React project in the folder `my-okto-app` with all the default settings.
 </Step>
 
 <Step>
     ## Install the Okto SDK
-    Next, install the Okto SDK and React OAuth:
+
+    Run the following commands to add Okto's SDK and Google OAuth to your project. Choose the command that matches your package manager:
+
     <Tabs items={['npm', 'pnpm', 'yarn']}>
         <Tab value="npm">
             ```bash
@@ -163,6 +172,9 @@ This is the quickest way to get started with Okto in a React application. Our CL
 
 <Step>
     ## Create New Project
+
+    Run this command in your terminal:
+
     ```bash title="bash"
     npx create-okto-app@latest
     ```
@@ -177,7 +189,7 @@ This is the quickest way to get started with Okto in a React application. Our CL
     ✔ Enter your project name: › my-okto-app
     ```
 
-    After creation is complete:
+    After creation is complete, change into your project directory and install dependencies:
     ```bash
     cd my-okto-app
     npm install    # Install dependencies
@@ -186,21 +198,26 @@ This is the quickest way to get started with Okto in a React application. Our CL
 
 <Step>
     ## Configure Environment Variables
-    Create a `.env` file in the root directory:
+
+    Create a new `.env` file in the root of your project with the following values:
 
     ```bash title=".env"
     REACT_APP_GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID"
     REACT_APP_OKTO_CLIENT_API_KEY = "YOUR_OKTO_CLIENT_API_KEY"
     ```   
+
+    Make sure to replace the placeholder values with your actual Google Client ID and Okto API Key. For instructions on getting Google credentials, follow our [Google OAuth2 Setup Guide](https://docs.okto.tech/docs/react-sdk/advanced-sdk-config/authenticate-users/google-oauth/google-console-setup). 
 </Step>
 
 <Step>
     ## Start Development Server
 
+    Run this command to start your development server:
+
     ```bash
     npm start
     ```
-    This will start your application on http://localhost:3000
+    Your app will be available at `http://localhost:3000`.
 </Step>
 
 <Step>
@@ -220,6 +237,8 @@ Follow the steps below to get started quickly with building an Okto-powered Next
 <Step>
     ## Create New Project
 
+    Run the following command in your terminal:
+
     ```bash title="bash"
     npx create-okto-app@latest
     ```
@@ -234,17 +253,16 @@ Follow the steps below to get started quickly with building an Okto-powered Next
     ✔ Enter your project name: › my-okto-app
     ```
 
-    After creation is complete:
+    After creation is complete, change into your project directory and install dependencies:
     ```bash
     cd my-okto-app
     npm install    # Install dependencies
     ```
-
 </Step>
 
 <Step>
     ## Configure Environment Variables
-    Create a `.env.local` file in the root directory:
+    Create a `.env.local` file in the root of your project:
 
     ```bash title=".env.local"
     GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID"
@@ -253,21 +271,31 @@ Follow the steps below to get started quickly with building an Okto-powered Next
     # Add these Next-Auth configurations
     AUTH_SECRET = "generate-a-secret-key"  # Use: openssl rand -base64 32
     ```
+
+    Replace the placeholders with your actual values.
+    
+    To generate `AUTH_SECRET`, run the command `openssl rand -base64 32`.
+
+    For instructions on getting Google credentials, follow our [Google OAuth2 Setup Guide](https://docs.okto.tech/docs/react-sdk/advanced-sdk-config/authenticate-users/google-oauth/google-console-setup).
 </Step>
 
 <Step>
     ## Start Development Server
 
-    For development:
+    Run this command to start your development server:
+
     ```bash
     npm run dev    # Starts development server
     ```
 
-    For production:
+    For production, use:
+    
     ```bash
     npm run build  # Creates optimized production build
     npm start      # Starts production server
     ```
+
+    Your app will be available at `http://localhost:3000`.
 </Step>
 
 <Step>
