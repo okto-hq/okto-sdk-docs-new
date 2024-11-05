@@ -1,4 +1,4 @@
-version: &imageVersion "11595084484"
+version: &imageVersion "11684820296"
 global:
   version: *imageVersion
 okto-sdk-docs:
