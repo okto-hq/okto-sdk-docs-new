@@ -216,7 +216,7 @@ export default function ToolsPage() {
               </DialogContent>
             </Dialog>
           ) : (
-            <Link href={tool.link} key={index} className="group">
+            <Link href={tool.link || '#'} key={index} className="group">
               <Card className="transition-all duration-300 hover:shadow-md h-[200px] flex flex-col">
                 <CardHeader className="flex-grow">
                   <CardTitle className="flex justify-between items-center">
