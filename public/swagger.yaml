@@ -463,7 +463,7 @@ paths:
                     Execute a raw transaction on a network. The API returns a `jobId` which can be used to track the status of the transaction. Choose the appropriate transaction object based on the ecosystem it is meant for, such as `EVM`, `SOL`, or `APT`.
                     See schema details below:
                     <details>
-                    <summary>transaction_EVM</summary>
+                    <summary>EVM Transaction</summary>
                     Use this transaction object if <code>network_name</code> is any <code>BASE</code>, <code>POLYGON</code> or <code>POLYGON_TESTNET_AMOY</code>.
 
                     - **from** `string` *Required* :
@@ -480,7 +480,7 @@ paths:
                     </details>
 
                     <details>
-                    <summary>transaction_SOL</summary>
+                    <summary>Solana Transaction</summary>
                     Use this transaction object if <code>network_name</code> is <code>SOLANA</code> or <code>SOLANA_DEVNET</code>.
 
                     - **instructions** `object` *Required* :
@@ -510,7 +510,7 @@ paths:
                     </details>
 
                     <details>
-                    <summary>transaction_APT</summary>
+                    <summary>Aptos Transaction</summary>
                     Use this transaction object if <code>network_name</code> is <code>APTOS</code> or <code>APTOS_TESTNET</code>.
                     <details>
                     <summary><b>transactions</b> <code>array object[]</code> <i>Required</i></summary>
