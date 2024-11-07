@@ -56,6 +56,9 @@ okto-sdk-docs:
     - variable: val1
       secretId: &oktohq-sdk-docs oktohq/okto-sdk-docs
       secretKey: val1
+    - variable: NEXT_PUBLIC_GOOGLE_CLIENT_ID
+      secretId: *oktohq-sdk-docs
+      secretKey: NEXT_PUBLIC_GOOGLE_CLIENT_ID
   tolerations:
     - effect: NoSchedule
       key: application
