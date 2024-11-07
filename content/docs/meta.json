@@ -12,7 +12,8 @@
       "react-native-sdk",
       "---Resources---",
       "brand-kit",
-      "[Showcase](https://docs.okto.tech/showcase)"
+      "[Showcase](https://docs.okto.tech/showcase)",
+      "[Advanced Dev Helper Tools](https://docs.okto.tech/tools)"
     ],
     "root": true
   }
