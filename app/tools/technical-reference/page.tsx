@@ -58,10 +58,65 @@ export default function Component() {
     }
   ]
 
-  const enumValues = {
-    order_type: ["WITHDRAWAL", "TRANSFER"],
-    status: ["SUCCESS", "FAILED", "RUNNING"]
-  }
+  const enumData = [
+    {
+      key: "ORDER_TYPE",
+      keyDesc: "Specifies the type of order.",
+      apiUrls: [
+        "https://docs.okto.tech/api-docs#tag/client/GET/api/v1/orders",
+        "https://docs.okto.tech/api-docs#tag/client/GET/api/v1/nft/order_details"
+      ],
+      values: [
+        { value: "MINT", desc: "Indicates that the order is for minting a new NFT." },
+        { value: "NFT_TRANSFER", desc: "Indicates that the order is for transferring an NFT to another address." },
+        { value: "TOKEN_TRANSFER_EXECUTE", desc: "Indicates that the order is for executing a token transfer transaction." },
+        { value: "EXECUTE_RAW_TX", desc: "Indicates that the order is for executing a raw blockchain transaction." }
+      ]
+    },
+    {
+      key: "OPERATION_TYPE",
+      keyDesc: "Specifies the type of operation being performed.",
+      apiUrls: [
+        "https://docs.okto.tech/api-docs#tag/client/POST/api/v1/nft/transfer"
+      ],
+      values: [
+        { value: "MINT", desc: "Indicates that the order is for minting a new NFT." },
+        { value: "NFT_TRANSFER", desc: "Indicates that the order is for transferring an NFT to another address." },
+        { value: "TOKEN_TRANSFER_EXECUTE", desc: "Indicates that the order is for executing a token transfer transaction." },
+        { value: "EXECUTE_RAW_TX", desc: "Indicates that the order is for executing a raw blockchain transaction." }
+      ]
+    },
+    {
+      key: "STATUS",
+      keyDesc: "Represents the current status of the order or transaction.",
+      apiUrls: [
+        "https://docs.okto.tech/api-docs#tag/client/GET/api/v1/orders",
+        "https://docs.okto.tech/api-docs#tag/client/GET/api/v1/nft/order_details",
+        "https://docs.okto.tech/api-docs#tag/client/GET/api/v1/rawtransaction/status"
+      ],
+      values: [
+        { value: "WAITING_INITIALIZATION", desc: "The order is in queue and has not yet started processing." },
+        { value: "CREATED", desc: "The order has been initialized and is ready for processing." },
+        { value: "RUNNING", desc: "The transaction is being processed on the blockchain." },
+        { value: "WAITING_FOR_SIGNATURE", desc: "The system is in the process of signing the transaction payload." },
+        { value: "REJECTED", desc: "The order was rejected and will not be processed further." },
+        { value: "SUCCESS", desc: "The order was successfully processed and confirmed on the blockchain." },
+        { value: "FAILED", desc: "The order failed during processing." }
+      ]
+    },
+    {
+      key: "ENTITY_TYPE",
+      keyDesc: "Defines the type of NFT or asset involved in the transaction.",
+      apiUrls: [
+        "https://docs.okto.tech/api-docs#tag/client/GET/api/v1/nft/order_details"
+      ],
+      values: [
+        { value: "ERC721", desc: "An ERC-721 standard NFT on EVM-compatible blockchains." },
+        { value: "ERC1155", desc: "An ERC-1155 standard NFT on EVM-compatible blockchains." },
+        { value: "NFT", desc: "An NFT on non-EVM blockchains." }
+      ]
+    }
+  ]
 
   return (
     <div className="container mx-auto p-4 space-y-8">
@@ -130,15 +185,38 @@ export default function Component() {
           <CardDescription>Possible values for selected types</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4 md:grid-cols-2">
-            {Object.entries(enumValues).map(([key, values]) => (
-              <div key={key} className="space-y-2">
-                <h3 className="font-semibold capitalize">{key.replace('_', ' ')}</h3>
-                <div className="flex flex-wrap gap-2">
-                  {values.map((value, index) => (
-                    <EnumValue key={index} value={value} />
-                  ))}
-                </div>
+          <div className="space-y-8">
+            {enumData.map((section, sectionIndex) => (
+              <div key={sectionIndex} className="space-y-4">
+                {section.apiUrls.length > 0 && (
+                  <div className="space-y-2">
+                    {section.apiUrls.map((url, urlIndex) => (
+                      <p key={urlIndex} className="text-sm text-blue-500">
+                        <a href={url} target="_blank" rel="noopener noreferrer">{url}</a>
+                      </p>
+                    ))}
+                  </div>
+                )}
+                <h3 className="font-semibold">{section.key}</h3>
+                <p className="text-sm text-gray-600">{section.keyDesc}</p>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Key</TableHead>
+                      <TableHead>Value</TableHead>
+                      <TableHead>Description</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {section.values.map((item, itemIndex) => (
+                      <TableRow key={itemIndex}>
+                        <TableCell>{section.key}</TableCell>
+                        <TableCell>{item.value}</TableCell>
+                        <TableCell>{item.desc}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
               </div>
             ))}
           </div>
