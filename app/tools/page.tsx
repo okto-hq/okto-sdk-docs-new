@@ -58,22 +58,51 @@ export default function ToolsPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold mb-6">Okto Tools</h1>
-      <p className="text-lg text-muted-foreground mb-12">
-        Explore our collection of powerful tools designed to enhance your experience with our SDK.
-        These tools will help you develop, test, and optimize your integration efficiently.
-      </p>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {tools.map((tool, index) =>
-          tool.component ? (
-            <Dialog
-              key={index}
-              open={openDialog === tool.title}
-              onOpenChange={(open) => handleOpenChange(open, tool.title)}
-            >
-              <DialogTrigger asChild>
-                <Card className="transition-all duration-300 hover:shadow-md h-[200px] flex flex-col cursor-pointer">
+    <>
+      <div className="container mx-auto px-4 py-12">
+        <h1 className="text-3xl font-bold mb-6">Okto Dev Tools</h1>
+        <p className="text-lg text-muted-foreground mb-12">
+          Explore our collection of powerful tools designed to enhance your experience with our SDK.
+          These tools will help you develop, test, and optimize your integration efficiently.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {tools.map((tool, index) =>
+            tool.component ? (
+              <Dialog
+                key={index}
+                open={openDialog === tool.title}
+                onOpenChange={(open) => handleOpenChange(open, tool.title)}
+              >
+                <DialogTrigger asChild>
+                  <Card className="transition-all duration-300 hover:shadow-md h-[200px] flex flex-col cursor-pointer">
+                    <CardHeader className="flex-grow">
+                      <CardTitle className="flex justify-between items-center">
+                        {tool.title}
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          <ArrowRight className="h-4 w-4" />
+                          <span className="sr-only">Open {tool.title}</span>
+                        </Button>
+                      </CardTitle>
+                      <CardDescription className="line-clamp-3">
+                        {tool.description}
+                      </CardDescription>
+                    </CardHeader>
+                  </Card>
+                </DialogTrigger>
+                <DialogContent className="max-w-md">
+                  <DialogHeader>
+                    <DialogTitle>{tool.title}</DialogTitle>
+                  </DialogHeader>
+                  {tool.component}
+                </DialogContent>
+              </Dialog>
+            ) : (
+              <Link href={tool.link || '#'} key={index} className="group">
+                <Card className="transition-all duration-300 hover:shadow-md h-[200px] flex flex-col">
                   <CardHeader className="flex-grow">
                     <CardTitle className="flex justify-between items-center">
                       {tool.title}
@@ -83,7 +112,7 @@ export default function ToolsPage() {
                         className="opacity-0 group-hover:opacity-100 transition-opacity"
                       >
                         <ArrowRight className="h-4 w-4" />
-                        <span className="sr-only">Open {tool.title}</span>
+                        <span className="sr-only">Go to {tool.title}</span>
                       </Button>
                     </CardTitle>
                     <CardDescription className="line-clamp-3">
@@ -91,38 +120,11 @@ export default function ToolsPage() {
                     </CardDescription>
                   </CardHeader>
                 </Card>
-              </DialogTrigger>
-              <DialogContent className="max-w-md">
-                <DialogHeader>
-                  <DialogTitle>{tool.title}</DialogTitle>
-                </DialogHeader>
-                {tool.component}
-              </DialogContent>
-            </Dialog>
-          ) : (
-            <Link href={tool.link || '#'} key={index} className="group">
-              <Card className="transition-all duration-300 hover:shadow-md h-[200px] flex flex-col">
-                <CardHeader className="flex-grow">
-                  <CardTitle className="flex justify-between items-center">
-                    {tool.title}
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <ArrowRight className="h-4 w-4" />
-                      <span className="sr-only">Go to {tool.title}</span>
-                    </Button>
-                  </CardTitle>
-                  <CardDescription className="line-clamp-3">
-                    {tool.description}
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            </Link>
-          )
-        )}
+              </Link>
+            )
+          )}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
