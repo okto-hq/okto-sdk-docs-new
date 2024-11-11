@@ -14,9 +14,15 @@ import { Callout } from 'fumadocs-ui/components/callout';
    - Obtain your API Key from the [Okto Dashboard](https://dashboard.okto.tech/).
    - This key is essential for integrating the Okto SDK into your project.
 
-3. **Google Client ID**
-   - To authenticate users via Google, you'll need to set up a Google Console Project.
-   - Follow our guide to [set up your Google Console Project](/docs/react-sdk/advanced-sdk-config/authenticate-users/google-oauth/learn).
+3. **Authentication Methods**
+
+   The Okto SDK supports multiple authentication methods:
+
+   - **Google OAuth**
+      - To authenticate users via Google, you'll need to set up a Google Console Project.
+      - Follow our guide to [set up your Google Console Project](/docs/react-sdk/advanced-sdk-config/authenticate-users/google-oauth/learn).
+   - [**Email OTP**](/docs/react-sdk/advanced-sdk-config/authenticate-users/email-otp)
+   - [**Phone OTP**](/docs/react-sdk/advanced-sdk-config/authenticate-users/phone-otp)
 
 <Callout title="Environment Configuration">
 By default, your project will use the **Sandbox** environment. To switch to the **Production** environment, please refer to our [Admin Panel documentation](/docs/developer-admin-dashboard/overview) for upgrade instructions.
