@@ -2,7 +2,7 @@
     "title": "Okto SDK",
     "pages": [
       "---Basics---",
-      "overview",
+      "index",
       "quickstart",
       "introduction-to-okto",
       "developer-admin-dashboard",
