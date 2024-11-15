@@ -16,15 +16,15 @@ import '../../styles.css';
 
 | Methods                                                                | Description                     |                 
 |------------------------------------------------------------------------|---------------------------------|
-| [`isLoggedIn`](#check-if-the-user-is-logged-in)                      | Check if the User is Logged In  |
-| <sub><i>async</i></sub> [`authenticate`](#authenticate-a-user)              | Authenticate a User             |
-| <sub><i>async</i></sub> [`logOut`](#log-out)                                                 | Log Out                         |
+| [`isLoggedIn`](#check-if-the-user-is-logged-in)                        | Check if the User is Logged In  |
+| <sub><i>async</i></sub> [`authenticate`](#authenticate-a-user)         | Authenticate a User             |
+| <sub><i>async</i></sub> [`logOut`](#log-out)                           | Log Out                         |
 
 <div className="method-box">
 
 ## Check if the User is Logged In
 
-`isLoggedIn`<a href="https://github.com/okto-hq/okto-sdk-react/blob/main/src/OktoProvider.tsx#L66" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> checks if the user is currently logged in.
+`isLoggedIn`<a href="https://github.com/okto-hq/okto-sdk-flutter/blob/db5dfb8cda6bfee6636fc2f8a2e4687378ff67df/lib/src/okto.dart#L78" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> checks if the user is currently logged in.
 
 ### Parameters
 
@@ -42,13 +42,20 @@ There are no parameters for this function.
 
 <Accordions>
 <Accordion title="Example">
-<Tabs items={['Typescript']}>
-  <Tab value="Typescript">
-    ```typescript
-    import { useOkto, type OktoContextType} from 'okto-sdk-react';
- 
-    const { isLoggedIn } = useOkto() as OktoContextType;
-    isLoggedIn().then(result => console.log(isLoggedIn ? "User is logged in" : "User is logged out"));
+<Tabs items={['Dart']}>
+  <Tab value="Dart">
+    ```dart
+    import 'package:my_app/okto.dart';
+
+    Future<void> checkLoginStatus() async {
+      bool isLoggedIn = await okto.isLoggedIn();
+      if (isLoggedIn) {
+        print('User is logged in');
+      } else {
+        print('User is logged out');
+      }
+    }
+
 ```
   </Tab>
 </Tabs>
@@ -61,13 +68,12 @@ There are no parameters for this function.
 
 ## Authenticate a User
 
-<sub><i>async</i></sub> `authenticate(idToken, callback)`<a href="https://github.com/okto-hq/okto-sdk-react/blob/main/src/OktoProvider.tsx#L163" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> authenticates a user using an ID token.
+<sub><i>async</i></sub> `authenticate(idToken)`<a href="https://github.com/okto-hq/okto-sdk-flutter/blob/db5dfb8cda6bfee6636fc2f8a2e4687378ff67df/lib/src/okto.dart#L47" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> authenticates a user using an ID token.
 
 ### Parameters
 | Parameter   | Type                     | Description |
 |-------------|--------------------------|------------------------------------------------------|
 | `idToken`   | `string`                 | Token received from Google OAuth2                    | 
-| `callback`  | `function(result, error)`| Callback function to be called after authentication. | 
 
 ### Response
 
@@ -84,21 +90,69 @@ There are no parameters for this function.
 <Tabs items={['Typescript']}>
   <Tab value="Typescript">
     ```typescript
-    import {
-      useOkto,
-      type OktoContextType,
-    } from 'okto-sdk-react';
- 
-    const { authenticate } = useOkto() as OktoContextType;
-    const idToken = 'USER_ID_TOKEN';
-    authenticate(idToken, (result, error) => {
-      if (result) {
-          console.log('authentication successful');
+    import 'package:my_app/okto.dart';
+    import 'package:my_app/screens/home/home_page.dart';
+    import 'package:flutter/material.dart';
+    
+    class LoginWithGoogle extends StatefulWidget {
+      const LoginWithGoogle({super.key});
+    
+      @override
+      State<LoginWithGoogle> createState() => _LoginWithGoogleState();
+    }
+    
+    class _LoginWithGoogleState extends State<LoginWithGoogle> {
+      final GoogleSignIn googleSignIn = GoogleSignIn(
+        scopes: [
+          'email',
+          'https://www.googleapis.com/auth/userinfo.profile',
+          'openid',
+        ],
+      );
+      @override
+      Widget build(BuildContext context) {
+        return Scaffold(
+          backgroundColor: const Color(0xff5166EE),
+          body: SafeArea(
+            child: Column(
+              children: [
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.center,
+                    margin: const EdgeInsets.all(40),
+                    child: const Text(
+                      'Login with google',
+                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 30),
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                    onPressed: () async {
+                      try {
+                        final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+                        final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+                        if (googleAuth != null) {
+                          final String? idToken = googleAuth.idToken;
+                          await okto!.authenticate(idToken: idToken!);
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
+                        }
+                      } catch (e) {
+                        print(e.toString());
+                        setState(() {
+                          error = e.toString();
+                        });
+                      }
+                    },
+                    child: const Text('Login with Google')),
+                Text(error),
+                const SizedBox(height: 20)
+              ],
+            ),
+          ),
+        );
       }
-      if (error) {
-          console.error('authentication error:', error);
-      }
-  });
+    }
+    
 ```
   </Tab>
 </Tabs>
@@ -111,7 +165,7 @@ There are no parameters for this function.
 
 ## Log Out
 
-<sub><i>async</i></sub> `logOut()`<a href="https://github.com/okto-hq/okto-sdk-react/blob/main/src/OktoProvider.tsx#L476" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> logs out the current user from the session.
+<sub><i>async</i></sub> `logOut()`<a href="https://github.com/okto-hq/okto-sdk-flutter/blob/db5dfb8cda6bfee6636fc2f8a2e4687378ff67df/lib/src/okto.dart#L295" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> logs out the current user from the session.
 
 ### Parameters
 
@@ -131,10 +185,35 @@ There are no parameters for this function.
 <Tabs items={['Typescript']}>
   <Tab value="Typescript">
    ```typescript
-  import { useOkto, type OktoContextType} from 'okto-sdk-react';
- 
-  const { logout } = useOkto() as OktoContextType;
-  logout().then(result => console.log("logged out"));
+  import 'package:flutter/material.dart';
+  import 'package:okto_flutter_sdk/okto_wallet_sdk.dart';
+  import 'package:okto_test/okto.dart';
+  
+  class OktoWalletFlutter extends StatefulWidget {
+    const OktoWalletFlutter({super.key});
+  
+    @override
+    State<OktoWalletFlutter> createState() => _OktoWalletFlutter();
+  }
+  
+  class _OktoWalletFlutter extends State<OktoWalletFlutter> {
+    @override
+    Widget build(BuildContext context) {
+      return Scaffold(
+        body: Center(
+          child: TextButton(
+              onPressed: () async {
+                try {
+                  await okto.logout();
+                } catch (e) {
+                  print(e);
+                }
+              },
+              child: const Text('logout')),
+        ),
+      );
+    }
+  }
   ```
   </Tab>
 </Tabs>
