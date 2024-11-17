@@ -91,12 +91,12 @@ const HeadingWithAnchor: React.FC<HeadingWithAnchorProps> = ({ children, id }) =
 
 const TokenAlert: React.FC = () => {
   return (
-    <Alert className="bg-yellow-100 border-l-4 border-yellow-500">
+    <Alert className="bg-yellow-100 dark:bg-yellow-800 border-l-4 border-yellow-500 dark:border-yellow-300">
       <div className="flex items-start space-x-3">
-        <Terminal className="h-5 w-5 text-yellow-500 mt-1" />
+        <Terminal className="h-5 w-5 text-yellow-500 dark:text-yellow-300 mt-1" />
         <div className="flex-1">
-          <AlertTitle className="text-yellow-800">Important!</AlertTitle>
-          <AlertDescription className="text-yellow-700">
+          <AlertTitle className="text-yellow-800 dark:text-yellow-200">Important!</AlertTitle>
+          <AlertDescription className="text-yellow-700 dark:text-yellow-400">
             Native tokens on chains do not have a Token Address (N/A). Please use empty strings for these tokens wherever applicable.
           </AlertDescription>
         </div>
