@@ -1,123 +1,111 @@
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+'use client';
 
-const EnumValue = ({ value }: any) => {
-  const getColor = () => {
-    switch (value.toLowerCase()) {
-      case 'withdrawal':
-      case 'transfer':
-        return 'bg-blue-500'
-      case 'success':
-        return 'bg-green-500'
-      case 'failed':
-        return 'bg-red-500'
-      case 'running':
-        return 'bg-yellow-500'
-      default:
-        return 'bg-gray-500'
-    }
-  }
+import { useState } from "react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { tokens, networks } from "../components/TokenNetworkInfo";
+import { enumData } from "../components/EnumData";
+import { Hash, Copy, Check, Terminal } from "lucide-react";
+import { generateId } from "@/utils/generateId";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
 
-  return (
-    <Badge className={`${getColor()} text-white`}>{value}</Badge>
-  )
+interface EnumValueProps {
+  value: string;
 }
 
-export default function Component() {
-  const tokens = [
-    {
-      token_name: "SOL_DEVNET",
-      token_address: "",
-      network_name: "SOLANA_DEVNET"
-    },
-    {
-      token_name: "ETH_GOERLI",
-      token_address: "0x7af963cF6D228E564e2A0aA0DdBF06210B38615D",
-      network_name: "ETHEREUM_GOERLI"
-    },
-    {
-      token_name: "USDC_GOERLI",
-      token_address: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
-      network_name: "ETHEREUM_GOERLI"
-    }
-  ]
+const EnumValue: React.FC<EnumValueProps> = ({ value }) => {
+  return (
+    <Badge className="text-white">
+      {value}
+    </Badge>
+  );
+};
 
-  const networks = [
-    {
-      network_name: "BASE",
-      chain_id: "8453"
-    },
-    {
-      network_name: "ETHEREUM_MAINNET",
-      chain_id: "1"
-    },
-    {
-      network_name: "SOLANA_DEVNET",
-      chain_id: ""
-    }
-  ]
+// Utility to shorten addresses (e.g., "0x123456...7890")
+const shortenAddress = (address: string): string => {
+  return address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "N/A";
+};
 
-  const enumData = [
-    {
-      key: "ORDER_TYPE",
-      keyDesc: "Specifies the type of order.",
-      apiUrls: [
-        "https://docs.okto.tech/api-docs#tag/client/GET/api/v1/orders",
-        "https://docs.okto.tech/api-docs#tag/client/GET/api/v1/nft/order_details"
-      ],
-      values: [
-        { value: "MINT", desc: "Indicates that the order is for minting a new NFT." },
-        { value: "NFT_TRANSFER", desc: "Indicates that the order is for transferring an NFT to another address." },
-        { value: "TOKEN_TRANSFER_EXECUTE", desc: "Indicates that the order is for executing a token transfer transaction." },
-        { value: "EXECUTE_RAW_TX", desc: "Indicates that the order is for executing a raw blockchain transaction." }
-      ]
-    },
-    {
-      key: "OPERATION_TYPE",
-      keyDesc: "Specifies the type of operation being performed.",
-      apiUrls: [
-        "https://docs.okto.tech/api-docs#tag/client/POST/api/v1/nft/transfer"
-      ],
-      values: [
-        { value: "MINT", desc: "Indicates that the order is for minting a new NFT." },
-        { value: "NFT_TRANSFER", desc: "Indicates that the order is for transferring an NFT to another address." },
-        { value: "TOKEN_TRANSFER_EXECUTE", desc: "Indicates that the order is for executing a token transfer transaction." },
-        { value: "EXECUTE_RAW_TX", desc: "Indicates that the order is for executing a raw blockchain transaction." }
-      ]
-    },
-    {
-      key: "STATUS",
-      keyDesc: "Represents the current status of the order or transaction.",
-      apiUrls: [
-        "https://docs.okto.tech/api-docs#tag/client/GET/api/v1/orders",
-        "https://docs.okto.tech/api-docs#tag/client/GET/api/v1/nft/order_details",
-        "https://docs.okto.tech/api-docs#tag/client/GET/api/v1/rawtransaction/status"
-      ],
-      values: [
-        { value: "WAITING_INITIALIZATION", desc: "The order is in queue and has not yet started processing." },
-        { value: "CREATED", desc: "The order has been initialized and is ready for processing." },
-        { value: "RUNNING", desc: "The transaction is being processed on the blockchain." },
-        { value: "WAITING_FOR_SIGNATURE", desc: "The system is in the process of signing the transaction payload." },
-        { value: "REJECTED", desc: "The order was rejected and will not be processed further." },
-        { value: "SUCCESS", desc: "The order was successfully processed and confirmed on the blockchain." },
-        { value: "FAILED", desc: "The order failed during processing." }
-      ]
-    },
-    {
-      key: "ENTITY_TYPE",
-      keyDesc: "Defines the type of NFT or asset involved in the transaction.",
-      apiUrls: [
-        "https://docs.okto.tech/api-docs#tag/client/GET/api/v1/nft/order_details"
-      ],
-      values: [
-        { value: "ERC721", desc: "An ERC-721 standard NFT on EVM-compatible blockchains." },
-        { value: "ERC1155", desc: "An ERC-1155 standard NFT on EVM-compatible blockchains." },
-        { value: "NFT", desc: "An NFT on non-EVM blockchains." }
-      ]
-    }
-  ]
+interface CopyableTextProps {
+  text: string;
+}
 
+const CopyableText: React.FC<CopyableTextProps> = ({ text }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
+
+  return (
+    <div className="flex items-center space-x-2">
+      <span>{shortenAddress(text)}</span>
+      {text && (
+        <button onClick={handleCopy} className="text-blue-500 hover:text-blue-700">
+          {copied ? <Check size={16} /> : <Copy size={16} />}
+        </button>
+      )}
+    </div>
+  );
+};
+
+interface HeadingWithAnchorProps {
+  children: React.ReactNode;
+  id: string;
+}
+
+const HeadingWithAnchor: React.FC<HeadingWithAnchorProps> = ({ children, id }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.preventDefault();
+    const url = `${window.location.origin}${window.location.pathname}#${id}`;
+    navigator.clipboard.writeText(url).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
+
+  return (
+    <h3 id={id} className="font-semibold flex items-center group">
+      {children}
+      <a
+        href={`#${id}`}
+        onClick={handleCopy}
+        className="ml-2 text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center"
+        aria-label={`Copy link to ${children}`}
+      >
+        {copied ? <Check size={16} /> : <Hash size={16} />}
+      </a>
+    </h3>
+  );
+};
+
+const TokenAlert: React.FC = () => {
+  return (
+    <Alert className="bg-yellow-100 border-l-4 border-yellow-500">
+      <div className="flex items-start space-x-3">
+        <Terminal className="h-5 w-5 text-yellow-500 mt-1" />
+        <div className="flex-1">
+          <AlertTitle className="text-yellow-800">Important!</AlertTitle>
+          <AlertDescription className="text-yellow-700">
+            Native tokens on chains do not have a Token Address (N/A). Please use empty strings for these tokens wherever applicable.
+          </AlertDescription>
+        </div>
+      </div>
+    </Alert>
+  );
+};
+
+const Component: React.FC = () => {
   return (
     <div className="container mx-auto p-4 space-y-8">
       <div className="text-center">
@@ -125,13 +113,13 @@ export default function Component() {
         <p className="text-muted-foreground mb-8">A comprehensive overview of tokens, networks, and enum values</p>
       </div>
 
-      <div className="grid gap-8 md:grid-cols-2">
-        <Card>
+      <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2">
+        <Card className="w-full">
           <CardHeader>
             <CardTitle>Token Information</CardTitle>
             <CardDescription>A list of all available tokens and their properties</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="max-h-64 overflow-y-auto">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -144,7 +132,7 @@ export default function Component() {
                 {tokens.map((token, index) => (
                   <TableRow key={index}>
                     <TableCell className="font-medium">{token.token_name}</TableCell>
-                    <TableCell>{token.token_address || "N/A"}</TableCell>
+                    <TableCell><CopyableText text={token.token_address} /></TableCell>
                     <TableCell>{token.network_name}</TableCell>
                   </TableRow>
                 ))}
@@ -153,12 +141,12 @@ export default function Component() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="w-full">
           <CardHeader>
             <CardTitle>Network Information</CardTitle>
             <CardDescription>A list of all available networks and their properties</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="max-h-64 overflow-y-auto">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -179,40 +167,33 @@ export default function Component() {
         </Card>
       </div>
 
+      <TokenAlert />
+
       <Card>
         <CardHeader>
-          <CardTitle>Enum Values</CardTitle>
+          <CardTitle>Possible Values for Custom Types</CardTitle>
           <CardDescription>Possible values for selected types</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-8">
             {enumData.map((section, sectionIndex) => (
               <div key={sectionIndex} className="space-y-4">
-                {section.apiUrls.length > 0 && (
-                  <div className="space-y-2">
-                    {section.apiUrls.map((url, urlIndex) => (
-                      <p key={urlIndex} className="text-sm text-blue-500">
-                        <a href={url} target="_blank" rel="noopener noreferrer">{url}</a>
-                      </p>
-                    ))}
-                  </div>
-                )}
-                <h3 className="font-semibold">{section.key}</h3>
+                <HeadingWithAnchor id={generateId(section.key)}>
+                  {section.key}
+                </HeadingWithAnchor>
                 <p className="text-sm text-gray-600">{section.keyDesc}</p>
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Key</TableHead>
                       <TableHead>Value</TableHead>
                       <TableHead>Description</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {section.values.map((item, itemIndex) => (
-                      <TableRow key={itemIndex}>
-                        <TableCell>{section.key}</TableCell>
-                        <TableCell>{item.value}</TableCell>
-                        <TableCell>{item.desc}</TableCell>
+                    {section.values.map((value, valueIndex) => (
+                      <TableRow key={valueIndex}>
+                        <TableCell><EnumValue value={value.value} /></TableCell>
+                        <TableCell>{value.desc}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -223,5 +204,7 @@ export default function Component() {
         </CardContent>
       </Card>
     </div>
-  )
-}
+  );
+};
+
+export default Component;
