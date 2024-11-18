@@ -21,7 +21,7 @@ const tools: Tool[] = [
   {
     title: 'API Explorer',
     description: 'Interactive tool to explore and test our SDK\'s API endpoints.',
-    link: '/docs/api-reference',
+    link: '/api-docs',
   },
   {
     title: 'Google ID Token Generator',
