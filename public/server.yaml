@@ -34,7 +34,9 @@ paths:
       tags:
         - Server
       summary: Get user wallets
-      description: Fetch all the wallets created by a user using their user_id.
+      description: |
+        Fetch all the wallets created by a user using their user_id. Checkout all possible values of `network_name` here.
+          * [network_name](/tools/technical-reference)
       operationId: getUserWallets
       security: [
         {
@@ -61,7 +63,9 @@ paths:
       tags:
         - Server
       summary: Create treasury wallets
-      description: Create a treasury wallet for the vendor
+      description: |
+        Create a treasury wallet for the vendor Checkout all possible values of `network_name` here.
+          * [network_name](/tools/technical-reference)
       operationId: createTreasuryWallet
       security: [
         {
@@ -134,7 +138,8 @@ paths:
       tags:
         - Server
       summary: Get all NFTs
-      description: Get the details of all the NFT's owned by the user using the user_id.
+      description: Get the details of all the NFT's owned by the user using the user_id. Checkout all possible values of `network_name` here.
+          * [network_name](/tools/technical-reference)
       operationId: getNfts
       security: [
         {
@@ -162,7 +167,10 @@ paths:
       tags:
         - Server
       summary: Get user activity
-      description: Get a user's portfolio activity using their user_id.
+      description: |
+        Get a user's portfolio activity using their user_id. Checkout all possible values of `order_type` and `network_name` here.
+          * [order_type](/tools/technical-reference#order_type)
+          * [network_name](/tools/technical-reference)
       operationId: getUserActivity
       security: [
         {
@@ -190,7 +198,9 @@ paths:
       tags:
         - Server
       summary: Get supported tokens
-      description: Get an array of all the whitelisted tokens on your API key.
+      description: |
+        Get an array of all the whitelisted tokens on your API key. Checkout all possible values of `token_name` here.
+          * [token_name](/tools/technical-reference)
       operationId: getSupportedTokens
       security: [
         {
@@ -218,7 +228,9 @@ paths:
       tags:
         - Server
       summary: Create bulk wallets
-      description: Creates multiple wallets in bulk for the specified network and purpose
+      description: |
+        Creates multiple wallets in bulk for the specified network and purpose. Checkout all possible values of `network_name` here.
+          * [network_name](/tools/technical-reference)
       operationId: createBulkWallets
       security: [
         {
@@ -272,7 +284,11 @@ paths:
       tags:
         - Server
       summary: Mint NFT V2
-      description: Used to mint a new NFT on a specific network.
+      description: |
+        Used to mint a new NFT on a specific network. Creates multiple wallets in bulk for the specified network and purpose. Checkout all possible values of `network_name`, `operation_type` and `entity_type` here.
+          * [network_name](/tools/technical-reference)
+          * [operation_type](/tools/technical-reference#operation_type)
+          * [entity_type](/tools/technical-reference#entity_type)
       operationId: mintNftV2
       security: [
         {
@@ -305,7 +321,10 @@ paths:
       tags:
         - Server
       summary: Transfer NFT V2
-      description: Used to transfer nft from user wallet address to recipient address. The order ID will be returned in the response. The order ID can be used to track the status of the order.
+      description: |
+        Used to transfer nft from user wallet address to recipient address. The order ID will be returned in the response. The order ID can be used to track the status of the order. Checkout all possible values of `network_name`, `operation_type` and `entity_type` here.
+          * [network_name](/tools/technical-reference)
+          * [operation_type](/tools/technical-reference#operation_type)
       operationId: transferNftV2
       security: [
         {
@@ -338,7 +357,10 @@ paths:
       tags:
         - Server
       summary: Transfer Tokens V2
-      description: Used to transfer ERC20/Native Tokens from user wallet address to recipient address. The order ID will be returned in the response. The bulk order ID can be used to track the status of the order.
+      description: |
+        Used to transfer ERC20/Native Tokens from user wallet address to recipient address. The order ID will be returned in the response. The bulk order ID can be used to track the status of the order. Checkout all possible values of `network_name` and `operation_type` here.
+          * [network_name](/tools/technical-reference)
+          * [operation_type](/tools/technical-reference#operation_type)
       operationId: transferTokensV2
       security: [
         {
@@ -371,7 +393,11 @@ paths:
       tags:
         - Server
       summary: Get bulk order details
-      description: Get order details of all ongoing jobs by using `order_id`.
+      description: |
+        Get order details of all ongoing jobs by using `order_id`. Checkout all possible values of `network_name`, `status` and `order_type` here.
+          * [network_name](/tools/technical-reference)
+          * [status](/tools/technical-reference#status)
+          * [order_type](/tools/technical-reference#order_type)
       operationId: getBulkOrderDetails
       security: [
         {
@@ -400,7 +426,9 @@ paths:
       tags:
         - Server
       summary: Execute raw transaction
-      description: Execute a raw transaction for a specific user
+      description: |
+        Execute a raw transaction for a specific user. Checkout all possible values of `network_name` here.
+          * [network_name](/tools/technical-reference)
       operationId: executeRawTransaction
       security: [
         {

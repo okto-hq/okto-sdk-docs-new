@@ -182,7 +182,9 @@ paths:
       tags:
         - Client
       summary: Get supported networks
-      description: Get an array of all the whitelisted networks on your API key.
+      description: |
+        Get an array of all the whitelisted networks on your API key. Checkout all possible values of `network_name` here.
+          * [network_name](/tools/technical-reference)
       operationId: getSupportedNetworks
       parameters:
         - "$ref": "#/components/parameters/bearer_auth" 
@@ -204,7 +206,9 @@ paths:
       tags:
         - Client
       summary: Get supported tokens
-      description: Get an array of all the whitelisted tokens on your API key.
+      description: |
+        Get an array of all the whitelisted tokens on your API key. Checkout all possible values of `token_name` here.
+          * [token_name](/tools/technical-reference)
       operationId: getSupportedTokens
       parameters:
         - "$ref": "#/components/parameters/bearer_auth" 
@@ -228,7 +232,10 @@ paths:
       tags:
         - Client
       summary: Get portfolio
-      description: Get the portfolio data of the user, which includes all the tokens owned by the user across all the networks.
+      description: |
+        Get the portfolio data of the user, which includes all the tokens owned by the user across all the networks. Checkout all possible values of `token_name` and `network_name` here.
+          * [token_name](/tools/technical-reference)
+          * [network_name](/tools/technical-reference)
       operationId: getPortfolio
       parameters:
         - "$ref": "#/components/parameters/bearer_auth"
@@ -250,7 +257,11 @@ paths:
       tags:
         - Client
       summary: Get portfolio activity
-      description: Get user's portfolio activity
+      description: |
+        Get user's portfolio activity. Checkout all possible values of `order_type`, `token_name` and `network_name` here.
+          * [order_type](/tools/technical-reference#order_type)
+          * [token_name](/tools/technical-reference)
+          * [network_name](/tools/technical-reference)
       operationId: getPortfolioActivity
       parameters:
         - "$ref": "#/components/parameters/bearer_auth"
@@ -324,7 +335,11 @@ paths:
       tags:
         - Client
       summary: Get order history
-      description: Fetch all the orders of the user, which includes the history of tokens sent and received.
+      description: |
+        Fetch all the orders of the user, which includes the history of tokens sent and received. Checkout all possible values of `order_type`, `network_name` and `status` here.
+          * [order_type](/tools/technical-reference#order_type)
+          * [network_name](/tools/technical-reference)
+          * [status](/tools/technical-reference#status)
       operationId: getOrderHistory
       parameters:
         - "$ref": "#/components/parameters/bearer_auth"
@@ -350,7 +365,10 @@ paths:
       tags:
         - Client
       summary: Transfer NFT
-      description: Used to transfer nft from user wallet address to recipient address. The order ID will be returned in the response. The order ID can be used to track the status of the order.
+      description: |
+        Used to transfer nft from user wallet address to recipient address. The order ID will be returned in the response. The order ID can be used to track the status of the order. Checkout all possible values of `operation_type` and `network_name` here.
+          * [operation_type](/tools/technical-reference#operation_type)
+          * [network_name](/tools/technical-reference)
       operationId: transferNft
       parameters:
         - "$ref": "#/components/parameters/bearer_auth"
@@ -414,7 +432,12 @@ paths:
       tags:
         - Client
       summary: Get NFT order details
-      description: Get order details of all the NFTs transferred and received by the user.
+      description: |
+        Get order details of all the NFTs transferred and received by the user. Checkout all possible values of `status`, `network_name`, `entity_type` and `order_type` here.
+          * [status](/tools/technical-reference#status)
+          * [network_name](/tools/technical-reference)
+          * [entity_type](/tools/technical-reference#entity_type)
+          * [order_type](/tools/technical-reference#order_type)
       operationId: getNftOrderDetails
       parameters:
         - "$ref": "#/components/parameters/bearer_auth"
@@ -439,7 +462,12 @@ paths:
       tags:
         - Client
       summary: Execute raw transactions
-      description: Execute a raw transaction on a network. The API returns a jobId which can be used to track the status of the transaction.
+      description: |
+        Execute a raw transaction on a network. The API returns a jobId which can be used to track the status of the transaction. Checkout all possible values of `status`, `network_name`, `entity_type` and `order_type` here.
+          * [status](/tools/technical-reference#status)
+          * [network_name](/tools/technical-reference)
+          * [entity_type](/tools/technical-reference#entity_type)
+          * [order_type](/tools/technical-reference#order_type)
       operationId: executeRawTransactions
       parameters:
         - "$ref": "#/components/parameters/bearer_auth"
@@ -556,7 +584,11 @@ paths:
       tags:
         - Client
       summary: Get raw transaction status
-      description: Get the details of the raw transaction status by providing the order_id of the transaction. The response will contain the status of the transaction and the transaction hash if the transaction is successful.
+      description: |
+        Get the details of the raw transaction status by providing the order_id of the transaction. The response will contain the status of the transaction and the transaction hash if the transaction is successful.
+        Checkout all possible values of `status` and `network_name` here.
+          * [network_name](/tools/technical-reference)
+          * [status](/tools/technical-reference#status)
       operationId: getRawTransaction
       parameters:
         - "$ref": "#/components/parameters/bearer_auth"
