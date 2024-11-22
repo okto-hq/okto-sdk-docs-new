@@ -1,0 +1,46 @@
+---
+title: Learn 
+full: false
+---
+
+This document describes the authentication flow using Email One-Time Passwords (OTP) with the Okto SDK. Learn how to implement secure user authentication using email verification integrated with Okto's infrastructure.
+
+## What is Email OTP Authentication?
+
+Email OTP authentication is a secure method that verifies user identity through one-time passwords sent via email. This authentication method provides:
+
+- Secure verification using time-limited codes
+- Simple user experience with no password management
+- Email ownership verification
+- Automated OTP delivery and validation
+
+## Implementation Overview
+
+To implement Email OTP Authentication in your application, you'll need to complete these steps:
+
+1. Understand the authentication flow
+2. [Implement Authentication in your application](./auth-user-via-email)
+
+## Authentication Flow
+
+### Sequence Diagram
+
+![Email Auth Sequence Diagram](/images/email-auth-sequence-diagram.png)
+
+The sequence diagram illustrates the following steps:
+
+### 1. OTP Generation Phase
+During this phase, the client application initiates the process by calling sendEmailOTP API with the user's email address through the Okto SDK. The SDK forwards this request to the Okto Server, which generates a unique OTP through a email provider and initiates a session timer.
+
+### 2. Email Delivery Phase
+Once the OTP is generated, the provider sends the OTP to the user's email address. The server returns a session token along with a confirmation that the OTP has been sent. The user receives the OTP in their email inbox, typically within a few moments. **The OTP is valid for 5 minutes**.
+
+### 3. OTP Verification Phase
+After receiving the OTP, the user enters it in the client application. The application then calls verifyEmailOTP API with three parameters: the email address, the entered OTP, and the session token received earlier. The Okto SDK forwards these credentials to the Okto Server for validation.
+
+### 4. Authentication Completion
+The Okto Server verifies the provided OTP against the stored value and checks if it's still within the valid timeframe. Upon successful verification, the server generates an authentication token and returns it to the client application through the SDK, establishing a secure session.
+
+
+## Conclusion
+Email OTP authentication provides a secure and user-friendly way to verify user identity. By following the implementation guides, you can create a robust authentication system that balances security with user experience. The 5-minute validity period ensures security while giving users adequate time to complete the authentication process.
