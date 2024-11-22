@@ -1,0 +1,45 @@
+---
+title: Learn 
+full: false
+---
+
+This document describes the authentication flow using Phone One-Time Passwords (OTP) with the Okto SDK. Learn how to implement secure user authentication using phone verification integrated with Okto's infrastructure.
+
+## What is Phone OTP Authentication?
+
+Phone OTP authentication is a secure method that verifies user identity through one-time passwords sent via SMS. This authentication method provides:
+
+- Secure verification using time-limited codes
+- Streamlined user experience with no password management
+- Phone number ownership verification
+- Automated SMS delivery and validation
+
+## Implementation Overview
+
+To implement Phone OTP Authentication in your application, you'll need to complete these steps:
+
+1. Understand the authentication flow
+2. [Implement Authentication in your application](./auth-user-via-phone)
+
+## Authentication Flow
+
+### Sequence Diagram
+
+![Phone Auth Sequence Diagram](/images/phone-auth-sequence-diagram.png)
+
+The sequence diagram illustrates the following steps:
+
+### 1. OTP Generation Phase
+During this phase, the client application initiates the process by calling sendPhoneOTP API with the user's phone number and country code through the Okto SDK. The SDK forwards this request to the Okto Server, which generates a unique OTP through a SMS provider and initiates a session timer.
+
+### 2. SMS Delivery Phase
+Once the OTP is generated, the SMS provider sends the OTP to the user's phone number. The server returns a session token along with a confirmation that the OTP has been sent. The user receives the OTP via SMS, typically within moments. **The OTP is valid for 5 minutes**.
+
+### 3. OTP Verification Phase
+After receiving the OTP, the user enters it in the client application. The application then calls verifyPhoneOTP API with three parameters: the phone number, country code, entered OTP, and the session token received earlier. The Okto SDK forwards these credentials to the Okto Server for validation.
+
+### 4. Authentication Completion
+The Okto Server verifies the provided OTP against the stored value and checks if it's still within the valid timeframe. Upon successful verification, the server generates an authentication token and returns it to the client application through the SDK, establishing a secure session.
+
+## Conclusion
+Phone OTP authentication provides a secure and widely accessible way to verify user identity. By following the implementation guides, you can create a robust authentication system that works reliably across different countries and carriers. The 5-minute validity period ensures security while giving users adequate time to complete the authentication process.

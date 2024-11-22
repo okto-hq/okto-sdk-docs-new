@@ -3,11 +3,39 @@ title: Learn
 full: false
 ---
 
-This document describes the authentication flow when using Google OAuth and the Okto React SDK. The diagram depicts the interaction between the vendor's client web app, the Google OAuth server, the Okto React SDK, and the Okto servers to authenticate a user, verify their credentials, and create or validate the user in the Okto system.
+This document describes the authentication flow when using Google OAuth and the Okto React SDK. Learn how to implement secure user authentication using Google's OAuth 2.0 system integrated with Okto SDK.
 
-## Sequence Diagram Explanation
+## What is Google OAuth Authentication?
 
-<img src="/images/auth-sequence-diagram.png" alt="Auth Sequence Diagram"/>
+Google OAuth 2.0 is an industry-standard protocol for authorization that enables applications to obtain limited access to user accounts on Google services. When using Okto with Google Authentication, you get:
+
+- Secure user authentication using Google's trusted infrastructure
+- Access to user profile information (email, name, profile picture)
+- Simplified sign-up/sign-in process for users
+- Cross-platform compatibility
+- Built-in security features like token encryption and automatic session management
+
+## Implementation Overview
+
+To implement Google Authentication in your application, you'll need to complete these steps:
+
+
+1. **Set up Google Console Project**
+    - [Web Client ID](./google-console-setup-web)
+    - [Android Client ID](./google-console-setup-android)
+    - [iOS Client ID](./google-console-setup-ios)
+2. **[Obtain Google ID Token](./get-token-id)**
+3. **[Authenticate with Okto:](./auth-user-via-code)** 
+   - Use the ID token with Okto SDK
+   - Pass the token to Okto's authentication method
+   - Handle authentication response
+   - Manage user session
+
+## Authentication Flow
+
+### Sequence Diagram
+
+![Auth Sequence Diagram](/images/google-auth-sequence-diagram.png)
 
 The sequence diagram illustrates the following steps:
 

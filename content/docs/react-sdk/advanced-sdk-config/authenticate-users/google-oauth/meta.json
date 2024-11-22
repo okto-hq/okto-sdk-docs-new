@@ -1,8 +1,9 @@
 {
-    "title": "Google OAuth",
+    "title": "Google ID Token",
     "pages": [
       "learn",
       "get-token-id",
-      "google-console-setup"
+      "google-console-setup",
+      "auth-user-via-code"
     ]
   }

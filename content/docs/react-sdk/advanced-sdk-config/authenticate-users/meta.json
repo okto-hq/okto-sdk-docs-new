@@ -3,9 +3,10 @@
     "pages": [
       "!learn",
       "google-oauth",
+      "jwt-closed-loop",
       "phone-otp",
       "email-otp",
       "!other-social-auth",
-      "auth-user-via-code"
+      "login-logout"
     ]
   }
