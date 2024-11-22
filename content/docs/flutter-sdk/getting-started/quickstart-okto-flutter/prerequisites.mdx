@@ -14,16 +14,24 @@ import { Callout } from 'fumadocs-ui/components/callout';
    - Obtain your API Key from the [Okto Dashboard](https://dashboard.okto.tech/).
    - This key is essential for integrating the Okto SDK into your project.
 
-3. **Google Client IDs**
-   - To authenticate users via Google, you'll need to set up a Google Console Project.
-   - Follow our guide to [set up your Google Console Project](/docs/flutter-sdk/advanced-sdk-config/authenticate-users/google-oauth/google-console-setup).
-   - The required Client IDs depend on your target platforms:
+3. **Authentication Methods**
 
-   | Target Platform | Required Client IDs |
-   |-----------------|---------------------|
-   | Android only    | - Android Client ID<br/>- Web Client ID |
-   | iOS only        | - iOS Client ID |
-   | Both Android and iOS | - Android Client ID<br/>- iOS Client ID<br/>- Web Client ID |
+   The Okto SDK supports multiple authentication methods:
+
+      i. **Google Client IDs**
+         - To authenticate users via Google, you'll need to set up a Google Console Project.
+         - Follow our guide to [set up your Google Console Project](/docs/flutter-sdk/advanced-sdk-config/authenticate-users/google-oauth/google-console-setup).
+         - The required Client IDs depend on your target platforms:
+
+         | Target Platform | Required Client IDs |
+         |-----------------|---------------------|
+         | Android only    | - Android Client ID<br/>- Web Client ID |
+         | iOS only        | - iOS Client ID |
+         | Both Android and iOS | - Android Client ID<br/>- iOS Client ID<br/>- Web Client ID |
+      
+      ii. [**Email OTP**](/docs/flutter-sdk/advanced-sdk-config/authenticate-users/email-otp)
+
+      iii. [**Phone OTP**](/docs/flutter-sdk/advanced-sdk-config/authenticate-users/phone-otp)   
 
 <Callout title="Environment Configuration">
 By default, your project will use the **Sandbox** environment. To switch to the **Production** environment, please refer to our [Admin Panel documentation](/docs/developer-admin-dashboard/overview) for upgrade instructions.

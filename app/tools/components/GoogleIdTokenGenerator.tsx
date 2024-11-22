@@ -15,8 +15,9 @@ export default function GoogleIdTokenGenerator() {
   const [error, setError] = useState('')
   const [isSignedIn, setIsSignedIn] = useState(false)
 
-  // Access the Google Client ID from environment variables
-  const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''
+  const ClientId = 'MTA0NjI3MTUyMTE1NS0wbTQ1M3BvaTVndWEwM2tlaGRjbjV1b24xdnZ1NXU5ai5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbQ=='
+  
+  const clientId = atob(ClientId)  
 
   useEffect(() => {
     // Load the Google Identity Services library
