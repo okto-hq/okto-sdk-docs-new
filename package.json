@@ -9,7 +9,7 @@
     "postinstall": "fumadocs-mdx"
   },
   "dependencies": {
-    "@cookbookdev/docsbot": "^4.24.0",
+    "@cookbookdev/docsbot": "^4.24.7",
     "@iconify/react": "^5.0.2",
     "@nextui-org/react": "^2.4.6",
     "@scalar/api-reference-react": "^0.3.86",
