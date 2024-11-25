@@ -3,9 +3,9 @@
     "pages": [
       "!learn",
       "google-oauth",
-      "!phone-otp",
-      "!email-otp",
+      "phone-otp",
+      "email-otp",
       "!other-social-auth",
-      "auth-user-via-code"
+      "login-logout"
     ]
   }

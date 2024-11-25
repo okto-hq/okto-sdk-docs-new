@@ -1,0 +1,55 @@
+---
+title: Learn 
+full: false
+---
+
+This document describes the authentication flow for closed loop wallets using JWT (JSON Web Tokens) with the Okto SDK. Learn how to implement secure user authentication using your existing JWT infrastructure integrated with Okto's systems.
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## What is JWT Authentication?
+
+JWT (JSON Web Tokens) authentication is a secure method of transmitting information between parties as a JSON object. For closed loop wallets, this allows you to:
+
+- Use your existing authentication system
+- Maintain full control over user authentication
+- Seamlessly integrate with Okto's infrastructure
+- Enable secure token-based authentication
+- Manage user sessions effectively
+
+## Implementation Overview
+
+<Callout title="Note">
+JWT authentication is currently only available via API integration. This feature is not available through the SDK.
+</Callout>
+
+To implement JWT Authentication in your application, you'll need to complete these steps:
+
+1. **Set up JWT Verification** - Configure JWT verification with Okto
+2. **Implement Authentication** - Generate and validate JWT tokens within your system
+
+## Authentication Flow
+
+### Sequence Diagram
+
+![JWT Auth Sequence Diagram](/images/jwt-auth-sequence-diagram.png)
+
+The sequence diagram illustrates the following steps:
+
+### 1. Prerequisite Setup
+Before implementing JWT authentication, you need to set up a JWT verify function with Okto. This is a crucial first step that establishes the foundation for secure token verification and user authentication.
+
+### 2. JWT Token Generation
+The process begins when the vendor's system generates a JWT token for their user. This token serves as the primary authentication credential and contains the necessary user identification data, securely signed with the vendor's private key.
+
+### 3. Authentication Request
+The client application initiates the authentication process by invoking the Auth method using the generated JWT token. This token is passed to the Okto SDK, which handles the formatting and forwarding of the authentication request to the Okto Server.
+
+### 4. Token Verification
+Upon receiving the JWT token, the Okto Server invokes the predetermined verify function with the token. This step validates the token's authenticity and signature, ensuring the request comes from a legitimate source and retrieves the associated user data.
+
+### 5. User Management
+After successful token validation, Okto verifies the authentication success and checks if an account exists for the user. If no account is found, a new user is created in the system. Finally, an Okto authentication token is generated and returned to the client application, establishing a secure session.
+
+## Conclusion
+This authentication flow provides a secure way to integrate your existing JWT-based authentication system with Okto's infrastructure. By following the implementation guides, you can maintain control over your authentication while leveraging Okto's powerful features for closed loop wallets.
