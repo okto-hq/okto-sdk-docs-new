@@ -29,6 +29,48 @@ tags:
   - name: Client
     description: Everything related to client side
 paths:
+  "/api/v2/authenticate":
+    post:
+      tags:
+        - Client
+      summary: Authenticate a user via Google ID Token
+      description: Authenticates the user using Google ID Token and on successfull authentication, it will return the token of the user. Checkout the documentation here.
+          
+        * [Authenticate via Google ID token](/docs/react-sdk/advanced-sdk-config/authenticate-users/google-oauth/learn)
+
+      operationId: authenticateUser
+      security: [
+        {
+          apiKeyHeader: []
+        }
+      ]
+      parameters:
+        - "$ref": "#/components/parameters/x_api_key" 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_token:
+                  type: string
+                  description: The ID Token of the user received from the google OAuth2 provider.
+                  required: true
+                  example: "GOOGLE_OAUTH2_TOKEN_ID"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ClientAuthenticateResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/responses/BadRequest"
   # "/api/v1/authenticate/email":
   #   post:
   #     tags:
@@ -206,40 +248,32 @@ paths:
   #           application/json:
   #             schema:
   #               "$ref": "#/components/responses/BadRequest"
-
-  "/api/v2/authenticate":
+  "/api/v1/authenticate/jwt":
     post:
       tags:
         - Client
-      summary: Authenticate a user
-      description: Authenticates the user and on successfull authentication, it will return the token of the user
-      operationId: authenticateUser
-      security: [
-        {
-          apiKeyHeader: []
-        }
-      ]
+      summary: JWT Authenticate for closed loop wallets
+      description: |
+        Authenticates a user using a vendor-provided JWT token. This endpoint verifies the JWT token 
+        with the vendor's verification API and returns Okto authentication tokens upon successful verification.
+        
+        The vendor JWT should be provided in the Authorization header as a Bearer token. 
+        
+        Checkout the documentation for JWT authenticate here.
+          * [JWT Authenticate](/docs/react-sdk/advanced-sdk-config/authenticate-users/jwt-closed-loop/learn)
+      operationId: jwtAuthenticate
+      security: 
+        - apiKeyHeader: []
       parameters:
-        - "$ref": "#/components/parameters/x_api_key" 
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id_token:
-                  type: string
-                  description: The ID Token of the user received from the google OAuth2 provider.
-                  required: true
-                  example: "GOOGLE_OAUTH2_TOKEN_ID"
+        - "$ref": "#/components/parameters/x_api_key"
+        - "$ref": "#/components/parameters/vendor_jwt"
       responses:
         "201":
-          description: Created
+          description: Authenticated
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/ClientAuthenticateResponse"
+                "$ref": "#/components/schemas/ClientJWTAuthResponse"
         "400":
           description: Bad Request
           content:
@@ -1042,6 +1076,14 @@ components:
       schema:
         type: string
         example: "YOUR_OKTO_APP_SECRET"
+    vendor_jwt:
+      name: Authorization
+      in: header
+      required: true
+      description: Vendor's JWT that needs to be verified for the user authentication
+      schema:
+        type: string
+      example: "Vendor jwt token"
     bearer_auth:
       name: Authorization
       in: header
@@ -1813,6 +1855,41 @@ components:
             - refresh_auth_token
             - device_token
             - message
+      required:
+        - status
+        - data
+    ClientJWTAuthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the JWT authentication request
+          enum: [success, failure]
+          example: "success"
+        data:
+          type: object
+          properties:
+            auth_token:
+              type: string
+              description: JWT access token for authentication
+              example: "eyJh...V7U4"
+            message:
+              type: string
+              description: Status message
+              example: "success"
+            refresh_auth_token:
+              type: string
+              description: JWT refresh token for obtaining new access tokens
+              example: "eyJh...qaSGc"
+            device_token:
+              type: string
+              description: Token for device identification
+              example: "08f3...8151"
+          required:
+            - auth_token
+            - message
+            - refresh_auth_token
+            - device_token
       required:
         - status
         - data

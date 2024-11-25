@@ -27,6 +27,29 @@ To implement JWT Authentication in your application, you'll need to complete the
 
 1. **Set up JWT Verification** - Configure JWT verification with Okto
 2. **Implement Authentication** - Generate and validate JWT tokens within your system
+3. **Create Verification Endpoint** - Set up an API endpoint for token verification
+
+## Vendor Requirements
+
+- Create a JWT token that includes user identification (`user_id`).
+- Provide an API endpoint that Okto can call to verify and retrieve the `user_id` using the JWT token.
+
+**Request of the API should be like:**
+
+**Request Headers:**
+```json
+{
+  "authorization": "Bearer <jwt token that was created at vendor side>"
+}
+```
+
+**Expected Response**:
+```json
+{
+  "user_id": "string",    //<email-address of user, or any other unique identification of user>,
+  "success": true          //BOOLEAN
+}
+```
 
 ## Authentication Flow
 
@@ -42,6 +65,15 @@ Before implementing JWT authentication, you need to set up a JWT verify function
 ### 2. JWT Token Generation
 The process begins when the vendor's system generates a JWT token for their user. This token serves as the primary authentication credential and contains the necessary user identification data, securely signed with the vendor's private key.
 
+**Sample JWT Payload**:
+```json
+{
+  "user_id": "string",    //<email-address of user, or any other unique identification of user>,
+  "iat": 1731479575,       //unix timestamp when jwt was created
+  "exp": 1732343575        //unix timestamp when jwt will be expired
+}
+```
+
 ### 3. Authentication Request
 The client application initiates the authentication process by invoking the Auth method using the generated JWT token. This token is passed to the Okto SDK, which handles the formatting and forwarding of the authentication request to the Okto Server.
 
@@ -50,6 +82,14 @@ Upon receiving the JWT token, the Okto Server invokes the predetermined verify f
 
 ### 5. User Management
 After successful token validation, Okto verifies the authentication success and checks if an account exists for the user. If no account is found, a new user is created in the system. Finally, an Okto authentication token is generated and returned to the client application, establishing a secure session.
+
+## Why Use JWT Authentication?
+
+Using JWT tokens adds an additional layer of security to your system:
+
+- **Improved Security**: If the vendor's API key is compromised, attackers cannot access user funds without the individual JWT tokens, which are user-specific and generated within the vendor's application.
+- **Reduced Attack Surface**: Since JWT tokens are not stored anywhere and are different for each user, attackers cannot target or drain the funds of all users simultaneously.
+
 
 ## Conclusion
 This authentication flow provides a secure way to integrate your existing JWT-based authentication system with Okto's infrastructure. By following the implementation guides, you can maintain control over your authentication while leveraging Okto's powerful features for closed loop wallets.
