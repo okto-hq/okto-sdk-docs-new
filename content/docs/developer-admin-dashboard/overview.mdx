@@ -4,6 +4,17 @@ description: Learn how to use the Okto Admin Panel in detail so you can get star
 full: false
 ---
 
+import TechnologyCard from "app/components/mdx/TechnologyCard";
+import { 
+  LuUsers, 
+  LuNetwork,
+  LuKey, 
+  LuPaintbrush, 
+  LuWallet,
+  LuCircleDollarSign,
+  LuClipboardList
+} from "react-icons/lu";
+
 ## Okto Admin Panel
 
 The Okto Admin Panel is a powerful, user-friendly interface designed to help you manage and monitor your Okto integration. It serves as a central hub for controlling various aspects of your application's interaction with the Okto platform, from user management to transaction monitoring and customization.
@@ -21,16 +32,53 @@ The Okto Admin Panel is a powerful, user-friendly interface designed to help you
 
 Explore our documentation to learn about the Okto Dashboard and its features. Here are some highlights from each section of the docs:
 
-1. [**Dashboard Account:**](./dashboard-account) Learn how to set up and manage your Okto Dashboard Account.
+<div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6 lg:gap-8">
+    <TechnologyCard 
+        icon={<LuUsers size={"1.5rem"}/>}
+        title="Dashboard Account" 
+        subtitle="Set up and manage your Okto Dashboard Account"
+        link="./dashboard-account"
+    />
 
-2. [**Okto Environments:**](./okto-environments/sandbox) Learn about different Okto environments, such as sandbox and production. 
+    <TechnologyCard 
+        icon={<LuNetwork size={"1.5rem"}/>}
+        title="Okto Environments" 
+        subtitle="Learn about sandbox and production environments"
+        link="./okto-environments/sandbox"
+    />
 
-3. [**API Keys:**](./api-key) Learn how to manage and generate API keys for your Okto integration. 
+    <TechnologyCard 
+        icon={<LuKey size={"1.5rem"}/>}
+        title="API Keys" 
+        subtitle="Manage and generate API keys for your integration"
+        link="./api-key"
+    />
 
-4. [**Customization:**](./ui-customizations/overview) Learn how to adjust the look and feel of your Okto integration. Also learn how to customize UI themes to create a seamless user experience that aligns with your brand identity.
+    <TechnologyCard 
+        icon={<LuPaintbrush size={"1.5rem"}/>}
+        title="Customization" 
+        subtitle="Adjust UI themes to match your brand identity"
+        link="./ui-customizations/overview"
+    />
 
-5. [**Chains & Tokens:**](./wallet-control) Learn how to enable and manage blockchain networks for your users. 
+    <TechnologyCard 
+        icon={<LuWallet size={"1.5rem"}/>}
+        title="Chains & Tokens" 
+        subtitle="Enable and manage blockchain networks for users"
+        link="./wallet-control"
+    />
 
-6. [**Sponsorship:**](./sponsorship/overview) Learn about Sponsorship and how you can set up and manage gas fee sponsorship for your users. 
+    <TechnologyCard 
+        icon={<LuCircleDollarSign size={"1.5rem"}/>}
+        title="Sponsorship" 
+        subtitle="Set up and manage gas fee sponsorship for users"
+        link="./sponsorship/overview"
+    />
 
-7. [**User Logs:**](./user-order-logs/user-log) Learn how to view detailed logs of user activity and transactions. 
+    <TechnologyCard 
+        icon={<LuClipboardList size={"1.5rem"}/>}
+        title="User Logs" 
+        subtitle="View detailed logs of user activity and transactions"
+        link="./user-order-logs/user-log"
+    />
+</div>
