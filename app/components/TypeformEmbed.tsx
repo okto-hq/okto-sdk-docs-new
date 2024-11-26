@@ -1,9 +1,19 @@
 'use client';
 
-import { Widget } from '@typeform/embed-react'
+import { Widget } from '@typeform/embed-react';
 
-const TypeformEmbed = () => {
-  return <Widget id="sdRXFXTN" style={{ width: '90%', height: '20rem' }} className="my-form" />
+interface TypeformEmbedProps {
+  id: string;
 }
+
+const TypeformEmbed: React.FC<TypeformEmbedProps> = ({ id }) => {
+  return (
+    <Widget
+      id={id}
+      style={{ width: '90%', height: '20rem' }}
+      className="my-form"
+    />
+  );
+};
 
 export default TypeformEmbed;
