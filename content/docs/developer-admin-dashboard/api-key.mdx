@@ -1,6 +1,6 @@
 ---
 title: API Key
-description: API keys are essential for integrating Okto into your application. They authenticate your requests and associate them with your Okto Dashboard account. 
+description: API keys are essential for integrating Okto into your application. They authenticate your requests and associate them with your Okto Dashboard account. This guide will help you locate, generate, and manage your API keys safely.
 full: false
 ---
 
@@ -8,17 +8,37 @@ import { Callout } from 'fumadocs-ui/components/callout';
 
 ## App ID
 
-![API Page - Okto Dashboard](/images/api-key-dashboard.png)
-
 The App ID is a unique identifier for your application and you as a [Vendor](/docs/introduction-to-okto/okto-vendor-user). It's used to associate your Okto client with this specific app in our system. Include this ID when initializing your Okto client in your application.
 
-To copy the App ID, click the "Copy" button next to it.
+### Steps to Access App ID
+
+1. [Log in](https://dashboard.okto.tech/login) to the Okto Dashboard.
+
+2. Navigate to the **API Keys** section from the sidebar menu.
+
+![API Page - Okto Dashboard](/images/api-key-dashboard.png)
+
+3. Locate the **App ID** displayed at the top of the API Keys page.
+
+4. Click the **Copy** button to copy the App ID to your clipboard.
+
+---
 
 ## App Secret
 
-Your App Secret is not displayed for security reasons. To view or generate your App Secret, click the "Get App Secret" button.
-
 The App Secret is a confidential key used to authenticate your API requests. Keep this secret secure and never share it publicly or include it in client-side code.
+
+### Steps to Access App Secret
+
+1. [Log in](https://dashboard.okto.tech/login) to the Okto Dashboard.
+
+2. Navigate to the **API Keys** section from the sidebar menu.
+
+![API Key - Okto Dashboard](/images/api-key-dashboard.png)
+
+3. Click the **Get App Secret** button. You may be prompted to re-authenticate.
+
+4. Once revealed, copy and securely store the App Secret.
 
 <Callout title="Note">
 - App ID and App Secret pairs are unique for each environment (e.g., sandbox, production).  
@@ -26,11 +46,7 @@ The App Secret is a confidential key used to authenticate your API requests. Kee
 - Okto does not store your API secret so keep it safe and secret.
 </Callout>
 
-**What are App ID and App Secret for Vendors?**
-
-**App ID**: A public identifier for your application.
-
-**App Secret**: A private key used to authenticate requests from your application to Okto's servers. It is also referred to as OKTO API KEY in the docs.
+---
 
 ## Storing App Secret
 
@@ -40,12 +56,41 @@ The App Secret is a confidential key used to authenticate your API requests. Kee
   * Never hardcode the secret in your application code.  
   * Avoid storing it in version control systems.
 
+---
+
 ## Reset App Secret
 
-* To reset your App Secret, use the "Reset" option next to your App Secret on the Okto dashboard.  
-* After regeneration, update the secret in all your applications to maintain uninterrupted service.
+If you lose your App Secret or suspect unauthorized use:
+
+1. Go to the **API Keys** section on the dashboard.
+
+![API Secret - Okto Dashboard](/images/app-secret-dashboard.png)
+
+2. Click the **Reset** button next to the App Secret field.
+
+3. A new **App Secret** will be generated. Copy the App Secret and store it securely.
+
+4. Update all your applications with the new secret to avoid service disruption.
 
 <Callout title="Note">
   - If someone obtains your App ID and App Secret, they could potentially make unauthorized requests on behalf of your application.  
   - In case of a suspected breach, immediately regenerate your App Secret and update your applications.
 </Callout>
+
+---
+
+## FAQ
+
+**1. What is the difference between App ID and App Secret for Vendors?**
+
+- App ID: A public identifier for your application used to associate your client with Okto.
+
+- App Secret: A private key used to authenticate requests from your application to Okto's servers. It is also referred to as OKTO API KEY in the docs.
+
+**2. How do I know which environment (sandbox/production) my API keys belong to?**
+
+Each environment’s keys are managed separately. Ensure the environment is indicated in your dashboard (e.g., "Sandbox" or "Production") before copying your keys.
+
+**3. What should I do if I accidentally expose my App Secret?**
+
+Immediately reset your App Secret through the dashboard and update it in your applications to prevent unauthorized access.
