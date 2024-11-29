@@ -63,6 +63,38 @@ interface TransferNftData {
 </Accordions>
 </Callout>
 
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Typescript']}>
+  <Tab value="Typescript">
+    ```typescript
+        import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
+ 
+        const { transferNft } = useOkto() as OktoContextType;
+ 
+        const data = {
+          operation_type: "NFT_TRANSFER",
+          network_name: "APTOS_TESTNET",
+          collection_address: "0x171e643e8e8dabc66b838b9055dbdf88647cf6601b164f5987f50a497bedfbe1",
+          collection_name: "super avengers", // Optional
+          quantity: "1",
+          recipient_address: "0x52316b3addb115bedcff4e986d19d013089b99494a5c77bd7439d54301692672",
+          nft_address: "0xd7406e64c6a0ceb70b18e126caae456e8a6d33895e3c36b38ba76611ebb25db9",
+        };
+ 
+        transferNft(data)
+          .then((result) => {
+            console.log('Transfer success', result);
+          })
+          .catch((error) => {
+            console.log('Transfer error', error);
+          });
+    ```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
 </div>
 
 <div className="method-box">
@@ -96,22 +128,23 @@ interface TransferNftData {
  
         const { transferNftWithJobStatus } = useOkto() as OktoContextType;
  
-        const networkName = "POLYGON_TESTNET"
-        const tokenAddress = "x2f7b97837f2d14ba2ed3a4b2282e259126a9b848"
-        const quantity = "1"
-        const recipientAddress = "0x0FC096A53343C68c1086e626661A4bb31486A9e2"
+        const data = {
+          operation_type: "NFT_TRANSFER",
+          network_name: "APTOS_TESTNET",
+          collection_address: "0x171e643e8e8dabc66b838b9055dbdf88647cf6601b164f5987f50a497bedfbe1",
+          collection_name: "super avengers", // Optional
+          quantity: "1",
+          recipient_address: "0x52316b3addb115bedcff4e986d19d013089b99494a5c77bd7439d54301692672",
+          nft_address: "0xd7406e64c6a0ceb70b18e126caae456e8a6d33895e3c36b38ba76611ebb25db9",
+        };
  
-        transferNftWithJobStatus({
-            network_name: networkName,
-            token_address: tokenAddress,
-            recipient_address: recipientAddress,
-            quantity: quantity
-        }).then((result) => {
-                console.log('Transfer success', result);
-        })
-        .catch((error) => {
+        transferNftWithJobStatus(data)
+          .then((result) => {
+            console.log('Transfer completed', result);
+          })
+          .catch((error) => {
             console.log('Transfer error', error);
-        });
+          });
     ```
   </Tab>
 </Tabs>
