@@ -421,7 +421,7 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/responses/BadRequest"
-  "/s2s/api/v1/rawtransaction/execute":
+  "/s2s/api/v1/rawtransaction/execute/{TW_USER_ID}":
     post:
       tags:
         - Server
@@ -437,6 +437,7 @@ paths:
       ]
       parameters:
         - "$ref": "#/components/parameters/x_api_key" 
+        - "$ref": "#/components/parameters/job_id"
       requestBody:
         required: true
         content:
@@ -806,6 +807,13 @@ components:
       schema:
         type: string
       example: "YOUR_OKTO_APP_SECRET"
+    job_id:
+      name: job-id
+      in: header
+      description: Optional unique identifier used for idempotency
+      schema:
+        type: string
+        example: "UNIQUE_UUID_V4"
     page:
       name: page
       in: query
