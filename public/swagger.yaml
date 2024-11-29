@@ -71,183 +71,183 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/responses/BadRequest"
-  # "/api/v1/authenticate/email":
-  #   post:
-  #     tags:
-  #       - Client
-  #     summary: Send Email OTP
-  #     description: Sends an OTP to the specified email address.
-  #     operationId: sendEmailOTP
-  #     security:
-  #       - apiKeyHeader: []
-  #     parameters:
-  #       - "$ref": "#/components/parameters/x_api_key"
-  #     requestBody:
-  #       required: true
-  #       content:
-  #         application/json:
-  #           schema:
-  #             type: object
-  #             properties:
-  #               email:
-  #                 type: string
-  #                 required: true
-  #                 description: The email address to which the OTP will be sent.
-  #                 example: "abc@xyz.com"
-  #     responses:
-  #       "200":
-  #         description: OTP Sent
-  #         content:
-  #           application/json:
-  #             schema:
-  #               "$ref": "#/components/schemas/ClientSendEmailOTPResponse"
-  #       "400":
-  #         description: Bad Request
-  #         content:
-  #           application/json:
-  #             schema:
-  #               "$ref": "#/components/responses/BadRequest"
+  "/api/v1/authenticate/email":
+    post:
+      tags:
+        - Client
+      summary: Send Email OTP
+      description: Sends an OTP to the specified email address to authenticate the user.
+      operationId: sendEmailOTP
+      security:
+        - apiKeyHeader: []
+      parameters:
+        - "$ref": "#/components/parameters/x_api_key"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  required: true
+                  description: The email address to which the OTP will be sent.
+                  example: "abc@xyz.com"
+      responses:
+        "201":
+          description: OTP Sent
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ClientSendEmailOTPResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/responses/BadRequest"
 
-  # "/api/v1/authenticate/email/verify":
-  #   post:
-  #     tags:
-  #       - Client
-  #     summary: Verify Email OTP
-  #     description: Verifies the OTP sent to the email.
-  #     operationId: verifyEmailOTP
-  #     security:
-  #       - apiKeyHeader: []
-  #     parameters:
-  #       - "$ref": "#/components/parameters/x_api_key"
-  #     requestBody:
-  #       required: true
-  #       content:
-  #         application/json:
-  #           schema:
-  #             type: object
-  #             properties:
-  #               email:
-  #                 type: string
-  #                 description: The email address used for the OTP verification.
-  #                 example: "abc@xyz.com"
-  #                 required: true
-  #               otp:
-  #                 type: string
-  #                 description: The OTP to verify.
-  #                 example: "12345"
-  #                 required: true
-  #               token:
-  #                 type: string
-  #                 description: Token received from the Send Email OTP API.
-  #                 example: "a9d7a6be-2130-4857-93a2-ff62d3598a80"
-  #                 required: true
-  #     responses:
-  #       "200":
-  #         description: OTP Verified
-  #         content:
-  #           application/json:
-  #             schema:
-  #               "$ref": "#/components/schemas/ClientVerifyEmailOTPResponse"
-  #       "400":
-  #         description: Bad Request
-  #         content:
-  #           application/json:
-  #             schema:
-  #               "$ref": "#/components/responses/BadRequest"
+  "/api/v1/authenticate/email/verify":
+    post:
+      tags:
+        - Client
+      summary: Verify Email OTP
+      description: Verifies the OTP sent to the email and returns Okto authentication tokens upon successful verification.
+      operationId: verifyEmailOTP
+      security:
+        - apiKeyHeader: []
+      parameters:
+        - "$ref": "#/components/parameters/x_api_key"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: The email address used for the OTP verification.
+                  example: "abc@xyz.com"
+                  required: true
+                otp:
+                  type: string
+                  description: The OTP to verify.
+                  example: "12345"
+                  required: true
+                token:
+                  type: string
+                  description: Token received from the Send Email OTP API.
+                  example: "a9d7a6be-2130-4857-93a2-ff62d3598a80"
+                  required: true
+      responses:
+        "201":
+          description: OTP Verified
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ClientVerifyEmailOTPResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/responses/BadRequest"
 
-  # "/api/v1/authenticate/phone":
-  #   post:
-  #     tags:
-  #       - Client
-  #     summary: Send Phone OTP
-  #     description: Sends an OTP to the specified phone number.
-  #     operationId: sendPhoneOTP
-  #     security:
-  #       - apiKeyHeader: []
-  #     parameters:
-  #       - "$ref": "#/components/parameters/x_api_key"
-  #     requestBody:
-  #       required: true
-  #       content:
-  #         application/json:
-  #           schema:
-  #             type: object
-  #             properties:
-  #               phone_number:
-  #                 type: string
-  #                 description: The phone number to which the OTP will be sent.
-  #                 example: "635XXXX485"
-  #                 required: true
-  #               country_short_name:
-  #                 type: string
-  #                 description: The country code of the phone number.
-  #                 example: "IN"
-  #                 required: true
-  #     responses:
-  #       "200":
-  #         description: OTP Sent
-  #         content:
-  #           application/json:
-  #             schema:
-  #               "$ref": "#/components/schemas/ClientSendPhoneOTPResponse"
-  #       "400":
-  #         description: Bad Request
-  #         content:
-  #           application/json:
-  #             schema:
-  #               "$ref": "#/components/responses/BadRequest"
+  "/api/v1/authenticate/phone":
+    post:
+      tags:
+        - Client
+      summary: Send Phone OTP
+      description: Sends an OTP to the specified phone number to authenticate the user.
+      operationId: sendPhoneOTP
+      security:
+        - apiKeyHeader: []
+      parameters:
+        - "$ref": "#/components/parameters/x_api_key"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone_number:
+                  type: string
+                  description: The phone number to which the OTP will be sent.
+                  example: "635XXXX485"
+                  required: true
+                country_short_name:
+                  type: string
+                  description: The country code of the phone number.
+                  example: "IN"
+                  required: true
+      responses:
+        "201":
+          description: OTP Sent
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ClientSendPhoneOTPResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/responses/BadRequest"
 
-  # "/api/v1/authenticate/phone/verify":
-  #   post:
-  #     tags:
-  #       - Client
-  #     summary: Verify Phone OTP
-  #     description: Verifies the OTP sent to the phone number.
-  #     operationId: verifyPhoneOTP
-  #     security:
-  #       - apiKeyHeader: []
-  #     parameters:
-  #       - "$ref": "#/components/parameters/x_api_key"
-  #     requestBody:
-  #       required: true
-  #       content:
-  #         application/json:
-  #           schema:
-  #             type: object
-  #             properties:
-  #               phone_number:
-  #                 type: string
-  #                 description: The phone number used for the OTP verification.
-  #                 example: "635XXXX485"
-  #                 required: true
-  #               country_short_name:
-  #                 type: string
-  #                 description: The country code of the phone number.
-  #                 example: "IN"
-  #                 required: true
-  #               otp:
-  #                 type: string
-  #                 description: The OTP to verify.
-  #                 example: "12345"
-  #                 required: true
-  #               token:
-  #                 type: string
-  #                 description: Token received from the Send Phone OTP API.
-  #                 example: "1d35c1c3-8330-42e7-87c1-5a271c10128a"
-  #                 required: true
-  #     responses:
-  #       "200":
-  #         description: OTP Verified
-  #         content:
-  #           application/json:
-  #             schema:
-  #               "$ref": "#/components/schemas/ClientVerifyPhoneOTPResponse"
-  #       "400":
-  #         description: Bad Request
-  #         content:
-  #           application/json:
-  #             schema:
-  #               "$ref": "#/components/responses/BadRequest"
+  "/api/v1/authenticate/phone/verify":
+    post:
+      tags:
+        - Client
+      summary: Verify Phone OTP
+      description: Verifies the OTP sent to the phone number and returns Okto authentication tokens upon successful verification.
+      operationId: verifyPhoneOTP
+      security:
+        - apiKeyHeader: []
+      parameters:
+        - "$ref": "#/components/parameters/x_api_key"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone_number:
+                  type: string
+                  description: The phone number used for the OTP verification.
+                  example: "635XXXX485"
+                  required: true
+                country_short_name:
+                  type: string
+                  description: The country code of the phone number.
+                  example: "IN"
+                  required: true
+                otp:
+                  type: string
+                  description: The OTP to verify.
+                  example: "12345"
+                  required: true
+                token:
+                  type: string
+                  description: Token received from the Send Phone OTP API.
+                  example: "1d35c1c3-8330-42e7-87c1-5a271c10128a"
+                  required: true
+      responses:
+        "201":
+          description: OTP Verified
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ClientVerifyPhoneOTPResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/responses/BadRequest"
   "/api/v1/authenticate/jwt":
     post:
       tags:
@@ -1692,138 +1692,138 @@ components:
           type: string
           examples:
             - eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-    # ClientSendEmailOTPResponse:
-    #   type: object
-    #   properties:
-    #     status:
-    #       type: string
-    #       description: Status of the OTP sending request
-    #       example: "success"
-    #     data:
-    #       type: object
-    #       properties:
-    #         status:
-    #           type: string
-    #           description: Status of the OTP request
-    #           example: "success"
-    #         message:
-    #           type: string
-    #           description: Message indicating OTP has been sent
-    #           example: "email otp sent"
-    #         code:
-    #           type: integer
-    #           description: Status code of the response
-    #           example: 200
-    #         token:
-    #           type: string
-    #           description: Unique token for OTP validation
-    #           example: "a9d7a6be-2130-4857-93a2-ff62d3598a80"
-    #         trace_id:
-    #           type: string
-    #           description: Unique trace identifier for tracking the request
-    #           example: "7601055421809822580"
-    #   required:
-    #     - status
-    #     - data
-    # ClientVerifyEmailOTPResponse:
-    #   type: object
-    #   properties:
-    #     status:
-    #       type: string
-    #       description: Status of the OTP verification request
-    #       example: "success"
-    #     data:
-    #       type: object
-    #       properties:
-    #         auth_token:
-    #           type: string
-    #           description: Access token after successful verification
-    #           example: "eyJhbGciOiJIU********GUYRNo346pB4fz8s__CATuvMrbs"
-    #         message:
-    #           type: string
-    #           description: Verification status message
-    #           example: "success"
-    #         refresh_auth_token:
-    #           type: string
-    #           description: Refresh token for future authentication
-    #           example: "eyJhbGciOiJIU*********uJp6dI0IVS8RjJiT6Tg"
-    #         device_token:
-    #           type: string
-    #           description: Device-specific token for session management
-    #           example: "6b0cc4869ce262f**********00861e19bbaa7d4"
-    #         trace_id:
-    #           type: string
-    #           description: Unique trace identifier for tracking the request
-    #           example: "4412954763042761318"
-    #   required:
-    #     - status
-    #     - data
-    # ClientSendPhoneOTPResponse:
-    #   type: object
-    #   properties:
-    #     status:
-    #       type: string
-    #       description: Status of the OTP sending request
-    #       example: "success"
-    #     data:
-    #       type: object
-    #       properties:
-    #         status:
-    #           type: string
-    #           description: Status of the OTP request
-    #           example: "success"
-    #         message:
-    #           type: string
-    #           description: Message indicating OTP has been sent
-    #           example: "phone otp sent"
-    #         code:
-    #           type: integer
-    #           description: Status code of the response
-    #           example: 200
-    #         token:
-    #           type: string
-    #           description: Unique token for OTP validation
-    #           example: "1d35c1c3-8330-42e7-87c1-5a271c10128a"
-    #         trace_id:
-    #           type: string
-    #           description: Unique trace identifier for tracking the request
-    #           example: "1586446599297475933"
-    #   required:
-    #     - status
-    #     - data
-    # ClientVerifyPhoneOTPResponse:
-    #   type: object
-    #   properties:
-    #     status:
-    #       type: string
-    #       description: Status of the OTP verification request
-    #       example: "success"
-    #     data:
-    #       type: object
-    #       properties:
-    #         auth_token:
-    #           type: string
-    #           description: Access token after successful verification
-    #           example: "eyJhbGciOiJIU********GUYRNo346pB4fz8s__CATuvMrbs"
-    #         message:
-    #           type: string
-    #           description: Verification status message
-    #           example: "success"
-    #         refresh_auth_token:
-    #           type: string
-    #           description: Refresh token for future authentication
-    #           example: "eyJhbGciOiJIU*********uJp6dI0IVS8RjJiT6Tg"
-    #         device_token:
-    #           type: string
-    #           description: Device-specific token for session management
-    #           example: "6b0cc4869ce262f**********00861e19bbaa7d4"
-    #         trace_id:
-    #           type: string
-    #           description: Unique trace identifier for tracking the request
-    #           example: "4412954763042761318"
-    #   required:
-    #     - status
-    #     - data
+    ClientSendEmailOTPResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the OTP sending request
+          example: "success"
+        data:
+          type: object
+          properties:
+            status:
+              type: string
+              description: Status of the OTP request
+              example: "success"
+            message:
+              type: string
+              description: Message indicating OTP has been sent
+              example: "email otp sent"
+            code:
+              type: integer
+              description: Status code of the response
+              example: 200
+            token:
+              type: string
+              description: Unique token for OTP validation
+              example: "a9d7a6be-2130-4857-93a2-ff62d3598a80"
+            trace_id:
+              type: string
+              description: Unique trace identifier for tracking the request
+              example: "7601055421809822580"
+      required:
+        - status
+        - data
+    ClientVerifyEmailOTPResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the OTP verification request
+          example: "success"
+        data:
+          type: object
+          properties:
+            auth_token:
+              type: string
+              description: Access token after successful verification
+              example: "eyJhbGciOiJIU********GUYRNo346pB4fz8s__CATuvMrbs"
+            message:
+              type: string
+              description: Verification status message
+              example: "success"
+            refresh_auth_token:
+              type: string
+              description: Refresh token for future authentication
+              example: "eyJhbGciOiJIU*********uJp6dI0IVS8RjJiT6Tg"
+            device_token:
+              type: string
+              description: Device-specific token for session management
+              example: "6b0cc4869ce262f**********00861e19bbaa7d4"
+            trace_id:
+              type: string
+              description: Unique trace identifier for tracking the request
+              example: "4412954763042761318"
+      required:
+        - status
+        - data
+    ClientSendPhoneOTPResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the OTP sending request
+          example: "success"
+        data:
+          type: object
+          properties:
+            status:
+              type: string
+              description: Status of the OTP request
+              example: "success"
+            message:
+              type: string
+              description: Message indicating OTP has been sent
+              example: "phone otp sent"
+            code:
+              type: integer
+              description: Status code of the response
+              example: 200
+            token:
+              type: string
+              description: Unique token for OTP validation
+              example: "1d35c1c3-8330-42e7-87c1-5a271c10128a"
+            trace_id:
+              type: string
+              description: Unique trace identifier for tracking the request
+              example: "1586446599297475933"
+      required:
+        - status
+        - data
+    ClientVerifyPhoneOTPResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the OTP verification request
+          example: "success"
+        data:
+          type: object
+          properties:
+            auth_token:
+              type: string
+              description: Access token after successful verification
+              example: "eyJhbGciOiJIU********GUYRNo346pB4fz8s__CATuvMrbs"
+            message:
+              type: string
+              description: Verification status message
+              example: "success"
+            refresh_auth_token:
+              type: string
+              description: Refresh token for future authentication
+              example: "eyJhbGciOiJIU*********uJp6dI0IVS8RjJiT6Tg"
+            device_token:
+              type: string
+              description: Device-specific token for session management
+              example: "6b0cc4869ce262f**********00861e19bbaa7d4"
+            trace_id:
+              type: string
+              description: Unique trace identifier for tracking the request
+              example: "4412954763042761318"
+      required:
+        - status
+        - data
     ClientAuthenticateResponse:
       type: object
       properties:
