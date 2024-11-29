@@ -76,7 +76,9 @@ paths:
       tags:
         - Client
       summary: Send Email OTP
-      description: Sends an OTP to the specified email address to authenticate the user.
+      description: Sends an OTP to the specified email address to authenticate the user. Checkout the documentation here.
+          
+        * [Email OTP Authenticate](/docs/react-sdk/advanced-sdk-config/authenticate-users/email-otp/learn)
       operationId: sendEmailOTP
       security:
         - apiKeyHeader: []
@@ -113,7 +115,9 @@ paths:
       tags:
         - Client
       summary: Verify Email OTP
-      description: Verifies the OTP sent to the email and returns Okto authentication tokens upon successful verification.
+      description: Verifies the OTP sent to the email and returns Okto authentication tokens upon successful verification. Checkout the documentation here.
+          
+        * [Email OTP Authenticate](/docs/react-sdk/advanced-sdk-config/authenticate-users/email-otp/learn)
       operationId: verifyEmailOTP
       security:
         - apiKeyHeader: []
@@ -160,7 +164,9 @@ paths:
       tags:
         - Client
       summary: Send Phone OTP
-      description: Sends an OTP to the specified phone number to authenticate the user.
+      description: Sends an OTP to the specified phone number to authenticate the user. Checkout the documentation here.
+          
+        * [Phone OTP Authenticate](/docs/react-sdk/advanced-sdk-config/authenticate-users/phone-otp/learn)
       operationId: sendPhoneOTP
       security:
         - apiKeyHeader: []
@@ -202,7 +208,9 @@ paths:
       tags:
         - Client
       summary: Verify Phone OTP
-      description: Verifies the OTP sent to the phone number and returns Okto authentication tokens upon successful verification.
+      description: Verifies the OTP sent to the phone number and returns Okto authentication tokens upon successful verification. Checkout the documentation here.
+          
+        * [Phone OTP Authenticate](/docs/react-sdk/advanced-sdk-config/authenticate-users/phone-otp/learn)
       operationId: verifyPhoneOTP
       security:
         - apiKeyHeader: []
