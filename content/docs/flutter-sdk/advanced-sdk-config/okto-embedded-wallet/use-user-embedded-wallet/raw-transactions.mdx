@@ -14,22 +14,65 @@ import '../../../styles.css';
 
 ### Methods Overview
 
-| Methods                                                                                                        | Description                                                                 |                 
-|----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
-| <sub><i>async</i></sub> [`rawTransactionExecute`](#get-raw-transactions)                           | Fetch raw transactions based on the provided data                           |
-| <sub><i>async</i></sub> [`rawTransactionStatus`](#execute-raw-transaction)                              | Execute raw transactions based on the provided data                         |
+| Methods               | Description                                                                 |                 
+|-------------------------------------------|-----------------------------------------------------------------------------|
+| <sub><i>async</i></sub> [`rawTransactionExecute`](#execute-raw-transaction)   | Execute raw transactions based on the provided data   |
+| <sub><i>async</i></sub> [`rawTransactionStatus`](#get-raw-transaction-status) | Fetch raw transactions based on the provided data   |
 
 <div className="method-box">
 
-## Get raw transactions
+## Execute raw transaction
 
-<sub><i>async</i></sub> `rawTransactionExecute(query)`<a href="https://github.com/okto-hq/okto-sdk-flutter/blob/c938dea4cff76e8075fa80ae421a4d522fd7a590/lib/src/okto.dart#L270" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> fetches the status of a raw transaction based on the provided query.
+<sub><i>async</i></sub> `rawTransactionExecute(query)`<a href="https://github.com/okto-hq/okto-sdk-flutter/blob/c938dea4cff76e8075fa80ae421a4d522fd7a590/lib/src/okto.dart#L270" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> executes a raw transaction based on the provided data.
 
 ### Parameters
 
-| Parameter   | Type                        | Description                            | 
-|-------------|-----------------------------|----------------------------------------|
-| `query`     | [`RawTransactionStatusQuery`](/api-docs#model/rawtransactionstatusquery) | Query being provided fetching the data | 
+| Parameter   | Type                    | Description                                        | 
+|-------------|-------------------------|----------------------------------------------------|
+| `data`      | [`rawTransactionStatus`](/api-docs#model/executerawtransaction) | Data being provided for executing raw transactions | 
+
+<Tabs items={['EVM', 'Solana', 'Aptos']}>
+  <Tab value="EVM">
+    ```typescript
+      interface ExecuteRawTransaction {
+      network_name: string;
+      transaction: {
+        from: string;
+        to: string;
+        data: string
+        value: string;
+      }
+    }
+    ```
+  </Tab>
+  <Tab value="Solana">
+    ```typescript
+      interface ExecuteRawTransaction {
+      network_name: string;
+      transaction: {
+        instructions: {
+          keys: key[];
+          programId: string;
+          data: number[];
+        };
+        signer: string;
+      }
+    }
+    ```
+  </Tab>
+  <Tab value="Aptos">
+     ```typescript 
+      interface ExecuteRawTransaction {
+      network_name: string;
+      transaction: {
+        function: fn;
+        typeArguements: Array[];
+        functionArguements: Array[]
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
 
 ### Response
 
@@ -37,7 +80,7 @@ import '../../../styles.css';
 
 | Field Name | Type                                | Description                                             | 
 |------------|-------------------------------------|---------------------------------------------------------|
-| `result`   | [`Future<RawTransactionExecuteResponse>`](/api-docs#model/rawtransactionstatusdata) | Returns information about the status of raw transaction | 
+| `result`   | [`Future<RawTransactionExecuteResponse>`](/api-docs#model/rawtransactionstatusdata) | Returns information about the transaction | 
 
 </Callout>
 
@@ -167,58 +210,15 @@ import '../../../styles.css';
 
 <div className="method-box">
 
-## Execute raw transaction
+## Get raw transaction status
 
-<sub><i>async</i></sub> `rawTransactionStatus(data)`<a href="https://github.com/okto-hq/okto-sdk-flutter/blob/c938dea4cff76e8075fa80ae421a4d522fd7a590/lib/src/okto.dart#L284" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> executes a raw transaction based on the provided data.
+<sub><i>async</i></sub> `rawTransactionStatus(query)`<a href="https://github.com/okto-hq/okto-sdk-flutter/blob/c938dea4cff76e8075fa80ae421a4d522fd7a590/lib/src/okto.dart#L284" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> fetches the status of a raw transaction based on the provided query.
 
 ### Parameters
 
-| Parameter   | Type                    | Description                                        | 
-|-------------|-------------------------|----------------------------------------------------|
-| `data`      | [`rawTransactionStatus`](/api-docs#model/executerawtransaction) | Data being provided for executing raw transactions | 
-
-<Tabs items={['EVM', 'Solana', 'Aptos']}>
-  <Tab value="EVM">
-    ```typescript
-      interface ExecuteRawTransaction {
-      network_name: string;
-      transaction: {
-        from: string;
-        to: string;
-        data: string
-        value: string;
-      }
-    }
-    ```
-  </Tab>
-  <Tab value="Solana">
-    ```typescript
-      interface ExecuteRawTransaction {
-      network_name: string;
-      transaction: {
-        instructions: {
-          keys: key[];
-          programId: string;
-          data: number[];
-        };
-        signer: string;
-      }
-    }
-    ```
-  </Tab>
-  <Tab value="Aptos">
-     ```typescript 
-      interface ExecuteRawTransaction {
-      network_name: string;
-      transaction: {
-        function: fn;
-        typeArguements: Array[];
-        functionArguements: Array[]
-      }
-    }
-    ```
-  </Tab>
-</Tabs>
+| Parameter   | Type                        | Description                            | 
+|-------------|-----------------------------|----------------------------------------|
+| `query`     | [`RawTransactionStatusQuery`](/api-docs#model/rawtransactionstatusquery) | Query being provided fetching the data | 
 
 ### Response
 
@@ -226,7 +226,7 @@ import '../../../styles.css';
 
 | Field Name | Type                                 | Description                               | 
 |------------|--------------------------------------|-------------------------------------------|
-| `result`   | [`Future<RawTransactionStatusResponse>`](/api-docs#model/executerawtransactiondata) | Returns information about the transaction | 
+| `result`   | [`Future<RawTransactionStatusResponse>`](/api-docs#model/executerawtransactiondata) | Returns information about the status of raw transaction | 
 
 </Callout>
 

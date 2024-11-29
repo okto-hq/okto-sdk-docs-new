@@ -59,25 +59,15 @@ interface RawTransactionStatusQuery {
  
         const { getRawTransactionStatus } = useOkto() as OktoContextType;
  
-        const networkName = "POLYGON_TESTNET"
-        const from = "0x0FC096A53343C68c1086e626661A4bb31486A9e2"
-        const to = "0x0FC04889A533C68c1086e626661A4bb31486A9e2"
-        const data = "transaction";
-        const value = "1";
+        const orderId = "f15c07cb-2d29-4670-8492-b1236fdd41dc";
  
         getRawTransactionStatus({
-            network_name: networkName,
-            transaction: {
-                from,
-                to,
-                data,
-                value,
-            }
+            order_id: orderId
         }).then((result) => {
-                console.log('Transfer success', result);
+                console.log(result);
         })
         .catch((error) => {
-            console.log('Transfer error', error);
+            console.log(error);
         });
     ```
   </Tab>
@@ -119,7 +109,11 @@ interface RawTransactionStatusQuery {
       network_name: string;
       transaction: {
         instructions: {
-          keys: key[];
+          keys: {
+            pubkey: string;
+            isSigner: boolean;
+            isWritable: boolean;
+          }[];
           programId: string;
           data: number[];
         };
@@ -133,10 +127,14 @@ interface RawTransactionStatusQuery {
       interface ExecuteRawTransaction {
       network_name: string;
       transaction: {
-        function: fn;
-        typeArguements: Array[];
-        functionArguements: Array[]
-      }
+        transactions: {
+          {
+            function: string;
+            typeArguements: string[];
+            functionArguements: string[][];
+          }
+        }[];
+      };
     }
     ```
   </Tab>
@@ -155,29 +153,98 @@ interface RawTransactionStatusQuery {
 
 <Accordions>
 <Accordion title="Example">
-<Tabs items={['Typescript']}>
-  <Tab value="Typescript">
+<Tabs items={['EVM', 'Solana', 'Aptos']}>
+  <Tab value="EVM">
     ```typescript
         import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
  
         const { executeRawTransaction } = useOkto() as OktoContextType;
- 
-        const networkName = "POLYGON_TESTNET"
-        const tokenAddress = "x2f7b97837f2d14ba2ed3a4b2282e259126a9b848"
-        const quantity = "1"
-        const recipientAddress = "0x0FC096A53343C68c1086e626661A4bb31486A9e2"
+
+        const networkName = "POLYGON_TESTNET";
+        const transactionData = {
+          from: "0xYourAddress",
+          to: "0xContractAddress",
+          data: "0xYourData", // Optional transaction data
+          value: "0xYourValue", // Optional value in wei
+        };
  
         executeRawTransaction({
-            network_name: networkName,
-            token_address: tokenAddress,
-            recipient_address: recipientAddress,
-            quantity: quantity
+          network_name: networkName,
+          transaction: transactionData,
         }).then((result) => {
-                console.log('Transfer success', result);
+                console.log('Transaction submitted', result);
         })
         .catch((error) => {
-            console.log('Transfer error', error);
+            console.log('Transaction error', error);
         });
+    ```
+  </Tab>
+  <Tab value="Solana">
+    ```typescript
+        import { useOkto, type OktoContextType } from 'okto-sdk-react-native';
+
+        const { executeRawTransaction } = useOkto() as OktoContextType;
+
+        const networkName = "SOLANA_TESTNET";
+        const transactionData = {
+          instructions: [
+            {
+              keys: [
+                { pubkey: "YourPublicKey", isSigner: false, isWritable: true },
+              ],
+              programId: "YourProgramId",
+              data: [1, 2, 3, 4], // Instruction data
+            },
+          ],
+          signer: "YourSignerPublicKey",
+        };
+
+        executeRawTransaction({
+          network_name: networkName,
+          transaction: transactionData,
+        }).then((result) => {
+                console.log('Transaction submitted', result);
+        })
+        .catch((error) => {
+            console.log('Transaction error', error);
+        });
+    ```
+  </Tab>
+  <Tab value="Aptos">
+    ```typescript
+      import { useOkto, type OktoContextType } from 'okto-sdk-react-native';
+
+      const { executeRawTransaction } = useOkto() as OktoContextType;
+
+      const networkName = "APTOS";
+      const transactionData = {
+        transactions: [
+          {
+            function: "0x865116a37cf65e048114ef19570e31ef6990f342042718242cac86276555306d::custom_token::open_airdrop",
+            typeArguments: [],
+            functionArguments: [
+              [
+                "0x649b767c20254973717328324b5059608e4f88951ac3db3f7d81176b2dc68a58",
+                "0xd907556ef9881a16d6488f6629f0ef2f3e1f172a7265039d602520d3d982a52a"
+              ],
+              [
+                "1",
+                "1"
+              ]
+            ]
+          };
+        ];
+      };
+
+      executeRawTransaction({
+        network_name: networkName,
+        transaction: transactionData,
+      }).then((result) => {
+                console.log('Transaction submitted', result);
+        })
+      .catch((error) => {
+            console.log('Transaction error', error);
+      });
     ```
   </Tab>
 </Tabs>
@@ -227,36 +294,100 @@ interface RawTransactionStatusData {
 
 </Callout>
 
-
 <Accordions>
 <Accordion title="Example">
-<Tabs items={['Typescript']}>
-  <Tab value="Typescript">
+<Tabs items={['EVM', 'Solana', 'Aptos']}>
+  <Tab value="EVM">
     ```typescript
         import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
  
         const { executeRawTransactionWithJobStatus } = useOkto() as OktoContextType;
- 
-        const networkName = "POLYGON_TESTNET"
-        const from = "0x0FC096A53343C68c1086e626661A4bb31486A9e2"
-        const to = "0x0FC04889A533C68c1086e626661A4bb31486A9e2"
-        const data = "transaction";
-        const value = "1";
+
+        const networkName = "POLYGON_TESTNET";
+        const transactionData = {
+          from: "0xYourAddress",
+          to: "0xContractAddress",
+          data: "0xYourData", // Optional transaction data
+          value: "0xYourValue", // Optional value in wei
+        };
  
         executeRawTransactionWithJobStatus({
-            network_name: networkName,
-            transaction: {
-                from,
-                to,
-                data,
-                value,
-            }
+          network_name: networkName,
+          transaction: transactionData,
         }).then((result) => {
-                console.log('Transfer success', result);
+                console.log('Transaction completed', result);
         })
         .catch((error) => {
-            console.log('Transfer error', error);
+            console.log('Transaction error', error);
         });
+    ```
+  </Tab>
+  <Tab value="Solana">
+    ```typescript
+        import { useOkto, type OktoContextType } from 'okto-sdk-react-native';
+
+        const { executeRawTransactionWithJobStatus } = useOkto() as OktoContextType;
+
+        const networkName = "SOLANA_TESTNET";
+        const transactionData = {
+          instructions: [
+            {
+              keys: [
+                { pubkey: "YourPublicKey", isSigner: false, isWritable: true },
+              ],
+              programId: "YourProgramId",
+              data: [1, 2, 3, 4], // Instruction data
+            },
+          ],
+          signer: "YourSignerPublicKey",
+        };
+
+        executeRawTransactionWithJobStatus({
+          network_name: networkName,
+          transaction: transactionData,
+        }).then((result) => {
+                console.log('Transaction completed', result);
+        })
+        .catch((error) => {
+            console.log('Transaction error', error);
+        });
+    ```
+  </Tab>
+  <Tab value="Aptos">
+    ```typescript
+      import { useOkto, type OktoContextType } from 'okto-sdk-react-native';
+
+      const { executeRawTransactionWithJobStatus } = useOkto() as OktoContextType;
+
+      const networkName = "APTOS";
+      const transactionData = {
+        transactions: [
+          {
+            function: "0x865116a37cf65e048114ef19570e31ef6990f342042718242cac86276555306d::custom_token::open_airdrop",
+            typeArguments: [],
+            functionArguments: [
+              [
+                "0x649b767c20254973717328324b5059608e4f88951ac3db3f7d81176b2dc68a58",
+                "0xd907556ef9881a16d6488f6629f0ef2f3e1f172a7265039d602520d3d982a52a"
+              ],
+              [
+                "1",
+                "1"
+              ]
+            ]
+          };
+        ];
+      };
+
+      executeRawTransactionWithJobStatus({
+        network_name: networkName,
+        transaction: transactionData,
+      }).then((result) => {
+                console.log('Transaction completed', result);
+        })
+      .catch((error) => {
+            console.log('Transaction error', error);
+      });
     ```
   </Tab>
 </Tabs>
