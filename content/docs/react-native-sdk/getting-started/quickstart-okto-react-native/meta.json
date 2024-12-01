@@ -2,6 +2,7 @@
     "title": "Quickstart",
     "pages": [
       "prerequisites",
-      "new-okto-react-setup"
+      "new-okto-react-setup",
+      "new-okto-next-setup"
     ]
   }
