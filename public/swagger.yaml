@@ -4,13 +4,6 @@ info:
   description: |
     Okto SDK is the fastest and easiest way a developer can build on Web3. Okto SDK offers interoperable embedded wallets for developers to onboard users on Web3 in a web2 like experience.
 
-    ## Note
-
-    To prevent CORS issues, all requests must include the following headers:
-
-    * `User-Agent`: Identifies the client making the request (e.g., "PostmanRuntime/7.37.3")
-    * `Referer`: The URL of the referring page (e.g., "https://www.xyz.com")
-
     ## Resources
 
     * https://github.com/okto-hq/
