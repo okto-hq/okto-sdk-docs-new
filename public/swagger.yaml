@@ -7,6 +7,19 @@ info:
     ## Resources
 
     * https://github.com/okto-hq/
+
+    ## Note
+
+    All requests must contain the following headers:
+
+    **User-Agent** and **Referer**
+
+    **Example:**
+
+    **User-Agent:** PostmanRuntime/7.37.3
+
+    **Referer:** https://www.xyz.com
+      
   version: 1.0.0
   contact:
     name: Ovia Seshadri
