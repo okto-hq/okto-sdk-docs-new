@@ -8,7 +8,7 @@ import { Callout } from 'fumadocs-ui/components/callout';
 
 ## App ID
 
-The App ID is a unique identifier for your application and you as a [Vendor](/docs/introduction-to-okto/okto-vendor-user). It's used to associate your Okto client with this specific app in our system. Include this ID when initializing your Okto client in your application.
+The App ID is a unique identifier for your application and you as a [Vendor](/docs/introduction-to-okto/okto-vendor-user). It's used to associate your Okto client with this specific app in our system.
 
 ### Steps to Access App ID
 
@@ -27,6 +27,10 @@ The App ID is a unique identifier for your application and you as a [Vendor](/do
 ## App Secret
 
 The App Secret is a confidential key used to authenticate your API requests. Keep this secret secure and never share it publicly or include it in client-side code.
+
+<Callout title="Note">
+The “App ID”, which is also revealed in the “API Keys” page, is different. It is a public unique ID, but the **App Secret** is the actual key you need to download and keep safe. You can use this key to access all SDK and client-side APIs.
+</Callout>
 
 ### Steps to Access App Secret
 
