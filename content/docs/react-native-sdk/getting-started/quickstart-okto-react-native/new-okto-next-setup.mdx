@@ -1,0 +1,456 @@
+---
+title: NextJS Setup
+description: In this guide, you'll learn how to create a Next app and initialize it with the Okto SDK, including setting up Email authentication using the Okto Provider.
+full: false
+---
+
+import { Step, Steps } from "fumadocs-ui/components/steps";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+
+You can create an Okto-powered application in two different ways. Choose the approach that best suits your needs:
+
+1. **Traditional Create NextJS App setup with manual configuration:**  
+   Best for developers who need full control and customization over their project.
+2. **Streamlined Okto Next.js-based setup:**  
+   Ideal for Next.js developers looking to leverage Okto with minimal configuration.
+
+<Tabs items={['create-next-app', 'create-okto-app Next.js']}>
+
+<Tab value="create-next-app">
+This approach uses Create Next App and manually configures the Okto SDK. This gives you the most control over your setup and is great if you need to integrate Okto into an existing Next application.
+<Steps>
+
+<Step>
+    ## Create NextJS App
+
+    Run the following commands in your terminal to create a new React app:
+
+    ```bash title="bash"
+    npx create-next-app@14 my-okto-app
+    cd my-okto-app
+    ```
+    This sets up a new NextJS project in the folder `my-okto-app` with all the default settings.
+
+</Step>
+
+<Step>
+    ## Install the Okto SDK
+
+    Run the following commands to add Okto's SDK and Google OAuth to your project. Choose the command that matches your package manager:
+
+    <Tabs items={['npm', 'pnpm', 'yarn']}>
+        <Tab value="npm">
+            ```bash
+            npm i okto-sdk-react @react-oauth/google
+            ```
+            </Tab>
+            <Tab value="pnpm">
+            ```bash
+            pnpm add okto-sdk-react @react-oauth/google
+            ```
+            </Tab>
+            <Tab value="yarn">
+             ```bash
+            yarn add okto-sdk-react @react-oauth/google
+            ```
+        </Tab>
+    </Tabs>
+    This installs the SDK and adds it as a dependency in your project.
+
+</Step>
+
+<Step>
+    ## Initialize Okto SDK 
+    To get started with root layout, we'll modify the `layout.tsx` file.
+    ```javascript title="layout.tsx"
+        import AppProvider from "@/components/providers";
+        import { getServerSession } from "next-auth";
+        import { authOptions } from "@/api/auth/[...nextauth]/route";
+
+        export default async function RootLayout({
+        children,
+        }: Readonly<{
+        children: React.ReactNode;
+        }>) {
+        const session = await getServerSession(authOptions);
+        return (
+            <html lang="en">
+                <body className={inter.className}>
+                    <AppProvider session={session}>{children}</AppProvider>
+                </body>
+            </html>
+        );
+        }
+
+    ```
+    <div style={{ textAlign: "right", fontSize: "14px", margin: "0", padding: "0", marginTop: "-1rem"}}>
+        View [here](https://github.com/okto-hq/okto-sdk-react-template-app/blob/main/src/index.js)
+    </div>
+
+</Step>
+
+<Step>
+    To continue with the sesssion setup, we'll create the `components/providers.jsx` file.
+    ```javascript title="providers.jsx"
+        import React from "react";
+        import { SessionProvider } from "next-auth/react";
+        import { AppContextProvider } from "./AppContext";
+
+        function AppProvider({ children, session }) {
+        return (
+            <SessionProvider session={session}>
+                <AppContextProvider>{children}</AppContextProvider>
+            </SessionProvider>
+        );
+        }
+        export default AppProvider;
+
+    ```
+    <div style={{ textAlign: "right", fontSize: "14px", margin: "0", padding: "0", marginTop: "-1rem"}}>
+        View [here](https://github.com/okto-hq/okto-sdk-react-template-app/blob/main/src/index.js)
+    </div>
+
+</Step>
+
+<Step>
+    To initialize OKTO SDK, we'll create the `components/AppContext.jsx` file.
+    `OKTO_CLIENT_API_KEY` can be obtained from OKTO Dashboard.
+
+    ```javascript title="AppContext.jsx"
+        import React, { createContext, useState } from "react";
+        import { useContext } from "react";
+        import { OktoProvider, BuildType } from "okto-sdk-react";
+        import { useSession, signIn, signOut } from "next-auth/react";
+        export const AppContext = createContext();
+        export const AppContextProvider = ({ children }) => {
+        const apiKey = process.env.OKTO_CLIENT_API_KEY;
+        const [buildType, setBuildType] = useState(BuildType.SANDBOX);
+        const { data: session } = useSession();
+        async function handleGAuthCb() {
+            if(session) {
+                return session.id_token;
+            }
+            await signIn("google");
+            return "";
+        }
+        return (
+            <AppContext.Provider value={{ apiKey, buildType, setBuildType }}>
+                <OktoProvider apiKey={apiKey} buildType={buildType} gAuthCb={handleGAuthCb}>
+                    {children}
+                </OktoProvider>
+            </AppContext.Provider>
+        );
+        };
+        export const useAppContext = () => useContext(AppContext);
+
+
+    ```
+    <div style={{ textAlign: "right", fontSize: "14px", margin: "0", padding: "0", marginTop: "-1rem"}}>
+        View [here](https://github.com/okto-hq/okto-sdk-react-template-app/blob/main/src/index.js)
+    </div>
+
+</Step>
+
+<Step>
+    ## Initialize Google OAuth Provider
+    Now, let's set up the Google OAuth provider, we'll create `/api/auth/[...nextauth]/route.ts`:
+   ```javascript title="route.ts"
+        import NextAuth from "next-auth";
+        import GoogleProvider from "next-auth/providers/google";
+        import type { AuthOptions } from "next-auth";
+        export const authOptions: AuthOptions = {
+        secret: process.env.AUTH_SECRET,
+        providers: [
+            GoogleProvider({
+                clientId: process.env.GOOGLE_CLIENT_ID!,
+                clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+            }),
+        ],
+        callbacks: {
+            async jwt({ token, user, account }) {
+            if (account) {
+                token.id_token = account.id_token;
+            }
+            return token;
+            },
+            async session({ session, token }) {
+                session.id_token = token.id_token;
+                return session;
+            },
+        },
+        };
+        const handler = NextAuth(authOptions);
+        export { handler as GET, handler as POST };
+
+````
+<div style={{ textAlign: "right", fontSize: "14px", margin: "0", padding: "0", marginTop: "-1rem"}}>
+     View [here](https://github.com/okto-hq/okto-sdk-react-template-app/blob/main/src/App.js)
+ </div>
+</Step>
+
+<Step>
+ ## Sample Email verification page
+ Now, we will create a sample `emailOTPVerification.tsx` file to test out our functionalities:
+ ```javascript title="emailOTPVerification.tsx"
+     import React, { useState } from 'react';
+     import { useOkto, type OktoContextType } from 'okto-sdk-react';
+     interface EmailOTPVerificationProps {
+     onVerificationSuccess?: () => void;
+     onVerificationError?: (error: Error) => void;
+     }
+     export const EmailOTPVerification: React.FC<EmailOTPVerificationProps> = ({
+     onVerificationSuccess,
+     onVerificationError,
+     }) => {
+     const [email, setEmail] = useState('');
+     const [otp, setOtp] = useState('');
+     const [otpToken, setOtpToken] = useState<string | null>(null);
+     const [loading, setLoading] = useState(false);
+     const [error, setError] = useState<string | null>(null);
+     const [step, setStep] = useState<'email' | 'otp'>('email');
+     const { sendEmailOTP, verifyEmailOTP } = useOkto() as OktoContextType;
+     const validateEmail = (e: string): boolean => {
+         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+         return emailRegex.test(e);
+     };
+     const handleSendOTP = async () => {
+         if (!validateEmail(email)) {
+             setError('Please enter a valid email address');
+             return;
+         }
+         setError(null);
+         setLoading(true);
+         try {
+             const response = await sendEmailOTP(email);
+             setOtpToken(response.token);
+             setStep('otp');
+             alert('OTP sent successfully');
+         } catch (err) {
+             setError(err instanceof Error ? err.message : 'Failed to send OTP');
+             console.error('Send OTP Error:', err);
+             alert(err instanceof Error ? err.message : 'Failed to send OTP');
+         } finally {
+             setLoading(false);
+         }
+     };
+
+     const handleVerifyOTP = async () => {
+         if (!otp || otp.length < 4) {
+             setError('Please enter a valid OTP');
+             return;
+         }
+         setError(null);
+         setLoading(true);
+         try {
+         const success = await verifyEmailOTP(
+             email,
+             otp,
+             otpToken!,
+         );
+         if (success) {
+             onVerificationSuccess?.();
+             alert('Email verified successfully');
+             setStep('email');
+         } else {
+             alert('Invalid OTP');
+         }
+         } catch (err) {
+             const errorMessage = err instanceof Error ? err.message : 'Failed to verify OTP';
+             setError(errorMessage);
+             onVerificationError?.(err instanceof Error ? err : new Error(errorMessage));
+         } finally {
+             setLoading(false);
+         }
+     };
+     return (
+         <div className="">
+         {step === 'email' ? (
+             <>
+             <input
+                 className="h-12 w-full border border-gray-300 rounded-lg px-4 mb-2 text-base bg-white focus:outline-none focus:ring-2 focus:ring-violet-500"
+                 placeholder="Enter your email"
+                 value={email}
+                 onChange={(e) => {
+                 setEmail(e.target.value);
+                 setError(null);
+                 }}
+                 type="email"
+                 disabled={loading}
+             />
+
+             {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
+
+             <button
+                 className={`h-12 w-full rounded-lg justify-center items-center mt-2 text-white font-semibold
+                 ${loading || !email ? 'bg-gray-400 cursor-not-allowed' : 'bg-violet-500 hover:bg-violet-600'}`}
+                 onClick={handleSendOTP}
+                 disabled={loading || !email}
+             >
+                 {loading ? (
+                 <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin mx-auto"/>
+                 ) : (
+                 'Send OTP'
+                 )}
+             </button>
+             </>
+         ) : (
+             <>
+             <input
+                 className="h-12 w-full border border-gray-300 rounded-lg px-4 mb-2 text-base bg-white focus:outline-none focus:ring-2 focus:ring-violet-500"
+                 placeholder="Enter OTP"
+                 value={otp}
+                 onChange={(e) => {
+                 setOtp(e.target.value);
+                 setError(null);
+                 }}
+                 type="number"
+                 maxLength={6}
+                 disabled={loading}
+             />
+             {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
+             <button
+                 className={`h-12 w-full rounded-lg justify-center items-center mt-2 text-white font-semibold
+                 ${loading || !otp ? 'bg-gray-400 cursor-not-allowed' : 'bg-violet-500 hover:bg-violet-600'}`}
+                 onClick={handleVerifyOTP}
+                 disabled={loading || !otp}
+             >
+                 {loading ? (
+                 <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin mx-auto"/>
+                 ) : (
+                 'Verify OTP'
+                 )}
+             </button>
+
+             <button
+                 className="mt-4 p-2 w-full text-violet-500 text-sm font-medium hover:text-violet-600"
+                 onClick={() => {
+                 setStep('email');
+                 setOtp('');
+                 setError(null);
+                 }}
+             >
+                 Change Email / Resend OTP
+             </button>
+             </>
+         )}
+         </div>
+     );
+     };
+ ```
+ <div style={{ textAlign: "right", fontSize: "14px", margin: "0", padding: "0", marginTop: "-1rem" }}>
+     View [here](https://github.com/okto-hq/okto-sdk-react-template-app/blob/main/src/LoginPage.jss)
+ </div>
+
+ We can use this component inside our page.tsx as follows :
+     ```javascript title="page.tsx"
+         import { EmailOTPVerification } from "@/components/emailOTPVerification";
+         <div className="w-full max-w-lg">
+         <EmailOTPVerification
+             onVerificationSuccess={() => console.log("Verification successful")}
+             onVerificationError={(error) =>
+             console.error("Verification failed:", error)
+             }
+         />
+         </div>
+     ```
+     <div style={{ textAlign: "right", fontSize: "14px", margin: "0", padding: "0", marginTop: "-1rem" }}>
+     View [here](https://github.com/okto-hq/okto-sdk-react-template-app/blob/main/src/LoginPage.jss)
+ </div>
+</Step>
+
+<Step>
+ ## Congratulations!
+
+ 🎉 Congratulations! You now have a basic NextJS application powered by Okto. You can focus on your business logic and UI/UX now. You can checkout how to use other features in the [Template Repo](https://github.com/okto-hq/okto-sdk-react-nextjs-starter-repo).
+</Step>
+
+</Steps>
+
+</Tab>
+
+<Tab value="create-okto-app Next.js">
+
+Follow the steps below to get started quickly with building an Okto-powered Next.js app app!
+<Steps>
+
+<Step>
+ ## Create New Project
+
+ Run the following command in your terminal:
+
+ ```bash title="bash"
+ npx create-okto-app@latest
+ ```
+
+ You'll be prompted to:
+ - Choose 'Next JS' as your template using arrow keys
+ - Enter your project name
+
+ ```bash
+ Welcome to create-okto-app!
+ ✔ Choose a template: › Next JS
+ ✔ Enter your project name: › my-okto-app
+ ```
+
+ After creation is complete, change into your project directory and install dependencies:
+ ```bash
+ cd my-okto-app
+ npm install    # Install dependencies
+ ```
+</Step>
+
+<Step>
+ ## Configure Environment Variables
+ Create a `.env.local` file in the root of your project:
+
+ ```bash title=".env.local"
+ GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID"
+ GOOGLE_CLIENT_SECRET = "YOUR_OKTO_CLIENT_API_KEY"
+
+ # Add these Next-Auth configurations
+ AUTH_SECRET = "generate-a-secret-key"  # Use: openssl rand -base64 32
+ ```
+
+ Replace the placeholders with your actual values.
+
+ To generate `AUTH_SECRET`, run the command `openssl rand -base64 32`.
+
+ For instructions on getting Google credentials, follow our [Google OAuth2 Setup Guide](https://docs.okto.tech/docs/react-sdk/advanced-sdk-config/authenticate-users/google-oauth/google-console-setup).
+</Step>
+
+<Step>
+ ## Start Development Server
+
+ Run this command to start your development server:
+
+ ```bash
+ npm run dev    # Starts development server
+ ```
+
+ For production, use:
+
+ ```bash
+ npm run build  # Creates optimized production build
+ npm start      # Starts production server
+ ```
+
+ Your app will be available at `http://localhost:3000`.
+</Step>
+
+<Step>
+ ## Congratulations!
+
+ 🎉 Congratulations! You now have a powerful Next.js application powered by Okto. Your application is ready for both development and production environments.
+</Step>
+
+</Steps>
+
+</Tab>
+
+</Tabs>
+
+
+<Callout>
+For more details, refer to the [Template Repo](https://github.com/okto-hq/okto-sdk-react-template-app/) and the [Okto SDK Cheatsheet](https://docs.google.com/document/d/1ePHrAjiTvLOkBwOaaDvTQlv8qeRu7ATwh7dicnzfK2E/edit) for commonly used methods and configurations.
+</Callout>
+````
