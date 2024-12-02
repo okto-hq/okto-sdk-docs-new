@@ -43,7 +43,7 @@ const App = () => {
       <ApiReferenceReact
         configuration={{
           spec: {
-            url: 'http://localhost:3000/api-sec',
+            url: '/api-sec',
           },
           theme: 'none',
           darkMode: theme === 'dark',
