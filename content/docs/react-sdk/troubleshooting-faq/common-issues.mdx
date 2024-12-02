@@ -3,3 +3,116 @@ title: Common Issues and Solutions
 description: Coming soon
 full: false
 ---
+Common Issues and Solutions
+1. Problem: Installation Errors
+Symptom:
+Errors like yarn: command not found or npm ERR! code ELIFECYCLE during installation.
+
+Solution:
+
+Ensure Node.js and Yarn are installed correctly:
+```bash
+    node -v
+    yarn -v
+```
+If not, install them:\
+[Download Node.js](https://nodejs.org/en)\
+[Install Yarn](https://classic.yarnpkg.com/en/docs/install#mac-stable)
+
+Additional Tips:
+    Use the latest LTS version of Node.js for compatibility.
+    If using a proxy, configure it correctly:
+    ```bash
+        yarn config set proxy http://your-proxy:port
+    ```
+2. Problem: Development Server Fails to Start
+Symptom:
+Running yarn run dev throws errors like Port 3000 already in use or crashes.
+
+Solution:
+
+Check if another process is using the port:
+```bash
+    lsof -i :3000  # On Linux/macOS
+    netstat -ano | findstr :3000  # On Windows
+```
+Kill the process using the port:
+```bash
+    kill -9 <PID>  # On Linux/macOS
+    taskkill /PID <PID> /F  # On Windows
+```
+Alternatively, specify a different port:
+```bash
+    yarn run dev --port 4000
+```
+
+3. Problem: API Key Issues
+Symptom:
+Errors like Invalid API Key or API Key is missing.
+
+Solution:
+
+Double-check that the API key is correctly set:
+```bash
+    const OKTO_CLIENT_API_KEY = "YOUR_API_KEY_HERE";
+```
+Ensure the key matches the environment (e.g., Sandbox or Production).
+Avoid committing API keys to version control. Use .env files:
+```bash
+    REACT_APP_OKTO_API_KEY=your_key_here
+```
+4. Problem: Styling or Layout Issues
+Symptom:
+The website looks broken or CSS styles don't apply.
+
+Solution:
+
+Verify that all dependencies are installed correctly:
+```bash
+    yarn install
+```
+Check for conflicting CSS imports in your project.
+Clear the browser cache or force refresh:
+    Windows: Ctrl + F5
+    macOS: Cmd + Shift + R
+
+5. Problem: Issues During PR Submission
+Symptom:
+PR rejected due to formatting or failing tests.
+
+Solution:
+
+Run the linter and fix formatting issues:
+```bash
+    yarn lint --fix
+```
+Run tests locally to ensure everything passes:
+```bash
+    yarn test
+```
+
+Rebase your branch with the latest main branch:
+```bash
+git fetch origin main
+git rebase origin/main
+```
+
+6. Problem: Local Changes Not Reflecting
+Symptom:
+Updates don't show up during development.
+
+Solution:
+
+Ensure the development server is running.
+Restart the server:
+```bash
+    yarn run dev
+```
+Delete the .next folder and rebuild:
+```bash 
+    rm -rf .next
+    yarn run dev
+```
+
+
+
