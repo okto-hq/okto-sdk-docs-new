@@ -3,3 +3,95 @@ title: Debugging Tips
 description: Coming soon
 full: false
 ---
+# Debugging Tips
+
+## 1. Problem: Incorrect or Missing Dependencies
+### Symptom:
+- Errors like `Module not found` or `Cannot find module 'xyz'`.
+
+### Solution:
+- Check if all dependencies are installed:
+    ```bash
+    yarn install  # Or npm install
+    ```
+- If you recently added a new dependency, ensure it's correctly listed in the `package.json` file.
+- Run the following command to check for any missing or outdated packages:
+    ```bash
+    yarn check  # Or npm outdated
+    ```
+
+## 2. Problem: Code Not Updating After Changes
+### Symptom:
+- Changes in the code don't reflect in the browser or development server.
+
+### Solution:
+- Try clearing the cache by running:
+    ```bash
+    yarn cache clean  # Or npm cache clean --force
+    ```
+- Restart the development server:
+    ```bash
+    yarn run dev  # Or npm run dev
+    ```
+- If using a build tool (e.g., Webpack), make sure the hot-reloading is working.
+
+## 3. Problem: Console Errors or Warnings
+### Symptom:
+- Errors or warnings in the browser console related to JavaScript or React components.
+
+### Solution:
+- **Check error stack trace**: The stack trace in the console usually provides a clue about where the issue is in your code.
+- **React-specific errors**: If you're getting React-specific errors, check the [React DevTools](https://reactjs.org/blog/2020/09/22/introducing-the-new-react-devtools.html) for additional insights.
+- **Check for deprecated methods**: Review any warnings about deprecated methods or props and update them as per the latest documentation.
+
+## 4. Problem: Network or API Errors
+### Symptom:
+- Issues with making API requests, e.g., `404 Not Found`, `500 Internal Server Error`, or slow response times.
+
+### Solution:
+- **Check the API endpoint**: Ensure that the correct URL is being used.
+- **Use DevTools**: Open the browser's Developer Tools and navigate to the Network tab to inspect the request/response. This will help debug any issues with the API calls.
+- **Check your API Key**: Ensure that the correct API key is being used for the environment (e.g., sandbox or production). Refer to the API Key section in the [Common Issues](#common-issues-and-solutions) documentation.
+
+## 5. Problem: Slow Performance
+### Symptom:
+- Slow load times, lag, or poor performance in the app.
+
+### Solution:
+- **Check for unnecessary re-renders**: Use React's `React DevTools` to check for unnecessary re-renders.
+- **Use memoization**: Apply `useMemo` or `useCallback` in functional components to avoid recalculating values or functions unnecessarily.
+- **Check network speed**: Use the Network tab in browser DevTools to see if large assets are slowing down the load time. Optimize images and assets where possible.
+
+## 6. Problem: CORS Errors
+### Symptom:
+- Errors like `CORS policy: No 'Access-Control-Allow-Origin' header is present`.
+
+### Solution:
+- **Enable CORS on the server**: Ensure that the API server has the necessary CORS headers set. For example, `Access-Control-Allow-Origin: *` should be included in the response headers.
+- **Proxy during development**: If you’re working locally, set up a proxy to avoid CORS issues while making requests to the backend:
+    ```json
+    "proxy": "http://localhost:5000"  # Add this in your package.json
+    ```
+
+## 7. Problem: Authentication Issues
+### Symptom:
+- Errors like `Invalid credentials`, `Unable to authenticate`, or `Session expired`.
+
+### Solution:
+- **Check credentials**: Ensure that your API credentials or OAuth tokens are correctly set.
+- **Clear cookies**: If using cookies for authentication, clear the cookies and try again.
+- **Check authentication flow**: Double-check the logic for handling user authentication, and ensure tokens are stored and sent correctly.
+
+## 8. Problem: Styling and Layout Issues
+### Symptom:
+- Issues like misaligned elements, broken layouts, or missing styles.
+
+### Solution:
+- **Check CSS files**: Ensure that your stylesheets are correctly imported.
+- **Inspect the element**: Use the browser’s Developer Tools (right-click -> Inspect) to see if styles are being applied correctly.
+- **Check CSS specificity**: Sometimes styles are overridden by more specific selectors. Try increasing the specificity or using `!important` if necessary.
+- **Responsive design**: Use the “Responsive” tab in the browser's DevTools to test the layout on different screen sizes.
+
+---
+
+By following the above tips, developers can resolve common issues that arise during development and make the debugging process smoother.
