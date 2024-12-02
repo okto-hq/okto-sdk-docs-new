@@ -8,7 +8,17 @@ import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 
 ## Installation
 
-This is the main provider for the Okto SDK. It is used to initialize the SDK and pass in settings. Learn how to install the SDK and add the context provider here.
+The Okto SDK allows you to integrate Okto's features into your application seamlessly. Follow these steps to install the SDK using your preferred package manager.
+
+1. Prerequisites
+Ensure you have the following installed:
+
+Node.js: Version 14 or higher.
+Package Manager: npm, yarn, or pnpm.
+If you don't have Node.js installed, download it from [nodejs.org](https://nodejs.org/en).
+
+2. Install the Okto SDK
+Run the following command based on the package manager you're using:
 
 <Tabs items={['npm', 'pnpm', 'yarn']}>
         <Tab value="npm">
@@ -28,9 +38,20 @@ This is the main provider for the Okto SDK. It is used to initialize the SDK and
         </Tab>    
 </Tabs>
 
+This will add the Okto SDK to your project dependencies.
+
 ## Initializing the OktoProvider
 
-To get started with authentication, we'll initialize the Google OAuth provider in the `index.js` file.
+The OktoProvider is the core component of the Okto SDK. It initializes the SDK and provides its functionalities to your application.
+
+Here’s how you can set it up step by step:
+
+Step 1: Set Up Google OAuth (Optional)
+If you're using Google OAuth for authentication, initialize the GoogleOAuthProvider in your index.js file.
+
+Open your index.js file.
+Add the following code:
+
     ```javascript title="index.js"
         import React from 'react';
         import ReactDOM from 'react-dom/client';
@@ -47,7 +68,16 @@ To get started with authentication, we'll initialize the Google OAuth provider i
             </React.StrictMode>
         );
     ```
-Now, let's set up the Okto provider in your `App.js`:
+Why GoogleOAuthProvider?
+This component manages Google OAuth for your app, allowing secure authentication via Google.
+
+Step 2: Initialize the OktoProvider
+Now, add the OktoProvider to your App.js. This component initializes the SDK and provides its context throughout your app.
+
+Open your App.js file.
+Add the following code:
+
+
    ```javascript title="App.js"
     import React from 'react';
     import { OktoProvider, BuildType } from 'okto-sdk-react';
@@ -64,7 +94,32 @@ Now, let's set up the Okto provider in your `App.js`:
     }
     export default App;
    ```
+Explanation of the Code:
+OktoProvider: This component initializes the SDK and allows your app to access Okto's features.
 
+apiKey: This is your unique API key provided by Okto. Replace "OKTO_CLIENT_API_KEY" with your actual key.
+
+buildType: This specifies the environment type. Use BuildType.SANDBOX for testing purposes.
+
+Tips for Beginners
+Where to get API keys?
+
+You can obtain your API key from the Okto dashboard. Contact your team lead or the Okto support team for more details.
+Testing the setup:
+
+After following the steps above, run your development server to check if everything is working.
+
+```bash
+    yarn run dev
+```
+    Visit http://localhost:3000 in your browser to verify the setup.
+
+Debugging common issues:
+
+Error: API Key Missing: Double-check that you replaced OKTO_CLIENT_API_KEY with your actual API key.
+Error: Google Client ID Missing: Make sure you replaced YOUR_GOOGLE_CLIENT_ID with your Google Client ID.
    ## Conclusion
 
-   Congratulations! That's all you have to do for initializing the Okto Provider in your React app.
+   Congratulations! 🎉 You’ve successfully installed and initialized the Okto SDK in your React app. You’re now ready to start building with Okto's powerful features.
+
+For more information or advanced configurations, refer to the [Okto Documentation](https://docs.okto.tech/docs)
