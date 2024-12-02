@@ -521,8 +521,9 @@ paths:
                 network_name:
                   type: string
                   required: true
-                  description: Network used for the transfer.
+                  description: Network used for the transfer. 
                   example: "POLYGON"
+                  enums: ["POLYGON","Ethereum","Arbitrum"]
                 token_address:
                   type: string
                   required: true
