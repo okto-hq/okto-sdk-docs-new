@@ -421,6 +421,125 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/responses/BadRequest"
+  "/s2s/api/v1/readContractData":
+    post:
+      tags:
+        - Server
+      summary: Read Contract Data
+      description: |
+        Read data from a smart contract on a specified network. The API returns the data from the contract based on the input parameters. Supports both EVM and Aptos networks.
+      operationId: readContractData
+      security: [
+        {
+          apiKeyHeader: []
+        }
+      ]
+      parameters:
+        - "$ref": "#/components/parameters/x_api_key"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - network_name
+                - data
+              properties:
+                network_name:
+                  type: string
+                  description: "The network on which to read the contract data"
+                  example: "POLYGON"
+                data:
+                  type: object
+                  description: |
+                    Read data from a contract on a network. Choose the appropriate data object based on the network it is meant for.
+                  oneOf:
+                    - type: object
+                      description: "EVM Contract Read Data"
+                      required:
+                        - contractAddress
+                        - abi
+                      properties:
+                        contractAddress:
+                          type: string
+                          description: "The address of the contract to read from"
+                          example: "0x3BA4c387f786bFEE076A58914F5Bd38d668B42c3"
+                        abi:
+                          type: object
+                          properties:
+                            inputs:
+                              type: array
+                              items:
+                                type: object
+                              example: []
+                            name:
+                              type: string
+                              example: "totalSupply"
+                            outputs:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  internalType:
+                                    type: string
+                                  name:
+                                    type: string
+                                  type:
+                                    type: string
+                              example: [
+                                {
+                                  "internalType": "uint256",
+                                  "name": "",
+                                  "type": "uint256"
+                                }
+                              ]
+                            stateMutability:
+                              type: string
+                              example: "view"
+                            type:
+                              type: string
+                              example: "function"
+                        args:
+                          type: object
+                          description: "Arguments to pass to the function"
+                          example: {}
+                    - type: object
+                      description: "Aptos Contract Read Data"
+                      required:
+                        - function
+                        - typeArguments
+                        - functionArguments
+                      properties:
+                        function:
+                          type: string
+                          description: "The full function path to call"
+                          example: "0x1::chain_id::get"
+                        typeArguments:
+                          type: array
+                          description: "Type arguments for the function"
+                          items:
+                            type: string
+                          example: []
+                        functionArguments:
+                          type: array
+                          description: "Arguments to pass to the function"
+                          items:
+                            type: string
+                          example: []
+      responses:
+        "200":
+          description: Contract data read successfully
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ServerReadContractDataResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/responses/BadRequest"
   "/s2s/api/v1/rawtransaction/execute/{TW_USER_ID}":
     post:
       tags:
@@ -2547,6 +2666,22 @@ components:
           required:
             - count
             - tokens
+      required:
+        - status
+        - data
+    ServerReadContractDataResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the contract read request
+          enum: [success, failure]
+        data:
+          type: array
+          description: Array containing the return values from the contract
+          items:
+            type: string
+          example: ["17568733881984076448"]
       required:
         - status
         - data
