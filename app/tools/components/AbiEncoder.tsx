@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { ethers, Contract, JsonRpcProvider} from 'ethers'
+import { ethers, Contract, JsonRpcProvider } from 'ethers'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -22,6 +22,7 @@ export default function AbiEncoder() {
   const [providerUrl, setProviderUrl] = useState('')
   const [encodedData, setEncodedData] = useState('')
   const [error, setError] = useState('')
+  const [isCopied, setIsCopied] = useState(false)
 
   const handleEncodeData = async () => {
     try {
@@ -51,13 +52,35 @@ export default function AbiEncoder() {
     }
   }
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(encodedData)
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text)
+    setIsCopied(true)
+    setTimeout(() => setIsCopied(false), 2000)
   }
 
+  const codeSnippet = `const { ethers } = require('ethers');
+
+const iface = new ethers.Interface(ABI);
+const data = iface.encodeFunctionData("function_name", [arg1, arg2, arg3, ...]);`
+
+  const abiPlaceholder = `[
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "num",
+          "type": "uint256"
+        }
+      ],
+      "name": "store",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]`
+
   return (
-    <div className="space-y-4">
-      <h2 className="text-xl font-semibold mb-2">ABI Encoder</h2>
+    <div className="space-y-4 max-w-full">
       {error && (
         <div className="text-red-500 bg-red-100 p-2 rounded-md">{error}</div>
       )}
@@ -65,7 +88,7 @@ export default function AbiEncoder() {
         <Label htmlFor="abi-json">ABI JSON</Label>
         <Textarea
           id="abi-json"
-          placeholder={`[{"inputs":[{"internalType":"uint256","name":"num","type":"uint256"}],"name":"store","outputs":[],"stateMutability":"nonpayable","type":"function"}]`}
+          placeholder={abiPlaceholder}
           rows={5}
           value={abi}
           onChange={(e) => setAbi(e.target.value)}
@@ -99,7 +122,7 @@ export default function AbiEncoder() {
         />
       </div>
       <div>
-      <label htmlFor="provider-url">Provider URL</label>
+        <Label htmlFor="provider-url">Provider URL</Label>
         <Select
           id="provider-url"
           value={providerUrl}
@@ -116,15 +139,34 @@ export default function AbiEncoder() {
         Encode Data
       </Button>
       {encodedData && (
-        <div className="mt-4">
-          <div className="my-3 p-2 bg-gray-100 dark:bg-slate-800 rounded-md break-all max-w-full overflow-x-auto">
+        <div className="mt-4 space-y-3">
+          <div className="my-3 p-2 bg-gray-100 dark:bg-slate-800 rounded-md break-all max-w-full overflow-x-auto text-sm">
             {encodedData}
           </div>
-          <Button type="button" onClick={copyToClipboard}>
-            Copy Encoded Data to Clipboard
+          <Button type="button" onClick={() => copyToClipboard(encodedData)}>
+            {isCopied ? 'Copied!' : 'Copy Encoded Data to Clipboard'}
           </Button>
         </div>
       )}
+
+      {/* Code Snippet Section */}
+      <div className="mt-6 space-y-2">
+        <h3 className="text-lg font-semibold">Dynamic Hex Encoding Snippet</h3>
+        <div className="relative bg-gray-100 dark:bg-slate-800 p-2 rounded-md overflow-x-auto text-sm">
+          <pre className="font-mono whitespace-pre">
+{codeSnippet}
+          </pre>
+          <Button
+            type="button"
+            onClick={() => copyToClipboard(codeSnippet)}
+            className="absolute top-2 right-2"
+            size="sm"
+            variant="secondary"
+          >
+            {isCopied ? 'Copied!' : 'Copy'}
+          </Button>
+        </div>
+      </div>
     </div>
   )
 }

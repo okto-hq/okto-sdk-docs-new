@@ -93,7 +93,7 @@ export default function ToolsPage() {
                     </CardHeader>
                   </Card>
                 </DialogTrigger>
-                <DialogContent className="max-w-md">
+                <DialogContent className="max-w-3xl w-full">
                   <DialogHeader>
                     <DialogTitle>{tool.title}</DialogTitle>
                   </DialogHeader>
