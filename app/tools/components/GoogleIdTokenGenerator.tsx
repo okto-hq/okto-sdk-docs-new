@@ -14,6 +14,7 @@ export default function GoogleIdTokenGenerator() {
   const [idToken, setIdToken] = useState('')
   const [error, setError] = useState('')
   const [isSignedIn, setIsSignedIn] = useState(false)
+  const [isCopied, setIsCopied] = useState(false)
 
   const ClientId = 'MTA0NjI3MTUyMTE1NS0wbTQ1M3BvaTVndWEwM2tlaGRjbjV1b24xdnZ1NXU5ai5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbQ=='
   
@@ -68,6 +69,8 @@ export default function GoogleIdTokenGenerator() {
 
   const handleCopy = () => {
     navigator.clipboard.writeText(idToken)
+    setIsCopied(true)
+    setTimeout(() => setIsCopied(false), 2000)
   }
 
   return (
@@ -91,7 +94,9 @@ export default function GoogleIdTokenGenerator() {
             >
               {idToken}
             </div>
-            <Button onClick={handleCopy}>Copy ID Token to Clipboard</Button>
+            <Button onClick={handleCopy}>
+              {isCopied ? 'Copied!' : 'Copy ID Token to Clipboard'}
+            </Button>
           </div>
         </>
       )}
