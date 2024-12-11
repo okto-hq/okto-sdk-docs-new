@@ -7,7 +7,7 @@ info:
     ## Resources
 
     * https://github.com/okto-hq/
-      
+
   version: 1.0.0
   contact:
     name: Ovia Seshadri
@@ -35,18 +35,15 @@ paths:
       tags:
         - Client
       summary: Authenticate a user via Google ID Token
-      description: Authenticates the user using Google ID Token and on successfull authentication, it will return the token of the user. Checkout the documentation here.
-          
+      description:
+        Authenticates the user using Google ID Token and on successfull authentication, it will return the token of the user. Checkout the documentation here.
+
         * [Authenticate via Google ID token](/docs/react-sdk/advanced-sdk-config/authenticate-users/google-oauth/learn)
 
       operationId: authenticateUser
-      security: [
-        {
-          apiKeyHeader: []
-        }
-      ]
+      security: [{ apiKeyHeader: [] }]
       parameters:
-        - "$ref": "#/components/parameters/x_api_key" 
+        - "$ref": "#/components/parameters/x_api_key"
       requestBody:
         required: true
         content:
@@ -77,8 +74,9 @@ paths:
       tags:
         - Client
       summary: Send Email OTP
-      description: Sends an OTP to the specified email address to authenticate the user. Checkout the documentation here.
-          
+      description:
+        Sends an OTP to the specified email address to authenticate the user. Checkout the documentation here.
+
         * [Email OTP Authenticate](/docs/react-sdk/advanced-sdk-config/authenticate-users/email-otp/learn)
       operationId: sendEmailOTP
       security:
@@ -116,8 +114,9 @@ paths:
       tags:
         - Client
       summary: Verify Email OTP
-      description: Verifies the OTP sent to the email and returns Okto authentication tokens upon successful verification. Checkout the documentation here.
-          
+      description:
+        Verifies the OTP sent to the email and returns Okto authentication tokens upon successful verification. Checkout the documentation here.
+
         * [Email OTP Authenticate](/docs/react-sdk/advanced-sdk-config/authenticate-users/email-otp/learn)
       operationId: verifyEmailOTP
       security:
@@ -165,8 +164,9 @@ paths:
       tags:
         - Client
       summary: Send Phone OTP
-      description: Sends an OTP to the specified phone number to authenticate the user. Checkout the documentation here.
-          
+      description:
+        Sends an OTP to the specified phone number to authenticate the user. Checkout the documentation here.
+
         * [Phone OTP Authenticate](/docs/react-sdk/advanced-sdk-config/authenticate-users/phone-otp/learn)
       operationId: sendPhoneOTP
       security:
@@ -209,8 +209,9 @@ paths:
       tags:
         - Client
       summary: Verify Phone OTP
-      description: Verifies the OTP sent to the phone number and returns Okto authentication tokens upon successful verification. Checkout the documentation here.
-          
+      description:
+        Verifies the OTP sent to the phone number and returns Okto authentication tokens upon successful verification. Checkout the documentation here.
+
         * [Phone OTP Authenticate](/docs/react-sdk/advanced-sdk-config/authenticate-users/phone-otp/learn)
       operationId: verifyPhoneOTP
       security:
@@ -265,13 +266,13 @@ paths:
       description: |
         Authenticates a user using a vendor-provided JWT token. This endpoint verifies the JWT token 
         with the vendor's verification API and returns Okto authentication tokens upon successful verification.
-        
+
         The vendor JWT should be provided in the Authorization header as a Bearer token. 
-        
+
         Checkout the documentation for JWT authenticate here.
           * [JWT Authenticate](/docs/react-sdk/advanced-sdk-config/authenticate-users/jwt-closed-loop/learn)
       operationId: jwtAuthenticate
-      security: 
+      security:
         - apiKeyHeader: []
       parameters:
         - "$ref": "#/components/parameters/x_api_key"
@@ -297,7 +298,7 @@ paths:
       description: Fetch all the wallets created by the user.
       operationId: createWallet
       parameters:
-        - "$ref": "#/components/parameters/bearer_auth" 
+        - "$ref": "#/components/parameters/bearer_auth"
       responses:
         "201":
           description: Fetched
@@ -318,10 +319,16 @@ paths:
       description: Creates a new wallet for the user. The wallet is created for all the whitelisted networks for your API key.
       operationId: createWallet
       parameters:
-        - "$ref": "#/components/parameters/bearer_auth" 
+        - "$ref": "#/components/parameters/bearer_auth"
       responses:
         "201":
           description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ClientCreateWalletResponse"
+        "200":
+          description: if wallets already created
           content:
             application/json:
               schema:
@@ -340,7 +347,7 @@ paths:
       description: Get fresh pair of access and refresh tokens for the user using the previous obtained refresh_token, auth_token and device_token.
       operationId: refreshToken
       parameters:
-        - "$ref": "#/components/parameters/bearer_auth" 
+        - "$ref": "#/components/parameters/bearer_auth"
       responses:
         "201":
           description: Fetched
@@ -362,7 +369,7 @@ paths:
       description: Logout the user from the current Okto session. This will remove the user's session from the Okto server and the user will have to login again to access the resources.
       operationId: logout
       parameters:
-        - "$ref": "#/components/parameters/bearer_auth" 
+        - "$ref": "#/components/parameters/bearer_auth"
       responses:
         "201":
           description: Logged out
@@ -384,9 +391,9 @@ paths:
       description: Get user details using token received from Okto.
       operationId: getUserDetails
       parameters:
-        - "$ref": "#/components/parameters/bearer_auth" 
+        - "$ref": "#/components/parameters/bearer_auth"
       responses:
-        "201":
+        "200":
           description: Fetched
           content:
             application/json:
@@ -408,7 +415,7 @@ paths:
           * [network_name](/tools/technical-reference)
       operationId: getSupportedNetworks
       parameters:
-        - "$ref": "#/components/parameters/bearer_auth" 
+        - "$ref": "#/components/parameters/bearer_auth"
       responses:
         "201":
           description: Fetched
@@ -432,7 +439,7 @@ paths:
           * [token_name](/tools/technical-reference)
       operationId: getSupportedTokens
       parameters:
-        - "$ref": "#/components/parameters/bearer_auth" 
+        - "$ref": "#/components/parameters/bearer_auth"
         - "$ref": "#/components/parameters/page"
         - "$ref": "#/components/parameters/size"
       responses:
@@ -639,7 +646,7 @@ paths:
                   description: Address of the collection which needs to be transferred.
                   required: true
                   example: "0x68ee2dddcbb1c03df5fc4b6235d993b8b4d1d0e5"
-                collection_name: 
+                collection_name:
                   type: string
                   description: Name of the collection which needs to be transferred.
                   example: "super orchestrators"
@@ -1091,7 +1098,7 @@ components:
           schema:
             type: object
             properties:
-              from: 
+              from:
                 type: string
                 description: "The address for the sending account."
                 example: "0x0342A54DD44E8744FD185579Af57845Cb0ac6cB0"
@@ -1099,11 +1106,11 @@ components:
                 type: string
                 description: " The destination address of the message, left undefined for a contract-creation transaction."
                 example: "0x80322ea18633A1f713e987d65Ae78AcCDAB6e55e"
-              data: 
+              data:
                 type: string
                 description: " Either a ABI byte string containing the data of the function call on a contract, or in the case of a contract-creation transaction the initialisation code."
                 example: "0x..."
-              value: 
+              value:
                 type: string
                 description: "The value transferred for the transaction in wei, also the endowment if it’s a contract-creation transaction."
                 example: "0x10000"
@@ -1126,13 +1133,17 @@ components:
                     type: array
                     items:
                       $ref: "#/components/schemas/KeyData"
-                    example: 
-                      - { pubkey: "3dF1ef9F1Ab2AfD1Bf7dD578c729B6C711D597F2", isSigner: true, isWritable: false }
-                  programId: 
+                    example:
+                      - {
+                          pubkey: "3dF1ef9F1Ab2AfD1Bf7dD578c729B6C711D597F2",
+                          isSigner: true,
+                          isWritable: false,
+                        }
+                  programId:
                     description: "The address of the program which contains the execution logic for the instruction invoked."
                     type: string
                     example: "AvxPZEWryvCtVm2zCXQZ4GbNFayNM79JeodvRYSWL4at"
-                  data: 
+                  data:
                     description: "The instruction data for the instruction as a buffer of bytes"
                     type: array
                     example: "[108, 81, 78, 117, 125, 155, 56, 200, 192, 198, 45, 0, 0, 0, 0, 0]"
@@ -2300,12 +2311,12 @@ components:
                   description: Name of the blockchain network
                   example: "POLYGON"
               required:
-                  - token_name
-                  - quantity
-                  - amount_in_inr
-                  - token_image
-                  - token_address
-                  - network_name
+                - token_name
+                - quantity
+                - amount_in_inr
+                - token_image
+                - token_address
+                - network_name
           required:
             - total
             - tokens
@@ -2598,7 +2609,7 @@ components:
                     example: ""
                   nft_id:
                     type: string
-                    description: Unique identifier for the NFT 
+                    description: Unique identifier for the NFT
                     example: "56"
                   order_type:
                     type: string
