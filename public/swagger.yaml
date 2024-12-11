@@ -348,6 +348,8 @@ paths:
       operationId: refreshToken
       parameters:
         - "$ref": "#/components/parameters/bearer_auth"
+        - "$ref": "#/components/parameters/refresh_auth"
+        - "$ref": "#/components/parameters/device_token_header"
       responses:
         "201":
           description: Fetched
@@ -1243,6 +1245,22 @@ components:
       description: Authorization token received from Okto
       schema:
         type: string
+    refresh_auth:
+      name: x-refresh-authorization
+      in: header
+      required: true
+      description: Current refresh token with Bearer prefix
+      schema:
+        type: string
+      example: "Bearer ${{refresh_auth_token}}"
+    device_token_header:
+      name: x-device-token
+      in: header
+      required: true
+      description: Current device token
+      schema:
+        type: string
+      example: "${{device_token}}"
     page:
       name: page
       in: query
