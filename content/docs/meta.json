@@ -11,6 +11,7 @@
       "react-sdk",
       "flutter-sdk",
       "react-native-sdk",
+      "unity-sdk",
       "---Resources---",
       "brand-kit",
       "[Showcase](https://docs.okto.tech/showcase)",

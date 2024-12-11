@@ -15,6 +15,7 @@ import { ChevronDown } from 'lucide-react';
 import { FaReact } from "react-icons/fa6";
 import { TbBrandReactNative, TbApi } from "react-icons/tb";
 import { SiFlutter } from "react-icons/si";
+import { FaUnity } from "react-icons/fa6";
 import { useTheme } from "next-themes";
 import GitHubButton from "./GithubButton";
 import DiscordButton from "./DiscordButton";
@@ -52,6 +53,7 @@ export default function NavbarComponent() {
     { href: "/docs/react-sdk", label: "React", subpath: '/getting-started/overview-okto-react', icons: <FaReact /> },
     { href: "/docs/react-native-sdk", label: "React Native", subpath: '/getting-started/overview-okto-react-native', icons: <TbBrandReactNative /> },
     { href: "/docs/flutter-sdk", label: "Flutter", subpath: '/getting-started/overview-okto-flutter', icons: <SiFlutter /> },
+    { href: "/docs", label: "Unity", subpath: '/unity-sdk', icons: <FaUnity /> },
   ];
 
   const getFrameworkLabel = () => {
