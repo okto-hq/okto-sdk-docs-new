@@ -388,16 +388,18 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/responses/BadRequest"
-  "/s2s/api/v2/bulk_order_details/{orderId}":
+  "/s2s/api/v2/bulk_order_details/{TW_USER_ID}":
     get:
       tags:
         - Server
       summary: Get bulk order details
       description: |
-        Get order details of all ongoing jobs by using `order_id`. Checkout all possible values of `network_name`, `status` and `order_type` here.
+        Get order details of all ongoing jobs by using `bulk_order_id`. Checkout all possible values of `network_name`, `status` and `order_type` here.
           * [network_name](/tools/technical-reference)
           * [status](/tools/technical-reference#status)
           * [order_type](/tools/technical-reference#order_type)
+        
+        `TW_USER_ID` is the `user_id` of the Treasury Wallet. It gets returned after calling the **Create Treasury Wallet** API.
       operationId: getBulkOrderDetails
       security: [
         {
@@ -406,6 +408,7 @@ paths:
       ]
       parameters:
         - "$ref": "#/components/parameters/x_api_key" 
+        - "$ref": "#/components/parameters/bulk_order_id"
         - "$ref": "#/components/parameters/page"
         - "$ref": "#/components/parameters/size"
       responses:
@@ -682,7 +685,45 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/responses/BadRequest"
-
+  "/s2s/api/v1/rawtransaction/status/{TW_USER_ID}":
+    get:
+      tags:
+        - Server
+      summary: Get raw transaction status
+      description: |
+        Get the status of a raw transaction job using the `job_id`. 
+        
+        **Note:** The `order_id` expected in the Query Params refers to the `job_id`.
+      operationId: getRawTransactionStatus
+      security: [
+        {
+          apiKeyHeader: []
+        }
+      ]
+      parameters:
+        - "$ref": "#/components/parameters/x_api_key"
+        - name: order_id
+          in: query
+          required: true
+          description: Job ID of the raw transaction whose status needs to be fetched.
+          schema:
+            type: string
+            example: "5eced0d9-45ea-4954-b1d9-086a07ef9984"
+        - "$ref": "#/components/parameters/page"
+        - "$ref": "#/components/parameters/limit"
+      responses:
+        "201":
+          description: Fetched
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ServerGetJobStatusResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/responses/BadRequest"
 components:
   securitySchemes:
     bearerAuth:
@@ -754,7 +795,8 @@ components:
     bulk_order_id:
       name: bulk_order_id
       in: query
-      description: Order id of the NFT.
+      required: true
+      description: Unique identifier for a bulk order
       schema:
         type: string
         example: "dd784ad9-68f8-49b9-87dc-13723e933eab"
@@ -2726,6 +2768,40 @@ components:
       required:
         - status
         - data  
+    ServerGetJobStatusResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the raw transaction request
+          example: "success"
+        data:
+          type: object
+          properties:
+            jobs:
+              type: array
+              items:
+                type: object
+                properties:
+                  order_id:
+                    type: string
+                    description: Unique identifier for the job
+                    example: "5eced0d9-45ea-4954-b1d9-086a07ef9984"
+                  network_name:
+                    type: string
+                    description: Name of the blockchain network
+                    example: "APTOS_TESTNET"
+                  status:
+                    type: string
+                    description: Current status of the job
+                    example: "SUCCESS"
+                  transaction_hash:
+                    type: string
+                    description: Hash of the transaction on the blockchain
+                    example: "0x0324d0a29261aa5bc41487e0c790375aa601625ac8625b112741265da8713da3"
+      required:
+        - status
+        - data 
     PaginatedResource:
       type: object
       properties:
