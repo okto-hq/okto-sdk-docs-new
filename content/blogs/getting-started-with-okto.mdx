@@ -1,0 +1,196 @@
+---
+title: Getting Started with Okto
+description: Learn how to get started with Okto SDKs, check out the different available SDKs, and set up your first project using it.
+date: 2024-06-13
+author: Ejaaz
+---
+
+<img src="https://miro.medium.com/v2/resize:fit:2000/format:webp/1*ypV3mYzjZvoqJx2ecyB7yA.png" alt="Getting Started with Okto" />
+
+<em><strong>TL;DR:</strong> This blog introduces the Okto SDK, a comprehensive toolkit that simplifies Web3 development by abstracting blockchain complexities. You’ll learn how to get started with Okto SDKs, check out the different available SDKs, and set up your first project using it. By the end, you’ll be ready to build simple yet powerful Web3 applications with ease.</em>
+
+The world of Web3 is revolutionizing how we interact with the internet, bringing decentralized applications (dApps) that empower users like never before. However, despite its potential, developing on Web3 can be challenging because of the complexities of blockchain technology and unfamiliar protocols. But what if you could build Web3 applications as easily as traditional web apps?
+
+Enter the <strong>Okto SDK</strong> — your gateway to easy Web3 development. Designed to abstract blockchain complexities, the Okto SDK enables you to create powerful and user-friendly applications without getting bogged down by technical challenges. In this blog, we’ll guide you through everything you need to know to get started with the Okto SDK and confidently begin your Web3 journey.
+
+## What is Okto SDK?
+
+Before diving into the setup, let’s discuss what makes the Okto SDK a game-changer for developers.
+
+The <strong>Okto SDK</strong> is a comprehensive toolkit that simplifies the development of Web3 applications. It provides a chain abstraction layer that allows you to build consumer apps in a way that feels familiar. By managing the complex blockchain interactions behind the scenes, the SDK lets you focus on delivering the seamless user experiences expected from modern web applications.
+
+The Okto SDK makes blockchain development much easier by providing features like single function calls for any blockchain action, a unified portfolio across different ecosystems, and abstraction of chain, account, and gas details. This means you can focus on creating easy-to-use interfaces and fun features without needing to worry about the technical blockchain details. The SDK’s plug-and-play nature also makes it highly customizable, allowing you to adapt it to your specific project needs.
+
+## Ways to Build on Okto
+
+Recognizing that developers have different preferences and project requirements, Okto offers several ways to integrate its powerful features into your applications.
+
+1. **Okto React SDK**: Ideal for building web applications using React.
+2. **Okto React Native SDK**: Perfect for creating mobile apps with React Native.
+3. **Okto Flutter SDK**: Designed for mobile developers working with Flutter/Dart.
+4. **Unity SDK**: Ideal for game developers using Unity for web/mobile/desktop/playstation games.
+5. **Direct API Integration**: For those who prefer to interact directly via APIs or working on any other platform not supported by the SDKs.
+
+No matter your platform of choice, Okto ensures a smooth development experience across various technologies.
+
+## Prerequisites
+
+Before you start building your app using Okto, there are a couple of things you need to set up.
+
+### 1. Get Your Okto App Secret
+The first step is to sign up on the Okto Dashboard to obtain your Okto App Secret. This key is crucial for authenticating your API requests. Make sure to keep it secure and never expose it publicly or include it in client-side code.
+
+<strong>Steps to Get Your App Secret:</strong>
+
+<img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*I_nzQE2kACXwVPh9d2wxQQ.png" alt="Getting Started with Okto" />
+
+1. <strong>Navigate to the Dashboard Login Page:</strong> Go to [Okto Dashboard](https://dashboard.okto.tech/login).
+2. <strong>Enter Your Email Address:</strong> Input your preferred email to log in.
+3. <strong>Verify Your Email:</strong> Enter the OTP you received in your inbox.
+4. <strong>Access Your Dashboard:</strong> Once verified, you’ll be logged into your new dashboard account.
+5. <strong>Get Your App Secret:</strong> Navigate to the “API Keys” section and click on “Get App Secret.”
+
+<img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*O3hVW2UbZgErPmY_oibl7Q.png" alt="Getting Started with Okto" />
+
+<strong>Note:</strong> <em>The “App ID”, which is also revealed in the “API Keys” page, is different. It is a public unique ID, but the “App Secret” is the actual key you need to download and keep safe. You can use this key to access all SDK and client-side APIs.</em>
+
+### 2. Authentication Methods
+
+User authentication is a vital component of any application. The Okto SDK supports multiple authentication methods to onboard users seamlessly.
+
+Currently, Okto offers the following authentication options:
+
+<strong>1. Google OAuth:</strong>
+To authenticate users via Google, you’ll need to set up a Google Console Project.
+
+- Follow our [Google OAuth2 Setup Guide](https://docs.okto.tech/docs/react-sdk/advanced-sdk-config/authenticate-users/google-oauth/learn) to create a project in Google Cloud Console.
+- Once configured, you’ll receive a Google Client ID that will be used in your application for secure authentication.
+
+<strong>2. Email OTP:</strong>
+Okto allows users to log in using their email addresses with a secure One-Time Password (OTP). The SDK manages the process of generating, sending, and verifying OTPs, ensuring a smooth user experience.
+
+<strong>3. Phone OTP:</strong>
+With phone OTP authentication, users can log in using their phone numbers with a secure One-Time Password (OTP). The SDK securely handles OTP generation, sending, and verification.
+
+Okto also plans to support other methods like Apple ID, Telegram, and Farcaster in the future.
+
+### 3. Enable Chains and Tokens
+
+It is compulsory to enable chains and tokens on the Okto Dashboard. This step is necessary to ensure your application can interact with supported blockchain networks.
+
+<img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*sH5Nz0JwwZ4P79fMCZjBIw.png" alt="Getting Started with Okto" />
+
+### 4. Optional: Enable Sponsorship
+
+You may also choose to enable sponsorship, which is a feature that allows you to cover transaction fees (gas fees) for your users. This creates a smoother user experience by removing the need for users to hold native tokens for transaction fees.
+
+Sponsorship integrates with Okto’s wallet infrastructure to automatically cover gas fees for transactions on supported chains. When a user initiates a transaction, the sponsorship system pays the required gas fee, allowing the transaction to proceed even if the user doesn’t have the native token for gas.
+
+<strong>Note:</strong> <em>For Solana chains like mainnet and devnet, account creation involves adding rent, so sponsorship is compulsory. If you enable the Solana chain, you must enable sponsorship and add funds to that chain.</em>
+
+## Available SDKs
+
+Now that you’ve completed the prerequisites, let’s take a closer look at the SDKs Okto offers. Each SDK is designed to integrate seamlessly with your preferred development platform.
+
+### 1. Okto React SDK
+
+If you’re building a web application with React, the <strong>Okto React SDK</strong> is your go-to solution. It streamlines the integration of Web3 functionalities, allowing you to onboard users into the Web3 ecosystem effortlessly. With minimal setup, you can start providing users with a seamless Web3 experience.
+
+1. <strong>Learn More:</strong> [Okto React SDK Overview](https://docs.okto.tech/docs/react-sdk/getting-started/overview-okto-react)
+2. <strong>Quick Start Guide:</strong> [Get Started with Okto React SDK](https://docs.okto.tech/docs/react-sdk/getting-started/quickstart-okto-react/new-okto-react-setup)
+
+### 2. Okto Flutter SDK
+
+For developers using Flutter, the <strong>Okto Flutter SDK</strong> provides a straightforward way to add Web3 features to your app. It’s designed to minimize setup time so you can focus on delivering a smooth and engaging user experience, all while taking advantage of Flutter’s cross-platform capabilities.
+
+1. <strong>Learn More:</strong> [Okto Flutter SDK Overview](https://docs.okto.tech/docs/flutter-sdk/getting-started/overview-okto-flutter)
+2. <strong>Quick Start Guide:</strong> [Get Started with Okto Flutter SDK](https://docs.okto.tech/docs/flutter-sdk/getting-started/quickstart-okto-flutter/new-okto-flutter-setup)
+
+### 3. Okto React Native SDK
+
+Mobile app developers working with React Native will find the <strong>Okto React Native SDK</strong> invaluable. It simplifies the process of integrating Web3 functionalities into your mobile applications, providing users with a smooth Web3 journey from any device.
+
+1. <strong>Learn More:</strong> [Okto React Native SDK Overview](https://docs.okto.tech/react-native-sdk)
+2. <strong>Quick Start Guide:</strong> [Get Started with Okto React Native SDK](https://docs.okto.tech/docs/react-native-sdk/getting-started/quickstart-okto-react-native/new-okto-react-setup)
+
+### 4. Okto Unity SDK
+
+Game developers can now bring Web3 functionalities to their Unity projects with the Okto Unity SDK. Whether you’re developing games for web, mobile, or desktop, the Unity SDK allows you to integrate authentication, wallet management, token transfers, and NFT operations seamlessly and help you unlock blockchain-powered gaming experiences quickly and effectively.
+
+1. <strong>Learn More:</strong> [Okto Unity SDK Overview](https://docs.okto.tech/docs/unity-sdk)
+2. <strong>Quick Start Guide:</strong> [Get Started with Okto Unity SDK](https://docs.google.com/document/d/1V7guvCvgYzjKsJUK9xKRdSPSbg3RAoC0Bu_AnH9t7Og/edit?tab=t.0#heading=h.n2y9pwxzfsby)
+
+## Create Okto App
+
+For an even faster start, Okto provides a pre-configured setup for <strong>React, Next.js, and React Native applications</strong>. This setup utilizes a CLI tool that scaffolds your project with all the essential configurations, saving you time and effort.
+
+### Here's How You Can Do It:
+
+<strong>Step 1:Create a New Project</strong>
+Open your terminal and run the following command:
+
+```bash
+npx create-okto-app@latest
+```
+
+You’ll be prompted to choose a template and enter your project name:
+
+```bash
+Welcome to create-okto-app!
+✔ Choose a template: › (React, React Native or Next.js)
+✔ Enter your project name: › my-okto-app
+```
+
+<em>You can select <strong>React, React Native, or Next.js</strong> based on your project requirements.</em>
+
+After the setup is complete, navigate into your project directory and install dependencies:
+
+```bash
+cd my-okto-app
+npm install
+```
+
+<strong>Step 2: Configure Environment Variables</strong>
+
+Next, create a `.env` file in the root of your project with the following content:
+
+```bash
+REACT_APP_GOOGLE_CLIENT_ID="YOUR_GOOGLE_CLIENT_ID"
+REACT_APP_OKTO_CLIENT_API_KEY="YOUR_OKTO_CLIENT_API_KEY"
+```
+
+<em>Replace “YOUR_GOOGLE_CLIENT_ID” and “YOUR_OKTO_CLIENT_API_KEY” with the actual values you obtained earlier.</em>
+
+<strong>Step 3: Start the Development Server</strong>
+
+Run the following command to start your app:
+
+```bash
+npm run dev
+```
+
+Your application should now be running at `http://localhost:3000`.
+
+<strong>Congratulations!</strong>
+
+🎉 You’ve successfully set up a fully configured Okto-powered application! All the necessary components are in place, and you’re ready to start building amazing Web3 features.
+
+## Explore Showcase
+
+One of the best ways to understand the potential of the Okto SDK is by seeing it in action. Many developers have already built innovative and exciting projects using Okto. From decentralized finance apps to interactive gaming experiences, the possibilities are endless.
+
+Visit our [Showcase Page](https://docs.okto.tech/showcase) to explore these projects. You’ll find a variety of applications that demonstrate the versatility and power of the Okto SDK. Not only can you see what others have created, but you might also find inspiration for your own projects.
+
+<img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/0*G46jj0ww9_PlSaNs" alt="Getting Started with Okto" />
+
+The showcase highlights how Okto’s features can be applied across different industries and use cases. It’s a testament to what’s possible when complex blockchain technologies are made accessible.
+
+## Conclusion
+
+Embracing Web3 development doesn’t have to be overwhelming. With the Okto SDK, you have a powerful and flexible toolkit designed to make your development process smooth and efficient. By abstracting away the complexities of blockchain interactions, Okto allows you to focus on what truly matters — creating exceptional user experiences.
+
+Whether you’re building a simple dApp or a complex multi-chain application, the Okto SDK equips you with the tools you need. Its plug-and-play solutions, combined with customizable features, offer the perfect balance between simplicity and power.
+
+Now is the perfect time to jump into Web3 development. With the Okto SDK, you can turn your innovative ideas into reality. Don’t let the complexities of blockchain technology hold you back — <strong>Start building with Okto today!</strong>
+
+<em>Happy Coding! 🚀</em>

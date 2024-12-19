@@ -1,0 +1,310 @@
+---
+title: "Interacting with Tokens on Okto SDK: A Comprehensive Guide"
+description: Interacting with tokens on Okto SDK is a crucial part of building Web3 applications. This guide provides a comprehensive overview of how to interact with tokens using Okto SDK, including how to get token balances, send tokens, and more.
+date: 2024-06-13
+author: Ejaaz
+---
+
+<img src="https://miro.medium.com/v2/resize:fit:2000/format:webp/1*BNp4r3Ri3nMm26gBaQQGRg.png" alt="Interacting with Tokens on Okto SDK: A Comprehensive Guide" />
+
+<strong>TL;DR:</strong>
+<em>Learn how to enable chains and tokens, interact with APIs, and manage tokens seamlessly using the Okto SDK. A single API call empowers developers to build powerful token-based dApps without blockchain complexities.</em>
+
+## Introduction: The Power of Tokens with Okto
+
+Tokens are at the heart of blockchain applications. Whether you’re building DeFi platforms, gaming ecosystems, or NFT marketplaces, tokens drive user interactions and utility. However, <strong>working with tokens across multiple chains</strong> has historically been a nightmare.
+
+Each blockchain has its own standards for accounts, token handling, and transaction flows, forcing developers to:
+
+- Learn chain-specific models (e.g., account-based vs. UTXO).
+- Construct intricate transaction objects.
+- Manage gas fees, nonce handling, and retries.
+
+This fragmented experience has made cross-chain development a daunting task.
+
+<strong>Enter Okto.</strong> Okto abstracts away these challenges, offering a seamless and unified way to interact with tokens across diverse ecosystems. With Okto, transferring tokens (whether native, ERC20, or other fungible assets) across any of the diverse chains becomes as simple as one API call. No chain-specific nuances, no transaction complexity. Just a clean, developer-friendly experience.
+
+In this guide, we’ll walk you through the steps to enable blockchain networks (chains) and whitelist tokens on the Okto dashboard. We’ll also dive into various API functions provided by the Okto SDK that allow you to interact with tokens.
+
+By the end of this guide, you’ll be equipped to integrate token interactions into your applications, unlocking the full potential of cross-chain development without the blockchain headaches.
+
+## Enabling Chains and Whitelisting Tokens
+
+Before you can start interacting with tokens, it’s essential to configure which <strong>blockchain networks (chains)</strong> and <strong>tokens</strong> your application will support. This configuration is done through the Okto dashboard’s <strong>Wallet Controls</strong> feature.
+
+### Enabling Chains
+
+Chains represent the blockchain networks your users can access. By enabling specific chains, you determine which blockchain ecosystems your users can interact with through their Okto wallet.
+
+<strong>To enable a chain:</strong>
+
+1. Log in to the <strong>[Okto Dashboard](https://dashboard.okto.tech/login)</strong> and navigate to the <strong>Chains & Tokens</strong> section of the <strong>Wallet Controls</strong> page on your Okto dashboard.
+<img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*c0EkmhNNHjk5skKanJmgcQ.png" alt="Enable Chain" />
+
+2. Click on the <strong>Enable Chain</strong> button.
+
+3. In the pop-up window, you’ll see a list of available chains, including <strong>mainnet</strong> and <strong>testnet</strong> options.
+
+<img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*KIhZL0TYAW80kfILkmWucg.png" alt="Enable Chain" />
+
+4. Select the <strong>chain(s)</strong> you want to enable for your users.
+
+5. Click <strong>Enable Chain(s)</strong> to confirm your selection.
+
+### Enabling Tokens
+
+Tokens represent the cryptocurrencies and digital assets your users can manage within their Okto wallet. You can choose from a list of whitelisted tokens for each enabled chain to ensure the assets relevant to your app are available to users.
+
+1. Log in to the [Okto Dashboard](https://dashboard.okto.tech/login) and navigate to the <strong>Chains & Tokens</strong> section of the <strong>Wallet Controls</strong> page on your Okto dashboard.
+
+<img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*c0EkmhNNHjk5skKanJmgcQ.png" alt="Enable Token" />
+
+2. Click on the <strong>Enable Token(s)</strong> button.
+
+3. In the pop-up window, you’ll see a list of available tokens for the enabled chains.
+
+<img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*RFmq7tM21-Iu5rUhkKHxlg.png" alt="Enable Token" />
+
+4. Select the token(s) you want to enable for your users.
+
+5. Click <strong>Enable Token(s)</strong> to confirm your selection.
+
+<img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*sH5Nz0JwwZ4P79fMCZjBIw.png" alt="Enable Token" />
+
+## Interacting with Tokens via Okto SDK APIs
+
+Now that you’ve enabled the desired chains and tokens, you can start interacting with them using the <strong>Okto SDK APIs</strong>. These APIs abstract the complexities of cross-chain operations, allowing you to perform critical actions like token transfers, portfolio management, and transaction tracking — all with just a few API calls.
+
+## 1. Transferring Tokens: One API Call to Rule Them All
+
+Transferring tokens across blockchains can be daunting due to differing account structures, gas fee mechanisms, and transaction object requirements. With <strong>Okto SDK</strong>, it’s as simple as one API call . You don’t need to manage chain-specific transaction logic.
+
+<strong>Key Benefits:</strong>
+
+- <strong>Unified Experience:</strong> Transfer native and non-native tokens across multiple chains with the same API structure.
+- <strong>Simplified Process:</strong> No manual gas estimation, nonce management, or transaction construction.
+- <strong>Cross-Chain Compatibility:</strong> Works seamlessly for blockchains like Ethereum, Polygon, and more.
+
+<strong>Endpoint:</strong> `POST /api/v1/transfer/tokens/execute`
+
+<strong>Sample Request:</strong>
+
+```bash
+POST https://sandbox-api.okto.tech/api/v1/transfer/tokens/execute
+Content-Type: application/json
+{
+  "network_name": "POLYGON",
+  "token_address": "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+  "quantity": "50.00",
+  "recipient_address": "0x8AA55B5CE2D6325F6c6e0922dF91793722f0f8eF"
+}
+```
+
+<strong>Sample Request:</strong>
+
+```bash
+{
+  "status": "success",
+  "data": {
+    "orderId": "a49bbd8b-d26a-4c0f-840d-65d2727f486d"
+  }
+}
+```
+
+<strong>SDK Function Equivalent:</strong>
+
+If you’re using the Okto SDK, this API is wrapped in a function like `transferTokens(data: TransferTokens)`.
+
+<strong>Documentation Links:</strong>
+
+- [React SDK — Transfer Tokens](https://docs.okto.tech/docs/react-sdk/advanced-sdk-config/okto-embedded-wallet/use-user-embedded-wallet/transfer-tokens#transfer-tokens)
+- [Flutter SDK — Transfer Tokens](https://docs.okto.tech/docs/flutter-sdk/advanced-sdk-config/okto-embedded-wallet/use-user-embedded-wallet/transfer-tokens#transfer-tokens)
+- [React Native SDK — Transfer Tokens](https://docs.okto.tech/docs/react-native-sdk/advanced-sdk-config/okto-embedded-wallet/use-user-embedded-wallet/transfer-tokens#transfer-tokens)
+
+## 2. Retrieving User Portfolio
+
+The <strong>User Portfolio API</strong> fetches the portfolio data of a user, including all the tokens they own across all enabled networks. This is useful for displaying the user’s asset holdings within your application.
+
+<strong>Endpoint:</strong> `GET /api/v1/portfolio`
+
+<strong>Sample Request:</strong>
+
+```bash
+GET https://sandbox-api.okto.tech/api/v1/portfolio
+```
+
+<strong>Sample Request:</strong>
+
+```bash
+{
+  "status": "success",
+  "data": {
+    "total": 2,
+    "tokens": [
+      {
+        "token_name": "USDC",
+        "quantity": "150.50",
+        "amount_in_inr": "11250.75",
+        "network_name": "POLYGON"
+      },
+      {
+        "token_name": "MATIC",
+        "quantity": "500.00",
+        "amount_in_inr": "75000.00",
+        "network_name": "POLYGON"
+      }
+    ]
+  }
+}
+```
+
+<strong>SDK Function Equivalent:</strong>
+
+If you’re using the Okto SDK, this API is wrapped in a function like `getPortfolio()`.
+
+<strong>Documentation Links:</strong>
+
+- [React SDK — Get Portfolio](https://docs.okto.tech/docs/react-sdk/advanced-sdk-config/okto-embedded-wallet/use-user-embedded-wallet/get-user-balance-portfolio#get-portfolio-details-of-the-current-user)
+- [Flutter SDK — Get Portfolio](https://docs.okto.tech/docs/flutter-sdk/advanced-sdk-config/okto-embedded-wallet/use-user-embedded-wallet/get-user-balance-portfolio#get-portfolio-details-of-the-current-user)
+- [React Native SDK — Get Portfolio](https://docs.okto.tech/docs/react-native-sdk/advanced-sdk-config/okto-embedded-wallet/use-user-embedded-wallet/get-user-balance-portfolio#get-portfolio-details-of-the-current-user)
+
+## 3. Fetching Order History
+
+The <strong>Order History API</strong> fetches all the orders (transactions) of the user, including the history of tokens sent and received. It’s useful for tracking the status of various transactions.
+
+<strong>Endpoint:</strong> `GET /api/v1/orders`
+
+<strong>Sample Request:</strong>
+
+```bash
+GET https://sandbox-api.okto.tech/api/v1/orders?limit=5&offset=0
+```
+
+<strong>Sample Request:</strong>
+
+```bash
+{
+  "status": "success",
+  "data": {
+    "total": 1,
+    "jobs": [
+      {
+        "order_id": "a49bbd8b-d26a-4c0f-840d-65d2727f486d",
+        "order_type": "TOKEN_TRANSFER_EXECUTE",
+        "network_name": "POLYGON",
+        "status": "SUCCESS",
+        "transaction_hash": "0xabcdef1234567890",
+        "created_at": "2024-10-22 05:46:04.626179 +0000 UTC"
+      }
+    ]
+  }
+}
+```
+
+<strong>SDK Function Equivalent:</strong>
+
+If you’re using the Okto SDK, this API is wrapped in a function like `orderHistory(query?: Partial<OrderQuery>)`.
+
+<strong>Documentation Links:</strong>
+
+- [React SDK — Order History](https://docs.okto.tech/docs/react-sdk/advanced-sdk-config/okto-embedded-wallet/use-user-embedded-wallet/transfer-tokens#fetch-order-history)
+- [Flutter SDK — Order History](https://docs.okto.tech/docs/flutter-sdk/advanced-sdk-config/okto-embedded-wallet/use-user-embedded-wallet/transfer-tokens#fetch-order-history)
+- [React Native SDK — Order History](https://docs.okto.tech/docs/react-native-sdk/advanced-sdk-config/okto-embedded-wallet/use-user-embedded-wallet/transfer-tokens#fetch-order-history)
+
+## 4. Getting Supported Networks
+
+The <strong>Supported Networks API</strong> retrieves all the blockchain networks (chains) that are whitelisted on your API key. It’s essential to know which networks are available so you can manage wallets and transactions accordingly.
+
+<strong>Endpoint:</strong> `GET /api/v1/supported/networks`
+
+<strong>Sample Request:</strong>
+
+```bash
+GET https://sandbox-api.okto.tech/api/v1/supported/networks
+```
+
+<strong>Sample Request:</strong>
+
+```bash
+{
+  "status": "success",
+  "data": {
+    "network": [
+      {
+        "network_name": "POLYGON",
+        "chain_id": "137",
+        "logo": "https://s2.coinmarketcap.com/static/img/coins/64x64/28321.png"
+      },
+      {
+        "network_name": "ETHEREUM",
+        "chain_id": "1",
+        "logo": "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png"
+      }
+    ]
+  }
+}
+```
+
+<strong>SDK Function Equivalent:</strong>
+
+If you’re using the Okto SDK, this API is wrapped in a function like `getSupportedNetworks()`.
+
+<strong>Documentation Links:</strong>
+
+- [React SDK — Supported Networks](https://docs.okto.tech/docs/react-sdk/advanced-sdk-config/chains-tokens/supported-networks#get-all-supported-networks)
+- [Flutter SDK — Supported Networks](https://docs.okto.tech/docs/flutter-sdk/advanced-sdk-config/chains-tokens/supported-networks#get-all-supported-networks)
+- [React Native SDK — Supported Networks](https://docs.okto.tech/docs/react-native-sdk/advanced-sdk-config/chains-tokens/supported-networks#get-all-supported-networks)
+
+## 5. Getting Supported Tokens
+
+The <strong>Supported Tokens API</strong> provides a list of all the tokens that are whitelisted on your API key for the enabled networks. Knowing which tokens are available allows you to display them in your application and facilitate transactions.
+
+<strong>Endpoint:</strong> `GET /api/v1/supported/tokens`
+
+<strong>Sample Request:</strong>
+
+```bash
+GET https://sandbox-api.okto.tech/api/v1/supported/tokens
+```
+
+<strong>Sample Request:</strong>
+
+```bash
+{
+  "status": "success",
+  "data": {
+    "tokens": [
+      {
+        "token_name": "USDC",
+        "token_address": "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+        "network_name": "POLYGON"
+      },
+      {
+        "token_name": "MATIC",
+        "token_address": "",
+        "network_name": "POLYGON"
+      }
+    ]
+  }
+}
+```
+
+<strong>SDK Function Equivalent:</strong>
+
+If you’re using the Okto SDK, this API is wrapped in a function like `getSupportedTokens()`.
+
+<strong>Documentation Links:</strong>
+
+- [React SDK — Supported Tokens](https://docs.okto.tech/docs/react-sdk/advanced-sdk-config/chains-tokens/supported-networks#get-all-supported-tokens)
+- [Flutter SDK — Supported Tokens](https://docs.okto.tech/docs/flutter-sdk/advanced-sdk-config/chains-tokens/supported-networks#get-all-supported-tokens)
+- [React Native SDK — Supported Tokens](https://docs.okto.tech/docs/react-native-sdk/advanced-sdk-config/chains-tokens/supported-networks#get-all-supported-tokens)
+
+### Conclusion
+
+In this guide, we explored how the Okto SDK simplifies token management and blockchain interactions. From enabling chains and tokens to transferring assets, viewing balances, and fetching transaction histories, the Okto SDK gives you all the tools you need to build powerful, token-based features with ease.
+
+By abstracting away the complexities of different blockchains, Okto ensures you don’t have to worry about learning the nuances of each network. Whether you’re working with Ethereum, Solana, Aptos, or other ecosystems, Okto provides a unified way to interact with tokens — allowing you to <strong>build faster, smarter, and with confidence.</strong>
+
+To dive deeper into the implementation details and explore additional features, head over to the [Official Okto Documentation](https://docs.okto.tech/).
+
+Stop worrying about blockchain specifics — <strong>start building your next great application with Okto!</strong> 🚀
