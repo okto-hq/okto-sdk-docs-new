@@ -1,0 +1,213 @@
+---
+title: "Executing Raw Transactions with Okto SDK: A Comprehensive Guide"
+description: Executing raw transactions across EVM, Solana, and Aptos using the Okto SDK allows developers to invoke any smart contract function and gain full control over blockchain interactions. This comprehensive guide will help you understand dynamic transaction objects, execute raw transactions, and leverage Okto’s abstractions for seamless signing, gas management, and execution.
+date: 2024-12-17
+author: Ejaaz
+---
+
+<img src="https://miro.medium.com/v2/resize:fit:2000/format:webp/1*79mPjUXWnj6Vv4v3Y2E5tQ.png" alt="Executing Raw Transactions with Okto SDK: A Comprehensive Guide" />
+
+<strong>TL;DR:</strong>  
+<em>Learn how to execute raw transactions across EVM, Solana, and Aptos using the Okto SDK. Gain full control over smart contracts and blockchain interactions with dynamic transaction objects, while benefiting from Okto’s abstractions for signing, gas, and seamless execution.</em>
+
+## Introduction
+
+Building sophisticated Web3 applications often requires interacting directly with smart contracts at a granular level. While pre-built functionalities and abstractions streamline common operations, sometimes you need a more flexible approach to execute on-chain actions not covered by pre-existing Blocs or APIs.
+
+This is where <strong>raw transactions</strong> come into play. A raw transaction gives you full control, allowing you to:
+
+- Invoke any smart contract function.
+- Customize transaction data for complex operations.
+- Interact seamlessly across multiple chains without blockchain-specific complexities.
+
+<strong>Enter Okto.</strong> With Okto, you can execute raw transactions on EVM-compatible networks, Solana, and Aptos — all through a single interface. The Okto SDK’s raw transaction APIs handle gas, signing, and transaction execution behind the scenes, enabling you to focus on your application logic rather than the intricacies of blockchain networks.
+
+In this guide, you’ll learn how to construct dynamic transaction objects for different networks and execute raw transactions programmatically. By the end, you’ll have the tools to build more flexible, future-proof, and powerful Web3 applications.
+
+## Understanding Raw Transactions
+
+A <strong>raw transaction</strong> is an unsigned, low-level transaction that can be broadcasted to a blockchain network. Executing raw transactions is ideal for developers who need to:
+
+- Interact with smart contracts not supported by higher-level SDK methods.
+- Run complex operations requiring custom transaction data.
+- Execute transactions across multiple blockchain networks with different protocols.
+
+While Okto’s <strong>Bloc Hub</strong> provides ready-to-use Blocs for common Web3 tasks (like token transfers, NFT operations, and DeFi actions), there are situations where a specific Bloc may not exist. The raw transaction API fills this gap, enabling you to call <strong>any function on any smart contract</strong>, across diverse ecosystems, while still leveraging Okto’s abstractions for gas, signing, and retries.
+
+## Dynamic Transaction Objects: The Key to Multi-Chain Flexibility
+
+Each blockchain network has its unique architecture and transaction model:
+
+- <strong>EVM Networks (Ethereum, Polygon, etc.):</strong> Account-based models with `from`, `to`, `value`, and `data` fields.
+- <strong>Solana:</strong> Instruction-based models involving programs and accounts.
+- <strong>Aptos:</strong> Transactions built around Move language functions with type and function arguments.
+
+To handle these differences, Okto uses <strong>dynamic transaction objects</strong> that adapt to the requirements of each network. This approach ensures:
+
+- **Network Compatibility:** Transactions are always valid for the target network.
+- **Full Control:** You can include any custom data needed by your contract.
+- **Future-Proofing:** Easily integrate new networks or changes to existing ones without overhauling your code.
+
+## Network-Specific Transaction Structures
+
+### EVM Networks (Ethereum, Polygon, etc.)
+
+For EVM-compatible networks, transactions typically include fields like `from`, `to`, `data`, and `value`. Here’s an example structure for an EVM network like Polygon:
+
+```json
+{
+  "network_name": "POLYGON",
+  "transaction": {
+    "from": "0xYourAddress",
+    "to": "0xContractAddress",
+    "data": "0xContractCallData",
+    "value": "0x0"
+  }
+}
+```
+
+### Solana
+
+Solana uses a transaction model built around <strong>instructions</strong>. Each instruction specifies a program to execute and the accounts it interacts with:
+
+```json
+{
+  "network_name": "SOLANA",
+  "transaction": {
+    "instructions": [
+      {
+        "keys": [
+          {
+            "pubkey": "PublicKey",
+            "isSigner": true,
+            "isWritable": false
+          }
+        ],
+        "programId": "ProgramID",
+        "data": [1, 2, 3, 4]
+      }
+    ],
+    "signer": "SignerPublicKey"
+  }
+}
+```
+
+### Aptos
+
+Aptos focuses on Move-based function calls with type arguments and function arguments:
+
+```json
+{
+  "network_name": "APTOS",
+  "transaction": {
+    "transactions": [
+      {
+        "function": "ModuleAddress::ModuleName::FunctionName",
+        "typeArguments": ["TypeArgument1"],
+        "functionArguments": ["Argument1"]
+      }
+    ]
+  }
+}
+```
+
+By providing the correct transaction object structure based on the target network, you can seamlessly execute any operation on any smart contract.
+
+## Executing Raw Transactions via Okto SDK APIs
+
+Once you’ve structured your transaction object, you can leverage the Okto SDK APIs to send and track these raw transactions. Okto’s unified interface handles the complexity of each network, empowering you to focus on your logic rather than low-level blockchain mechanics.
+
+### 1. Executing Raw Transactions
+
+<strong>Endpoint:</strong> `POST /api/v1/rawtransaction/execute`
+
+<strong>Sample Request (EVM):</strong>
+
+```bash
+POST https://sandbox-api.okto.tech/api/v1/rawtransaction/execute
+Content-Type: application/json
+{
+  "network_name": "POLYGON",
+  "transaction": {
+    "from": "0xYourAddress",
+    "to": "0xContractAddress",
+    "data": "0xYourContractData",
+    "value": "0x0"
+  }
+}
+```
+
+<strong>Sample Response:</strong>
+
+```json
+{
+  "status": "success",
+  "data": {
+    "jobId": "f15c07cb-2d29-4670-8492-b1236fdd41dc"
+  }
+}
+```
+
+<strong>SDK Function Equivalent:</strong>
+
+If you’re using the Okto SDK, this is wrapped in a function like `executeRawTransaction(transactionData)`.
+
+<strong>Documentation Links:</strong>
+
+*   [React SDK — Execute Raw Transactions](https://docs.okto.tech/docs/react-sdk/advanced-sdk-config/okto-embedded-wallet/use-user-embedded-wallet/raw-transactions#execute-raw-transaction)
+*   [Flutter SDK — Execute Raw Transactions](https://docs.okto.tech/docs/flutter-sdk/advanced-sdk-config/okto-embedded-wallet/use-user-embedded-wallet/raw-transactions#execute-raw-transaction)
+*   [React Native SDK — Execute Raw Transactions](https://docs.okto.tech/docs/react-native-sdk/advanced-sdk-config/okto-embedded-wallet/use-user-embedded-wallet/raw-transactions#execute-raw-transaction)
+
+### 2. Getting Raw Transaction Status
+
+To monitor your transaction’s progress, use the <strong>Get Raw Transaction Status</strong> API. This endpoint retrieves transaction details, including its status and blockchain transaction hash, using the order_id from the execution response.
+
+<strong>Endpoint:</strong> `GET /api/v1/rawtransaction/status`
+
+<strong>Sample Request:</strong>
+
+```bash
+GET https://sandbox-api.okto.tech/api/v1/rawtransaction/status?order_id=YOUR_ORDER_ID
+```
+
+<strong>Sample Response:</strong>
+
+```json
+{
+  "status": "success",
+  "data": {
+    "jobs": [
+      {
+        "order_id": "YOUR_ORDER_ID",
+        "network_name": "POLYGON",
+        "status": "SUCCESS",
+        "transaction_hash": "0xTRANSACTION_HASH"
+      }
+    ]
+  }
+}
+```
+
+<strong>SDK Function Equivalent:</strong>
+
+If you’re using the Okto SDK, this is available as `getRawTransactionStatus(order_id)`.
+
+<strong>Documentation Links:</strong>
+
+*   [React SDK — Get Raw Transaction Status](https://docs.okto.tech/docs/react-sdk/advanced-sdk-config/okto-embedded-wallet/use-user-embedded-wallet/raw-transactions#get-raw-transaction-status)
+*   [Flutter SDK — Get Raw Transaction Status](https://docs.okto.tech/docs/flutter-sdk/advanced-sdk-config/okto-embedded-wallet/use-user-embedded-wallet/raw-transactions#get-raw-transaction-status)
+*   [React Native SDK — Get Raw Transaction Status](https://docs.okto.tech/docs/react-native-sdk/advanced-sdk-config/okto-embedded-wallet/use-user-embedded-wallet/raw-transactions#get-raw-transaction-status)
+
+## Conclusion
+
+In this guide, we explored how to execute raw transactions using the Okto SDK. By understanding dynamic transaction objects and network-specific data structures, you can:
+
+- Invoke any smart contract function on EVM, Solana, or Aptos.
+- Retain complete control over transaction data and logic.
+- Leverage Okto’s abstractions for signing, gas handling, and seamless execution.
+
+Raw transaction execution with Okto unlocks powerful capabilities, letting you integrate complex, custom functionalities into your applications without getting bogged down in the underlying blockchain specifics.
+
+For more details and advanced use cases, head over to the [Official Okto Documentation](https://docs.okto.tech/).
+
+Stop worrying about low-level blockchain mechanics — <strong>start building your next great application with Okto!</strong> 🚀

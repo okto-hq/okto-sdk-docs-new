@@ -13,7 +13,7 @@ import { GitHubIcon, LinkLogo } from './icons';
 import { showcases } from './projects';
 
 // SDK type for the tabs
-const sdkSections = ["React", "React Native", "Flutter", "API", "All"] as const;
+const sdkSections = ["All", "React", "React Native", "Flutter", "API"] as const;
 
 function ShowcaseCard({ showcase, onOpen }: { showcase: (typeof showcases)[0]; onOpen: (showcase: (typeof showcases)[0]) => void }) {
     return (
@@ -82,15 +82,18 @@ export default function Showcase() {
         <div className="min-h-screen bg-background">
             {/* Header Section */}
             <div className="flex flex-col lg:flex-row justify-between mx-4 lg:mx-16 mt-20 gap-8">
-                <div className="text-4xl lg:text-6xl font-bold">
-                    Explore Okto-Powered Projects
+                {/* Left Side: Heading and Description */}
+                <div className="lg:max-w-2xl">
+                    <div className="text-4xl lg:text-6xl font-bold lg:whitespace-nowrap">
+                        Explore Okto-Powered Projects
+                    </div>
+                    <p className="mt-4 text-sm text-muted-foreground">
+                        Discover innovative applications built by developers worldwide using the Okto SDKs.
+                    </p>
                 </div>
-                <div className="flex flex-wrap items-center gap-4">
-                    <ULink href="https://teamcoindcx.typeform.com/to/CvPAQNAU" className="text-inherit">
-                        <Button className="flex gap-1 rounded-full" variant="outline">
-                            <DollarSign size={17} /> Apply for Okto Grants
-                        </Button>
-                    </ULink>
+
+                {/* Right Side: Buttons */}
+                <div className="flex lg:flex-col flex-wrap lg:items-end gap-4 lg:ml-auto">
                     <ULink href="https://docs.google.com/document/d/1zDPUZoHrI4hpdOUgINWkILJJQPrOi3VqGbd2dpyIrdM/edit?usp=sharing" className="text-inherit">
                         <Button className="flex gap-1 rounded-full" variant="outline">
                             <DollarSign size={17} /> Hack Ideas
@@ -101,15 +104,16 @@ export default function Showcase() {
                             <DollarSign size={17} /> Add your project
                         </Button>
                     </ULink>
+                    <ULink href="https://teamcoindcx.typeform.com/to/CvPAQNAU" className="text-inherit">
+                        <Button className="flex gap-1 rounded-full" variant="outline">
+                            <DollarSign size={17} /> Apply for Okto Grants
+                        </Button>
+                    </ULink>
                 </div>
             </div>
 
-            {/* Description and Disclaimer */}
-            <div className="mx-4 lg:mx-16 mt-4 space-y-4">
-                <p className="text-sm text-muted-foreground">
-                    Discover innovative applications built by developers worldwide using the Okto SDKs.
-                </p>
-
+            {/* Disclaimer Section */}
+            <div className="mx-4 lg:mx-16 mt-4">
                 <div className="p-4 bg-muted/50 border rounded-lg">
                     <p className="text-sm font-medium">
                         ⚠️ Disclaimer: These are community projects and are not maintained by the Okto team.
