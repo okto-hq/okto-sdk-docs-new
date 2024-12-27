@@ -48,9 +48,6 @@ const App = () => {
           theme: 'none',
           darkMode: theme === 'dark',
           hiddenClients: [],
-          metadata: {
-            title: 'API Reference',
-          },
           hideDarkModeToggle: true,
         }}
       />
