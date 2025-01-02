@@ -6,6 +6,7 @@
       "jwt-closed-loop",
       "phone-otp",
       "email-otp",
+      "onboarding-modal",
       "!other-social-auth",
       "login-logout"
     ]
