@@ -14,7 +14,7 @@ export default function PricingComponent() {
         {
             name: "Basic",
             price: "$249",
-            mau: "5,000 MAWs",
+            mau: "2,500 MAWs",
             description: "Growing applications with an expanding user base",
             cta: "Get Started",
             features: ["All features", "All featurese", "All features"],
