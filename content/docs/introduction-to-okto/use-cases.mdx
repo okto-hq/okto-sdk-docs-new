@@ -1,0 +1,156 @@
+---
+title: "Building with Okto SDK: Sample Use Cases"
+full: false
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+Okto isn’t just an SDK—it’s a toolbox for building vibrant Web3 experiences. Below, we explore some example use cases and how they can harness Okto’s features, from cross-chain asset management to easy authentication and beyond. Think of these as inspiration points for your own dApp, service, or community project.
+
+Whenever you see a feature or function that aligns with your needs, jump into our [**SDK Overview**](/docs/sdk-overview) or [**API Reference**](/api-docs) to dig deeper into implementation details.
+
+## 1. Consumer Apps
+
+### **Idea**  
+
+You want to build a Web3 consumer app that feels as simple as a traditional web application—no complicated wallet or seed phrase flows.
+
+### **How Okto Helps**
+
+- **Easy Auth:** Use [Google OAuth, Email OTP, or Phone OTP](/docs/react-sdk/advanced-sdk-config/authenticate-users/google-oauth/learn) to onboard users with minimal friction. 
+- **MPC-Backed Wallets:** Okto automatically creates and manages user wallets under the hood, removing the usual complexity of seed phrases and private key management. Leverage Okto’s [Embedded Wallet](https://docs.okto.tech/docs/react-sdk/advanced-sdk-config/okto-embedded-wallet/setup-embedded-wallets/create-embedded-wallets) to embed wallets seamlessly in your front-end.  
+- **Cross-Chain Transactions:** If you need to handle multiple blockchain networks in one app, Okto’s chain abstraction handles it through straightforward functions. Explore [`transferTokens()`](/docs/react-sdk/advanced-sdk-config/okto-embedded-wallet/use-user-embedded-wallet/transfer-tokens) for fungible assets or [`transferNft()`](/docs/react-sdk/advanced-sdk-config/okto-embedded-wallet/use-user-embedded-wallet/transfer-nfts) for NFTs.
+
+### **Example**
+
+- **Decentralized Social Media:** Token-based reward systems for content creators and easy membership token gating.  
+- **Digital Identity Management:** Storing and verifying user credentials on-chain, with user-friendly logins.
+
+---
+
+## 2. DeFi Protocols with Mobile-Friendly Interfaces
+
+### **Idea**  
+
+You’re building a DeFi application where users can stake, borrow, or trade assets from their mobile devices with minimal fuss.
+
+### **How Okto Helps**
+
+- **Responsive, One-Click Transactions:** Okto handles gas fees, retries, and multi-step calls behind the scenes. All you do is call an API function like `transferTokens()` or `executeRawTransaction()`. See the [API Reference](/api-docs) for examples.  
+- **Gas Sponsorship (Optional):** Let users interact even if they don’t hold chain-native tokens. Learn more in the [Sponsorship documentation](/docs/developer-admin-dashboard/sponsorship/overview).  
+
+### **Example**
+
+- **Mobile Lending/Borrowing:** A single UI to deposit tokens as collateral on chain A, borrow stablecoins on chain B, and track it all in one place.  
+- **Staking & Farming:** One-click stake/un-stake flows on multiple chains through Okto’s unified approach.
+
+---
+
+## 3. On-Chain Gaming
+
+### **Idea**  
+
+You’re building a blockchain-based game in which items, characters, or currency are NFTs or tokens that players truly own and can trade freely.
+
+### **How Okto Helps**
+
+- **MPC Wallet Security:** Protect players from losing their precious in-game NFTs. Okto’s multi-party computation approach secures user accounts from single-point-of-failure attacks.  
+- **NFT Transfer & Mint:** Use Okto’s NFT APIs to mint new weapons, characters, or gear. Your code can look as simple as [`transferNft()`](/docs/react-sdk/advanced-sdk-config/okto-embedded-wallet/use-user-embedded-wallet/transfer-nfts) to transfer an NFT, while Okto handles the complexity.  
+- **Cross-Game Portability:** If you plan to let users move items across multiple titles or blockchains, Okto’s cross-chain capabilities unify everything under one developer interface.
+
+### **Example**
+
+- **Play-to-Earn Mechanics:** Reward active gamers with on-chain tokens or unique NFTs.  
+- **NFT-Based Avatars & Equipment:** Let players keep their weapons, skins, or collectibles in personal wallets, easily tradable on external markets.
+
+---
+
+## 4. Apps that Combine Multiple Blockchain Network User Flows
+
+### **Idea**  
+
+A “super-app” letting users handle assets, NFTs, or bridging across different blockchains in a single interface.
+
+### **How Okto Helps**
+
+- **Unified Portfolio:** Okto’s Portfolio & Balances API aggregates user balances across networks, so you can build a consolidated dashboard with minimal code.  
+- **Easy Cross-Chain Swaps:** Integrate bridging or aggregator logic, while Okto automatically determines the best path or bridging solution.
+
+### **Example**
+
+- **All-in-One Crypto Management:** Stake on Solana, claim NFTs on Polygon, and manage stablecoin balances on Ethereum from one app.  
+- **Multi-Network DEX Aggregation:** Show the best swap routes across chains while letting Okto handle multi-chain token transfers.
+
+---
+
+## 5. Chatbots and Bot Integrations (Telegram/Discord/WhatsApp)
+
+### **Idea**  
+
+You want a chatbot to handle DeFi trades, fetch user balances, or even stake tokens on behalf of users inside popular messaging apps.
+
+### **How Okto Helps**
+
+- **Server-Side Integrations:** Use the [Okto APIs](/api-docs) from your bot’s backend. The bot can call `transferTokens()` or `executeRawTransaction()` as user commands.    
+- **Simple Webhooks:** Pair Okto’s [Order History or Raw Transaction Status APIs](/api-docs) to push real-time updates to your chat, letting users know a swap was successful.  
+- **Multi-Chain Portfolio:** Fetch user balances across multiple chains, delivering a single “!portfolio” command that returns a comprehensive overview.
+
+### **Example**
+
+- **DeFi Alerts & Automation:** The bot automatically harvests yield, checks for liquidation triggers, or invests in new pools.  
+- **Social Trading:** Users in a Telegram group can share or copy trades with quick confirmation steps, powered by Okto behind the scenes.
+
+---
+
+## 6. DeFi Dashboards
+
+### **Idea**  
+
+You’re building a meta-dashboard that aggregates positions, yields, or liquidity across multiple DeFi protocols, letting users see and manage everything in one place.
+
+### **How Okto Helps**
+
+- **Cross-Protocol Data Retrieval:** [Portfolio & Balances APIs](/docs/react-sdk/advanced-sdk-config/okto-embedded-wallet/use-user-embedded-wallet/get-user-balance-portfolio) unify user holdings from multiple chains.  
+- **User-Centric Logins:** Users simply log in (e.g., via Google or OTP), and you can display or update their positions on multiple networks simultaneously.  
+- **Automated Rebalancing:** Combine raw transactions to do multi-step processes (e.g., harvest reward + convert + stake again) in a single call.
+
+### **Example**
+
+- **Personal “One-Stop” DeFi Tracker:** Show yield rates, prompt one-click harvest, or let them switch protocols with minimal overhead.  
+- **DAO Treasury Dashboard:** Provide treasury members a consolidated view of tokens, staked assets, and yield across diverse protocols.
+
+---
+
+## 7. Expanding Existing Web2 Apps
+
+### **Idea**  
+
+You run an established Web2 service (e.g., e-commerce, a streaming platform, or a social app) and want to weave in token-based features, crypto payments, or NFT memberships—without forcing your users through typical Web3 friction.
+
+### **How Okto Helps**
+
+- **Incremental Adoption:** Keep your existing UI and flows, but embed Okto’s wallet creation and token logic behind the scenes.  
+- **Payment Processing:** Let users pay in stablecoins, while Okto auto-manages bridging or chain selection—ideal for global e-commerce expansions.  
+- **NFT Memberships or Premium Access:** Issue membership tokens or coupons as NFTs. Okto’s integrated approach ensures your front-end remains simple and user-friendly.
+
+### **Example**
+
+- **Streaming Services:** Deploy a token or NFT “pass” for premium features, airdrop content-based tokens to loyal watchers.  
+- **Splitwise-like Payment Apps:** Manage group expenses in stablecoins, handle multi-chain cross-settlements, or manage on-chain group wallets.
+
+---
+
+## How to Get Started
+
+1. **Explore Our Docs:**  
+   - Check the [SDK Overview](/docs/sdk-overview) for a breakdown of each supported framework.  
+   - Dive into the [API Reference](/api-docs) for details on methods like `transferTokens` and `transferNft`.
+2. **Build a Proof of Concept:**  
+   - Use one of our [quickstart templates](https://github.com/okto-hq/okto-sdk-react-template-app) or read the [React Setup Guide](/docs/react-sdk/getting-started/quickstart-okto-react/new-okto-react-setup).  
+   - Experiment with a single chain or a single feature to see how Okto simplifies everything.
+3. **Iterate and Expand:**  
+   - Add more features (NFT minting, bridging) or more chains. Okto easily scales with you.  
+
+By combining your creative vision with Okto’s robust, user-friendly tooling, you can deliver powerful, intuitive Web3 apps—without reinventing the wheel for every transaction or contract call.
+
+**Happy building with Okto SDK!**

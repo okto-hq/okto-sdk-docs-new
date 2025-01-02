@@ -3,7 +3,9 @@
     "pages": [
         "okto-universe",
         "overview-embedded-wallets",
+        "okto-sdk",
         "okto-sdk-architecture",
+        "use-cases",
         "chains-supported-tokens",
         "okto-vendor-user"
     ],
