@@ -8,8 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { DollarSign } from 'lucide-react';
-import { GitHubIcon, LinkLogo } from './icons';
+import { GitHubIcon, LinkLogo, HackIdeasIcon, AddProjectIcon, DollarSignIcon } from './icons';
 import { showcases } from './projects';
 
 // SDK type for the tabs
@@ -95,18 +94,21 @@ export default function Showcase() {
                 {/* Right Side: Buttons */}
                 <div className="flex lg:flex-col flex-wrap lg:items-end gap-4 lg:ml-auto">
                     <ULink href="https://docs.google.com/document/d/1zDPUZoHrI4hpdOUgINWkILJJQPrOi3VqGbd2dpyIrdM/edit?usp=sharing" className="text-inherit">
-                        <Button className="flex gap-1 rounded-full" variant="outline">
-                            <DollarSign size={17} /> Hack Ideas
+                        <Button className="flex gap-2 rounded-full w-60 items-center justify-center" variant="outline">
+                            <HackIdeasIcon />
+                            Hack Ideas
                         </Button>
                     </ULink>
                     <ULink href="https://forms.gle/VN19AYHnvm7V5qe2A" className="text-inherit">
-                        <Button className="flex gap-1 rounded-full" variant="outline">
-                            <DollarSign size={17} /> Add your project
+                        <Button className="flex gap-1 rounded-full w-60" variant="outline">
+                            <AddProjectIcon />
+                            Add Your Project
                         </Button>
                     </ULink>
                     <ULink href="https://teamcoindcx.typeform.com/to/CvPAQNAU" className="text-inherit">
-                        <Button className="flex gap-1 rounded-full" variant="outline">
-                            <DollarSign size={17} /> Apply for Okto Grants
+                        <Button className="flex gap-1 rounded-full w-60" variant="outline">
+                            <DollarSignIcon />
+                            Apply for Okto Grants
                         </Button>
                     </ULink>
                 </div>
