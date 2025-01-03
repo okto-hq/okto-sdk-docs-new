@@ -1,13 +1,29 @@
 import { blogSource } from '@/app/source';
+import defaultMdxComponents from 'fumadocs-ui/mdx';
 import { notFound } from 'next/navigation';
+import { InlineTOC } from 'fumadocs-ui/components/inline-toc';
 
-export default async function BlogPost({ params }: { params: { slug: string } }) {
-  const post = await blogSource.getPage([params.slug]);
+export async function generateMetadata(props: {
+  params: Promise<{ slug: string }>;
+}) {
+  const params = await props.params;
+  const page = blogSource.getPage([params.slug]);
+ 
+  if (!page) notFound();
+ 
+  return {
+    title: page.data.title,
+    description: page.data.description,
+  };
+}
 
-  if (!post) {
-    notFound();
-  }
+export default async function BlogPost(props: {
+  params: Promise<{ slug: string }>;
+}) {
+  const params = await props.params;
+  const post = blogSource.getPage([params.slug]);
 
+  if (!post) notFound();
   const MDXContent = post.data.body;
 
   const noiseSvg = `<svg viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'>
@@ -34,6 +50,7 @@ export default async function BlogPost({ params }: { params: { slug: string } })
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-800 dark:text-white mb-4">
             {post.data.title}
           </h1>
+          <p className="mb-4 text-white">{post.data.description}</p>
           {post.data.date && (
             <p className="text-sm text-black/70 dark:text-white/70">
               {new Date(post.data.date).toLocaleDateString('en-US', {
@@ -47,15 +64,17 @@ export default async function BlogPost({ params }: { params: { slug: string } })
       </div>
 
       <article className="prose prose-lg dark:prose-invert mx-auto mb-12 p-6 rounded-xl bg-white dark:bg-inherit shadow-sm">
-        {post.data.description && (
-          <p className="text-lg text-gray-600 dark:text-gray-300 not-prose mb-8 font-medium">
-            {post.data.description}
-          </p>
-        )}
-        <div className="mdx-content">
-          <MDXContent />
+      <div className="prose min-w-0">
+          <InlineTOC items={post.data.toc} />
+          <MDXContent components={defaultMdxComponents} />
         </div>
       </article>
     </main>
   );
 } 
+
+export function generateStaticParams(): { slug: string }[] {
+  return blogSource.getPages().map((page) => ({
+    slug: page.slugs[0],
+  }));
+}
