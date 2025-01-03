@@ -82,9 +82,15 @@ export default function PricingComponent() {
             asChild
           >
             {tier.name === "Enterprise" ? (
-              <a href="mailto:devrel@coindcx.com">{tier.cta}</a>
+              <a
+                className="no-underline hover:no-underline"
+                href="mailto:devrel@coindcx.com"
+              >
+                {tier.cta}
+              </a>
             ) : (
               <a
+                className="no-underline hover:no-underline"
                 href="https://coindcx.typeform.com/to/jskNWEIE"
                 target="_blank"
                 rel="noopener noreferrer"
