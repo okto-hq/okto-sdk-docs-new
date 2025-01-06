@@ -15,15 +15,13 @@ This repo houses Okto's [documentation](https://docs.okto.tech). More info below
 ## Installation
 
 ```
-$ yarn install
+$ npm install
 ```
-
-If you dont have `yarn` installed, check out how to install yarn [here](https://classic.yarnpkg.com/en/docs/install#windows-stable).
 
 ## Local Development
 
 ```
-$ yarn run dev
+$ npm run dev
 ```
 
 This command starts a local development server at `localhost:3000` and opens up a browser window. Most changes are reflected live without having to restart the server, however it may take some time to compile the changes.
@@ -35,4 +33,4 @@ This command starts a local development server at `localhost:3000` and opens up 
 
 ## Credits
 
-This website is built using [Fumadocs](https://fumadocs.vercel.app/), a modern docs generator.
+This documentation site is built using [Fumadocs](https://fumadocs.vercel.app/), a modern docs generator.
