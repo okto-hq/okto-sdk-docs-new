@@ -51,9 +51,9 @@ export default function NavbarComponent() {
   ];
 
   const sdkOptions = [
-    { href: "/docs/react-sdk", label: "React", subpath: '/getting-started/overview-okto-react', icons: <FaReact /> },
-    { href: "/docs/react-native-sdk", label: "React Native", subpath: '/getting-started/overview-okto-react-native', icons: <TbBrandReactNative /> },
-    { href: "/docs/flutter-sdk", label: "Flutter", subpath: '/getting-started/overview-okto-flutter', icons: <SiFlutter /> },
+    { href: "/docs/react-sdk", label: "React", subpath: '/', icons: <FaReact /> },
+    { href: "/docs/react-native-sdk", label: "React Native", subpath: '/', icons: <TbBrandReactNative /> },
+    { href: "/docs/flutter-sdk", label: "Flutter", subpath: '/', icons: <SiFlutter /> },
     { href: "/docs", label: "Unity", subpath: '/unity-sdk', icons: <FaUnity /> },
   ];
 

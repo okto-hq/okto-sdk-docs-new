@@ -1,6 +1,7 @@
 {
   "title": "React",
   "pages": [
+    "index",
     "getting-started",
     "using-react-features",
     "advanced-sdk-config",
