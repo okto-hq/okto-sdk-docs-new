@@ -1,6 +1,7 @@
 {
   "title": "React Native",
   "pages": [
+    "index",
     "getting-started",
     "!using-react-native-features",
     "advanced-sdk-config",

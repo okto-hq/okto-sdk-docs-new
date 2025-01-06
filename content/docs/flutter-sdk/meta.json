@@ -1,6 +1,7 @@
 {
     "title": "Flutter",
     "pages": [
+        "index",
         "getting-started",
         "!using-flutter-features",
         "advanced-sdk-config",
