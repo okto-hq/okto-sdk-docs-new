@@ -1,0 +1,39 @@
+---
+title: FAQ
+description: Common questions about Okto.
+--- 
+
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+
+<Accordions>
+  <Accordion title="What does this '[GET_ALL_ENTITIES] Request Failed: 'values' is missing in a filter' error mean?">
+    To resolve this error, go to your [Okto dashboard](https://dashboard.okto.tech/) and enable chains and tokens for your dApp.
+  </Accordion>
+  <Accordion title="Why do I receive an 'Unauthorized: vendor of provided apiKey does not exist' error?">
+    This error occurs when the API key or client ID is incorrect or mismatched. Ensure that you are using the correct API key provided by Okto and verify your environment variables.
+  </Accordion>
+  <Accordion title="What should I do if I encounter a '504 Gateway Timeout' error while executing a raw transaction?">
+    Verify your transaction payload and ensure all required parameters are included. If the issue persists, contact Okto support on Discord with the trace ID for further investigation.
+  </Accordion>
+  <Accordion title="Why are my token transfers failing on different networks?">
+    Make sure that the minimum transaction value is 1 USD. On some chains, your transaction may fail if the value is too low. Verify your transaction payload, ensure required parameters are included, and contact support with the trace ID if needed.
+  </Accordion>
+  <Accordion title="Why does my transaction fail with 'Nonce expired' on Solana Devnet?">
+    Connect with the Okto team to help you with this issue.
+  </Accordion>
+  <Accordion title="Why does my sponsored order fail due to insufficient balance in the sponsor wallet?">
+    Sponsored orders require sufficient balance in the sponsor wallet to complete the transaction. Ensure the wallet has the necessary balance and confirm transaction type compatibility.
+  </Accordion>
+  <Accordion title="What is the minimum order value for transactions, and why does my order fail if it is too low?">
+    Transactions with a value less than 1 USD are not supported. Increase the transaction value to meet the minimum requirement.
+  </Accordion>
+  <Accordion title="How can I resolve issues with JWT authentication and IP address whitelisting?">
+    Ensure your JWT token is correctly generated and not expired, and confirm that your application server's IP address is whitelisted. You will need to contact Okto support to get your IP address whitelisted.
+  </Accordion>
+  <Accordion title="Why are my NFT transfers failing?">
+    NFT transfers on Okto require you to get your collection whitelisted. Connect with the Okto team to help you with this issue.
+  </Accordion>
+  <Accordion title="What should I do if I suspect an Okto API issue?">
+    Collect relevant details such as network name, transaction payload, and error message. Contact Okto support on our Discord server with this information for further investigation.
+  </Accordion>
+</Accordions>
