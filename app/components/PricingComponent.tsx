@@ -14,7 +14,7 @@ export default function PricingComponent() {
     {
       name: "Basic",
       price: "$249",
-      mau: "2,500 MAWs",
+      mau: "5,000 MAWs",
       description: "Growing applications with an expanding user base",
       cta: "Get Started",
       features: ["All features", "All featurese", "All features"],
@@ -85,6 +85,15 @@ export default function PricingComponent() {
               <a
                 className="no-underline hover:no-underline"
                 href="mailto:devrel@coindcx.com"
+              >
+                {tier.cta}
+              </a>
+            ) : tier.name === "Free" ? (
+              <a
+                className="no-underline hover:no-underline"
+                href="/docs"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 {tier.cta}
               </a>
