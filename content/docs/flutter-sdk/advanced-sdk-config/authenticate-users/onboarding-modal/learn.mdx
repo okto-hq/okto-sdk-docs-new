@@ -1,0 +1,144 @@
+---
+title: Learn
+description: Learn how the Okto Onboarding Modal helps streamline user authentication and onboarding workflows in Flutter apps.
+full: false
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+
+# What is the Onboarding Modal?
+
+Okto’s **Onboarding Modal** provides a **streamlined** way to authenticate users by displaying an embeddable flow (via a **WebView**) without requiring them to leave your **Flutter** app. Under the hood, the **Onboarding Modal** can handle multiple authentication flows (Email OTP, Phone OTP, Google OAuth, etc.) and can be customized with brand data, visuals, and theming.
+
+## Why Use the Onboarding Modal?
+
+1. **No Authentication Flow Management**  
+   Vendors need not work or worry about the authentication flow or the code for it. Okto handles everything on the server side, simplifying the implementation and saving development time.
+
+2. **Multi-Auth Support**  
+   The modal can be set up to handle Google Auth, Email OTP, Phone OTP, or your primary authentication of choice.
+
+3. **Brand & Theme Customizations**  
+   Pass your branding (title, subtitle, icon) and theming (colors, backgrounds, etc.) to tailor the onboarding experience to your style guidelines.
+
+## Typical Flow
+
+Below is a simplified sequence for how the Onboarding Modal works:
+
+1. **Trigger the Modal**  
+  Your Flutter code calls `okto.openOnboarding(...)` from the **Okto** SDK. This opens a new **Onboarding** page containing a WebView.
+
+2. **WebView Initialization**  
+  The WebView loads the Okto environment for your selected `buildType` (Sandbox, Staging, or Production).  
+  It also receives your brand data, theming, and selected primary authentication method.
+
+3. **User Authentication**  
+  The user completes the steps (e.g., Google login, Email OTP, or Phone OTP). If the flow requires an external token (like a Google ID token), Okto can request it from your Flutter app via `gAuthCallback()`.
+
+4. **Auth Success**  
+  Once the user is authenticated, Okto returns the relevant tokens (`authToken`, `refreshToken`, etc.) and closes the onboarding screen automatically. At that point, your Flutter app can continue with a fully authenticated user.
+
+### Sequence Diagram
+
+![Auth Sequence Diagram](/images/onboarding-modal-sequence-diagram.png)
+
+## Key Points to Remember
+
+- **`showOnboardingModal()`** in the SDK is your main entry point to launch the modal.
+- You can customize brand data, theming, and the primary auth method (Email, Phone, or Google).
+- For Google OAuth, provide a callback (`gAuthCallback`) that returns an ID token from your chosen sign-in flow (e.g., `google_sign_in` package).
+- On success, your app will have the user’s `authToken` (and refresh token) stored in Okto’s internal state.
+
+---
+
+# Enabling Google Authentication in the Onboarding Modal
+
+Okto’s Onboarding Modal can integrate with **Google Authentication** to offer a smooth, single-click login experience. To enable this, you need to configure the `gAuthCallback`, which handles the retrieval of your Google ID token. Below is an example using the `google_sign_in` package.
+
+**Example `login_page.dart` snippet:**
+
+```dart
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:example/okto.dart'; // or your own utils
+import 'package:flutter/material.dart';
+import '../screens/home/home_page.dart';
+
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xff5166EE),
+      body: SafeArea(
+        child: Column(
+          children: [
+            // ... other login methods here ...
+            ElevatedButton(
+              onPressed: () async {
+                // This uses the Okto Onboarding flow with a callback for Google sign-in
+                await okto!.openOnboarding(
+                  context: context,
+                  gAuthCallback: _loginWithGoogle,
+                  onLoginSuccess: _handleLoginSuccess,
+                  primaryAuth: AuthType.GAuth, // sets Google as the primary
+                  title: "My Flutter App",
+                  iconUrl: "https://example.com/icon.png",
+                  subtitle: "Welcome to Web3 with Okto",
+                );
+              },
+              child: const Text('Onboarding (Google)'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<String> _loginWithGoogle() async {
+    final GoogleSignIn googleSignIn = GoogleSignIn(
+      scopes: [
+        'email',
+        'https://www.googleapis.com/auth/userinfo.profile',
+        'openid',
+      ],
+    );
+    try {
+      final user = await googleSignIn.signIn();
+      final auth = await user?.authentication;
+      if (auth == null) return "";
+      return auth.idToken ?? "";
+    } catch (e) {
+      debugPrint("GAuth Error: $e");
+      return "";
+    }
+  }
+
+  void _handleLoginSuccess() {
+    // Optionally, navigate or show a toast
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const HomePage()),
+    );
+  }
+}
+
+```
+
+**Key Steps:**
+
+- The callback `_loginWithGoogle` returns a Google ID token (or empty on error).
+- Okto uses this token to complete the Google auth process.
+- On success, `onLoginSuccess` is called, and your user is now fully authenticated.
+
+## Common Tips & FAQ
+
+- **Custom Branding:** Okto’s `openOnboarding(...)` lets you pass `title`, `subtitle`, `iconUrl` plus color theming to customize the look.
+
+- **Primary Auth Method:** By default, you can set `primaryAuth: AuthType.GAuth` (Google), `AuthType.EMAIL`, or `AuthType.PHONE`. You can also override it dynamically if needed.
