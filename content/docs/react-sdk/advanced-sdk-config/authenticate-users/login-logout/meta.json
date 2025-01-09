@@ -1,7 +1,8 @@
 {
-    "title": "Verify Login & Logout",
+    "title": "Session Management",
     "pages": [
       "login",
+      "fetch-auth-details",
       "logout"
     ]
   }
