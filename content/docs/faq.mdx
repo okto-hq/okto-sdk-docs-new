@@ -36,8 +36,14 @@ import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
 <div style={{ display: "none" }}>
     What should I do if I suspect an Okto API issue?
 </div>
+<div style={{ display: "none" }}>
+    Can I rely on the order of elements in API responses?
+</div>
 
 <Accordions>
+  <Accordion title="Can I rely on the order of elements in API responses?">
+    No, the order of elements in API responses is not guaranteed to remain consistent. Always search for elements by their specific properties (like network_name, symbol, etc.) rather than relying on array positions to ensure your code remains reliable.
+  </Accordion>
   <Accordion title="What does this '[GET_ALL_ENTITIES] Request Failed: 'values' is missing in a filter' error mean?">
     To resolve this error, go to your [Okto dashboard](https://dashboard.okto.tech/) and enable chains and tokens for your dApp.
   </Accordion>
