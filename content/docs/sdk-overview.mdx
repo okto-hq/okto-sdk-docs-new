@@ -170,3 +170,68 @@ Pick your SDK and start building.
 
 Okto SDKs are designed to make Web3 development as seamless as possible. Dive into the detailed guides for each SDK and bring your applications to life with blockchain-powered features.
 
+---
+
+## Important Implementation Note
+
+When working with Okto's APIs and SDKs, please note that the order of elements in responses is not guaranteed to remain consistent between different calls. Always write code that explicitly checks for specific properties rather than relying on the position of elements in the response.
+
+### Example
+
+Let's say you're fetching a user's wallets:
+
+```typescript
+// First API call might return:
+{
+  "wallets": [
+    {
+      "network_name": "APTOS",
+      "address": "0x8d4e7a9cef2b53e35e0273e3ef4eccf114ae95ca7a75da79c6cbd416f9b12ab3",
+      "success": true
+    },
+    {
+      "network_name": "POLYGON",
+      "address": "0x156ba3f2d578B9Cd233f8D3fd07b7f78dC2D4921",
+      "success": true
+    },
+    {
+      "network_name": "SOLANA_DEVNET",
+      "address": "7KPHCFnLfh7KSqKVZwGr8dgTqwiAZBpLvmknhmmtXBCd",
+      "success": true
+    }
+  ]
+}
+
+// A subsequent call might return the same data in a different order:
+{
+  "wallets": [
+    {
+      "network_name": "POLYGON",
+      "address": "0x156ba3f2d578B9Cd233f8D3fd07b7f78dC2D4921",
+      "success": true
+    },
+    {
+      "network_name": "SOLANA_DEVNET",
+      "address": "7KPHCFnLfh7KSqKVZwGr8dgTqwiAZBpLvmknhmmtXBCd",
+      "success": true
+    },
+    {
+      "network_name": "APTOS",
+      "address": "0x8d4e7a9cef2b53e35e0273e3ef4eccf114ae95ca7a75da79c6cbd416f9b12ab3",
+      "success": true
+    }
+  ]
+}
+```
+
+❌ **Incorrect Usage** - Don't rely on array positions:
+```typescript
+const polygonWallet = response.wallets[0].address;  // Assumes Polygon wallet is first
+```
+
+✅ **Correct Usage** - Find the wallet you need by its network name:
+```typescript
+const polygonWallet = response.wallets.find(wallet => wallet.network_name === 'POLYGON')?.address;
+```
+
+This principle applies to all list-type responses from Okto's APIs and SDKs. Always write code that explicitly looks for the data you need rather than assuming a specific order.
