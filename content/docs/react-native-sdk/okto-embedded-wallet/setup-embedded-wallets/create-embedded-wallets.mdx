@@ -1,5 +1,5 @@
 ---
-title: Get Embedded Wallet Details
+title: Create Embedded Wallets for Your User
 description: Learn how to create wallets using the Okto SDK.
 full: false
 ---
@@ -10,19 +10,23 @@ import { Callout } from 'fumadocs-ui/components/callout';
 import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
 import { Icon as IIcon } from '@iconify/react'; 
 
-import '../../../styles.css';
+import '../../styles.css';
 
-### Methods Overview
+<Callout style = {{ marginTop: "0" }} title="Information">
+- Learn about embedded wallets [here](/docs/introduction-to-okto/overview-embedded-wallets).
+</Callout>
+
+### Method Overview
 
 | Methods                                                                         | Description                          |                 
 |---------------------------------------------------------------------------------|--------------------------------------|
-| <sub><i>async</i></sub> [`getWallets`](#get-all-wallets-of-current-user)        | Get all wallets of current user      |
+| <sub><i>async</i></sub> [`createWallet`](#create-a-new-wallet-for-current-user) | Create a new wallet for current user |
 
 <div className="method-box">
 
-## Get all wallets of current user
+## Create a new wallet for current user
 
-<sub><i>async</i></sub> `getWallets()`<a href="https://github.com/okto-hq/okto-sdk-react-native/blob/769a2f6e4faec12e45f9b5577ee1b35334e02c7b/src/index.tsx#L96" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> retrieves all the wallets of the currently authenticated user.
+<sub><i>async</i></sub> `createWallet()`<a href="https://github.com/okto-hq/okto-sdk-react/blob/main/src/OktoProvider.tsx#L340" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> retrieves all the wallets of the currently authenticated user.
 
 ### Parameters
 
@@ -32,11 +36,12 @@ There are no parameters for this function.
 
 <Callout title="Success Response">
 
-| Field Name | Type                  | Description                                 | 
-|------------|-----------------------|---------------------------------------------|
-| `result`   | [`Promise<WalletData>`](/api-docs#model/walletdata) | Returns all the wallets of the current user | 
+| Field Name | Type                  | Description                                   | 
+|------------|-----------------------|-----------------------------------------------|
+| `result`   | [`Promise<WalletData>`](/api-docs#model/walletdata) | Returns the newly created wallet for the user | 
 
 </Callout>
+
 
 <Accordions>
 <Accordion title="Example">
@@ -45,9 +50,9 @@ There are no parameters for this function.
     ```typescript
         import { useOkto, type OktoContextType, type User} from 'okto-sdk-react-native';
  
-        const { getWallets } = useOkto() as OktoContextType;
+        const { createWallet } = useOkto() as OktoContextType;
  
-        getWallets()
+        createWallet()
             .then((result) => {
                 console.log(result)
             })

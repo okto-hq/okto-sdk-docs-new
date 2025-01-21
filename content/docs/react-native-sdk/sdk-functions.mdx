@@ -1,5 +1,5 @@
 ---
-title: Advanced SDK Configurations
+title: SDK Functions Overview
 description: Learn about how to use Okto's SDK functionalities.
 full: false
 ---
@@ -16,8 +16,13 @@ Below is an overview of the available functions and their respective purposes.
 | [`verifyEmailOTP(email, otp, token)`](/docs/react-native-sdk/advanced-sdk-config/authenticate-users/email-otp/auth-user-via-email#verify-email-otp) | Verifies email OTP |
 | [`sendPhoneOTP(phoneNumber, countryShortName)`](/docs/react-native-sdk/advanced-sdk-config/authenticate-users/phone-otp/auth-user-via-phone#send-phone-otp) | Sends OTP to user's phone |
 | [`verifyPhoneOTP(phoneNumber, countryShortName, otp, token)`](/docs/react-native-sdk/advanced-sdk-config/authenticate-users/phone-otp/auth-user-via-phone#verify-phone-otp) | Verifies phone OTP |
-| [`isLoggedIn()`](/docs/react-native-sdk/advanced-sdk-config/authenticate-users/login-logout/login#check-if-the-user-is-logged-in) | Indicates if user is currently logged in |
-| [`logOut()`](/docs/react-native-sdk/advanced-sdk-config/authenticate-users/login-logout/logout#log-out) | Logs out current user |
+| [`showOnboardingModal()`](/docs/react-native-sdk/authenticate-users/onboarding-modal/auth-user-via-modal#show-onboarding-modal) | Presents a guided onboarding flow to the user |
+
+## Session Management
+| Function | Description |
+|----------|-------------|
+| [`isLoggedIn()`](/docs/react-native-sdk/authenticate-users/login-logout/login#check-if-the-user-is-logged-in) | Indicates if user is currently logged in |
+| [`logOut()`](/docs/react-native-sdk/authenticate-users/login-logout/logout#log-out) | Logs out current user |
 
 ## User Management
 | Function | Description |
