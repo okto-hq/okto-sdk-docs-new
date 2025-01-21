@@ -1,0 +1,330 @@
+---
+title: Learn
+description: Learn how the Okto Onboarding Modal helps streamline user authentication and onboarding workflows.
+full: false
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+
+# What is the Onboarding Modal?
+
+Okto’s **Onboarding Modal** provides a streamlined way to authenticate users by displaying an embeddable flow (via an iframe) without requiring them to leave your React app. Under the hood, the **Onboarding Modal** can handle multiple authentication flows (Email OTP, Phone OTP, Google OAuth, etc.), and can be customized with brand data, visuals, and theming.
+
+## Why Use the Onboarding Modal?
+
+1. **No Authentication Flow Management**  
+   Vendors need not work or worry about the authentication flow or the code for it. Okto handles everything on the server side, simplifying the implementation and saving development time.
+
+2. **Multi-Auth Support**  
+   The modal can be set up to handle Google Auth, Email OTP, Phone OTP, or your primary authentication of choice.
+
+3. **Brand & Theme Customizations**  
+   Pass your branding (title, subtitle, icon) and theming (colors, backgrounds, etc.) to tailor the onboarding experience to your style guidelines.
+
+## Typical Flow
+
+Below is a simplified sequence for how the Onboarding Modal works:
+
+1. **Trigger the Modal**  
+   Your React app calls `showOnboardingModal()` from the Okto SDK. This opens a modal containing an iframe.
+
+2. **Iframe Initialization**  
+   The iframe loads the Okto environment for your selected `BuildType` (Sandbox, Staging, or Production).  
+   It also receives your brand data, theming, and selected primary authentication method.
+
+3. **User Authentication**  
+   The user proceeds to completes the steps (e.g., Google login, Email OTP, or Phone OTP). If the flow requires an external token (like Google ID token), the modal can request it from your app via `gAuthCb()`.
+
+4. **Auth Success**  
+   Once the user is authenticated, Okto returns the relevant tokens (`authToken`, `refreshToken`, etc.) and closes the modal automatically.
+
+### Sequence Diagram
+
+![Auth Sequence Diagram](/images/onboarding-modal-sequence-diagram.png)
+
+## Key Points to Remember
+
+- **`showOnboardingModal()`** in the SDK is your main entry point to launch the modal.
+- You can customize brand data, theming, and the primary auth method (Email, Phone, or Google).
+- For Google OAuth, provide a callback (`gAuthCb`) to exchange the OAuth code for an ID token—or return an ID token directly if you have it.
+- On success, your app will have the user’s `authToken` (and refresh token) stored in Okto’s internal state.
+
+---
+
+# Enabling Google Authentication in the Onboarding Modal
+
+Okto’s Onboarding Modal can integrate with Google Authentication to offer a smooth, single-click login experience. To enable this, you need to configure the `gAuthCb` callback, which handles the exchange of Google OAuth credentials for an ID token. The specifics depend on your framework/setup:
+
+- **React:** Typically needs a server-side exchange (Authorization Code Flow).
+- **Next.js:** Can often get an ID token directly using NextAuth or similar, without spinning up a separate backend.
+
+Below, we’ll show both approaches.
+
+<Tabs items={['React', 'Next.js']}>
+
+<Tab value="React">
+
+## React: Using a Separate Backend
+
+If you have a standard Create React App (or similar), you usually **cannot** store the Google **Client Secret** in frontend code. This is why you need a small backend service to handle the secure OAuth code exchange.
+
+---
+
+### Step 1: Google Cloud Setup
+
+1. [Create a Google Cloud project](/docs/react-sdk/authenticate-users/google-oauth/google-console-setup).  
+2. Enable **OAuth consent screen** and get a **Client ID** and **Client Secret**.  
+3. Whitelist your app’s domain (if you’re in development, `http://localhost:3000` is typical).
+
+---
+
+### Step 2: Set Up a Backend for Token Exchange
+
+Since the **Google Client Secret** cannot be exposed in front-end code, you need a backend to securely exchange the authorization code for an ID token.
+
+**Backend Example (Node.js)**
+
+1. **Install Dependencies**
+
+Create a new folder for your backend and install the required packages:
+
+```bash
+npm init -y
+npm install express google-auth-library cors dotenv
+```
+
+2. **Create the Backend Server**
+
+Create a file named `okto-gauth-server.js` and add the following code:
+
+```js
+require("dotenv").config();
+const express = require("express");
+const { OAuth2Client } = require("google-auth-library");
+const cors = require("cors");
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+const oAuth2Client = new OAuth2Client(
+  process.env.CLIENT_ID,
+  process.env.CLIENT_SECRET,
+  "postmessage"
+);
+
+app.post("/auth/google", async (req, res) => {
+  try {
+    const { tokens } = await oAuth2Client.getToken(req.body.code); // Exchange code for tokens
+    res.json(tokens);
+  } catch (error) {
+    console.error("Error exchanging tokens:", error);
+    res.status(500).send("Authentication failed");
+  }
+});
+
+app.listen(3001, () => console.log("Backend server is running on port 3001"));
+```
+
+3. **Add Environment Variables**
+
+Create a `.env` file in the backend folder and add your Google credentials:
+
+```
+CLIENT_ID=your-google-client-id
+CLIENT_SECRET=your-google-client-secret
+```
+
+4. **Run the Backend**
+
+Start the backend server:
+
+```bash
+node okto-gauth-server.js
+```
+
+---
+
+### Step 3: React Frontend + OktoProvider
+
+In your React app, update the `App.js` file with the following code:
+
+```jsx
+import React, { useState } from "react";
+import { OktoProvider, useOkto, BuildType, AuthType } from "okto-sdk-react";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
+
+const OKTO_CLIENT_API_KEY = process.env.REACT_APP_OKTO_CLIENT_API_KEY;
+
+const App = () => {
+  const { showOnboardingModal } = useOkto();
+  const [authPromise, setAuthPromise] = useState(null);
+
+  const googleLogin = useGoogleLogin({
+    flow: "auth-code",
+    onSuccess: async ({ code }) => {
+      try {
+        const { data: tokens } = await axios.post("http://localhost:3001/auth/google", { code });
+        if (authPromise) {
+          authPromise.resolve(tokens.id_token); // Resolve the promise with the ID token
+        }
+      } catch (error) {
+        console.error("Error during token exchange:", error);
+        if (authPromise) {
+          authPromise.reject(error);
+        }
+      }
+    },
+    onError: (error) => {
+      console.error("Google Login Error:", error);
+      if (authPromise) {
+        authPromise.reject(error);
+      }
+    },
+  });
+
+  const handleGAuthCb = async () => {
+    return new Promise((resolve, reject) => {
+      setAuthPromise({ resolve, reject });
+      googleLogin(); // Trigger Google login
+    });
+  };
+
+  return (
+    <OktoProvider
+      apiKey={OKTO_CLIENT_API_KEY}
+      buildType={BuildType.SANDBOX}
+      gAuthCb={handleGAuthCb}
+      primaryAuth={AuthType.GAUTH}
+    >
+      <button onClick={showOnboardingModal}>Show Onboarding Modal</button>
+    </OktoProvider>
+  );
+};
+
+export default App;
+```
+
+That’s it! Now you have a React app that:
+
+- Uses a tiny **Node.js** backend (`/auth/google`) to securely exchange OAuth codes for tokens.
+- Provides Okto with a valid Google ID token whenever `showOnboardingModal()` needs it.
+
+</Tab> 
+
+<Tab value="Next.js">
+
+## Next.js: Using NextAuth (or Similar)
+
+In **Next.js**, you can typically skip writing a separate Node.js server for the code exchange because libraries like **NextAuth** handle this securely on the server side. Once the user logs in via NextAuth, you can simply return the **ID token** to Okto.
+
+---
+
+### Step 1: Google Cloud Setup
+
+1. [Create a Google Cloud project](/docs/react-sdk/authenticate-users/google-oauth/google-console-setup).  
+2. Enable **OAuth consent screen** and get a **Client ID** and **Client Secret**.  
+3. Whitelist your Next.js domain (if you’re in development, `http://localhost:3000` is typical) to the authorized domains for Google OAuth.
+
+---
+
+### Step 2: Configure Google OAuth
+
+In `app/api/auth/[...nextauth]/route.ts` file:
+
+```ts
+import NextAuth from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
+import type { AuthOptions } from "next-auth";
+
+export const authOptions: AuthOptions = {
+  secret: process.env.AUTH_SECRET,
+  providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
+  ],
+  callbacks: {
+    async jwt({ token, user, account }) {
+      if (account) {
+        token.id_token = account.id_token;
+      }
+      return token;
+    },
+
+    async session({ session, token }) {
+      session.id_token = token.id_token;
+      return session;
+    },
+  },
+};
+
+const handler = NextAuth(authOptions);
+
+export { handler as GET, handler as POST };
+```
+
+- Make sure to set **GOOGLE_CLIENT_ID** and **GOOGLE_CLIENT_SECRET** in your environment variables.
+
+---
+
+### Step 3: Frontend Implementation
+
+Use the `useSession` hook from `next-auth` to handle the Google OAuth flow. Update your `_app.js` or a specific page with the following code:
+
+```tsx
+"use client";
+import React from "react";
+import { OktoProvider, BuildType, AuthType } from "okto-sdk-react";
+import { useSession, signIn } from "next-auth/react";
+
+const App = () => {
+  const { data: session } = useSession();
+
+  const handleGAuthCb = async () => {
+    if (!session) {
+      await signIn("google"); // Trigger Google login
+      return "";
+    }
+    return session.id_token; // Return the ID token
+  };
+
+  return (
+    <OktoProvider
+      apiKey={process.env.NEXT_PUBLIC_OKTO_CLIENT_API_KEY}
+      buildType={BuildType.SANDBOX}
+      gAuthCb={handleGAuthCb}
+      primaryAuth={AuthType.GAUTH}
+    >
+      <button onClick={showOnboardingModal}>Show Onboarding Modal</button>
+    </OktoProvider>
+  );
+};
+
+export default App;
+```
+
+---
+
+That’s it! NextAuth automatically handles the Google OAuth flow for you. Once the user logs in, your session receives an **ID token**, and Okto can consume it.
+
+</Tab> 
+
+</Tabs>
+
+## Sample Implementation
+
+For a complete working example, refer to the [Okto React Template App](https://github.com/okto-hq/okto-sdk-react-template-app) or the [Okto Next.js Starter App](https://github.com/okto-hq/okto-sdk-react-nextjs-starter-repo).
+
+## Common Tips & FAQ
+
+- **Securing Secrets**: Keep your **Google Client Secret** in environment variables, never commit it to git.
+
+- **Local Development**: For React, use `localhost:3000` for your front-end and `localhost:3001` for your backend. For Next.js, you can do everything on `localhost:3000` if using NextAuth.
+
+- **Custom Branding**: Okto’s `brandData` allows you to pass title, subtitle, and icon to customize the onboarding modal.
+
+- **Primary Auth Method**: By default, you can set `primaryAuth={AuthType.GAUTH}` (Google), `AuthType.EMAIL`, or `AuthType.PHONE`. You can also switch it dynamically if needed.

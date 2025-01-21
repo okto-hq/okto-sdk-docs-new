@@ -1,0 +1,76 @@
+---
+title: Show UI Screen via Code
+description: Learn how to manage theme and UI using the Okto SDK.
+full: false
+---
+
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+import { Icon as IIcon } from '@iconify/react'; 
+
+import '../../styles.css';
+
+### Methods Overview
+
+| Methods                            | Description                                          |                 
+|------------------------------------|------------------------------------------------------|
+| [`openBottomSheet`](#show-modal)   | Displays the Okto bottomsheet modal                  |
+
+<div className="method-box">
+
+## Show modal
+
+`openBottomSheet()`<a href="https://github.com/okto-hq/okto-sdk-flutter/blob/db5dfb8cda6bfee6636fc2f8a2e4687378ff67df/lib/src/okto.dart#L300" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> displays the widget modal.
+
+### Parameters
+
+There are no parameters for this function.
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type                  | Description                                 | 
+|------------|-----------------------|---------------------------------------------|
+| `result`   | `Future`              | No response returned             | 
+
+</Callout>
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Dart']}>
+  <Tab value="Dart">
+    ```dart
+        import 'package:flutter/material.dart';
+        import 'package:okto_test/okto.dart';
+        
+        class OktoWalletFlutter extends StatefulWidget {
+          const OktoWalletFlutter({super.key});
+        
+          @override
+          State<OktoWalletFlutter> createState() => _OktoWalletFlutter();
+        }
+        
+        class _OktoWalletFlutter extends State<OktoWalletFlutter> {
+          @override
+          Widget build(BuildContext context) {
+            return Scaffold(
+              body: Center(
+                child: TextButton(
+                    onPressed: () async {
+                      await okto.openBottomSheet(context: context);
+                    },
+                    child: const Text('open bottomSheet')),
+              ),
+            );
+          }
+        }
+    ```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>

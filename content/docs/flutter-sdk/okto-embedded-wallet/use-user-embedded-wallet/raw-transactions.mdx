@@ -1,0 +1,361 @@
+---
+title: Invoke Any Smart Contract On-chain Via Code
+description: Learn how to invoke any smart contract interaction on-chain using the Okto SDK.
+full: false
+---
+
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+import { Icon as IIcon } from '@iconify/react'; 
+
+import '../../styles.css';  
+
+### Methods Overview
+
+| Methods               | Description                                                                 |                 
+|-------------------------------------------|-----------------------------------------------------------------------------|
+| <sub><i>async</i></sub> [`rawTransactionExecute`](#execute-raw-transaction)   | Execute raw transactions based on the provided data   |
+| <sub><i>async</i></sub> [`rawTransactionStatus`](#get-raw-transaction-status) | Fetch raw transactions based on the provided data   |
+
+<div className="method-box">
+
+## Execute raw transaction
+
+<sub><i>async</i></sub> `rawTransactionExecute(query)`<a href="https://github.com/okto-hq/okto-sdk-flutter/blob/c938dea4cff76e8075fa80ae421a4d522fd7a590/lib/src/okto.dart#L270" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> executes a raw transaction based on the provided data.
+
+### Parameters
+
+| Parameter   | Type                    | Description                                        | 
+|-------------|-------------------------|----------------------------------------------------|
+| `data`      | [`rawTransactionStatus`](/api-docs#model/executerawtransaction) | Data being provided for executing raw transactions | 
+
+<Tabs items={['EVM', 'Solana', 'Aptos']}>
+  <Tab value="EVM">
+    ```typescript
+      interface ExecuteRawTransaction {
+      network_name: string;
+      transaction: {
+        from: string;
+        to: string;
+        data: string
+        value: string;
+      }
+    }
+    ```
+  </Tab>
+  <Tab value="Solana">
+    ```typescript
+      interface ExecuteRawTransaction {
+      network_name: string;
+      transaction: {
+        instructions: {
+          keys: key[];
+          programId: string;
+          data: number[];
+        };
+        signer: string;
+      }
+    }
+    ```
+  </Tab>
+  <Tab value="Aptos">
+     ```typescript 
+      interface ExecuteRawTransaction {
+      network_name: string;
+      transaction: {
+        function: fn;
+        typeArguements: Array[];
+        functionArguements: Array[]
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type                                | Description                                             | 
+|------------|-------------------------------------|---------------------------------------------------------|
+| `result`   | [`Future<RawTransactionExecuteResponse>`](/api-docs#model/rawtransactionstatusdata) | Returns information about the transaction | 
+
+</Callout>
+
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Dart']}>
+  <Tab value="Dart">
+    ```dart
+        import 'dart:convert';
+        import 'package:example/okto.dart';
+        import 'package:flutter/material.dart';
+        import 'package:flutter/services.dart';
+        import 'package:okto_flutter_sdk/okto_flutter_sdk.dart';
+
+        class RawTransactioneExecutePage extends StatefulWidget {
+          const RawTransactioneExecutePage({super.key});
+
+          @override
+          State<RawTransactioneExecutePage> createState() => _RawTransactioneExecutePageState();
+        }
+
+        class _RawTransactioneExecutePageState extends State<RawTransactioneExecutePage> {
+          final networkNameController = TextEditingController();
+          final transactionObjectController = TextEditingController();
+          Future<RawTransactionExecuteResponse>? _rawTransactionExecuted;
+
+          Future<RawTransactionExecuteResponse> rawTransactionExecute() async {
+            final transactionObject = jsonDecode(transactionObjectController.text);
+            try {
+              final orderHistory = await okto!.rawTransactionExecute(networkName: networkNameController.text, transaction: transactionObject);
+              return orderHistory;
+            } catch (e) {
+              throw Exception(e);
+            }
+          }
+
+          @override
+          Widget build(BuildContext context) {
+            return Scaffold(
+              backgroundColor: const Color(0xff5166EE),
+              body: SafeArea(
+                child: Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      margin: const EdgeInsets.all(40),
+                      child: const Text(
+                        'Raw Transaction Execute',
+                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 30),
+                      ),
+                    ),
+                    TextField(
+                      controller: networkNameController,
+                      decoration: const InputDecoration(
+                        fillColor: Colors.white,
+                        hintText: 'Network Name',
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      height: 200,
+                      child: TextField(
+                        maxLines: null,
+                        controller: transactionObjectController,
+                        decoration: const InputDecoration(
+                          fillColor: Colors.white,
+                          hintText: 'Enter the transaction JSON for the network',
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _rawTransactionExecuted = rawTransactionExecute();
+                        });
+                      },
+                      child: const Text('Execute Raw Transaction'),
+                    ),
+                    Expanded(
+                      child: _rawTransactionExecuted == null
+                          ? Container()
+                          : FutureBuilder<RawTransactionExecuteResponse>(
+                              future: _rawTransactionExecuted,
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                  return const Center(child: CircularProgressIndicator(color: Colors.white));
+                                } else if (snapshot.hasError) {
+                                  return Center(child: Text('Error: ${snapshot.error}'));
+                                } else if (snapshot.hasData) {
+                                  final transferNftResponse = snapshot.data!;
+                                  return Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Job id: ${transferNftResponse.data.jobId}',
+                                          style: const TextStyle(color: Colors.white, fontSize: 20),
+                                        ),
+                                        TextButton(
+                                            onPressed: () async {
+                                              Clipboard.setData(ClipboardData(text: transferNftResponse.data.jobId));
+                                            },
+                                            child: const Text('Copy job id'))
+                                      ],
+                                    ),
+                                  );
+                                }
+                                return Container();
+                              },
+                            ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
+        }
+    ```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>
+
+<div className="method-box">
+
+## Get raw transaction status
+
+<sub><i>async</i></sub> `rawTransactionStatus(query)`<a href="https://github.com/okto-hq/okto-sdk-flutter/blob/c938dea4cff76e8075fa80ae421a4d522fd7a590/lib/src/okto.dart#L284" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> fetches the status of a raw transaction based on the provided query.
+
+### Parameters
+
+| Parameter   | Type                        | Description                            | 
+|-------------|-----------------------------|----------------------------------------|
+| `query`     | [`RawTransactionStatusQuery`](/api-docs#model/rawtransactionstatusquery) | Query being provided fetching the data | 
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type                                 | Description                               | 
+|------------|--------------------------------------|-------------------------------------------|
+| `result`   | [`Future<RawTransactionStatusResponse>`](/api-docs#model/executerawtransactiondata) | Returns information about the status of raw transaction | 
+
+</Callout>
+
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Dart']}>
+  <Tab value="Dart">
+    ```dart
+        import 'package:example/okto.dart';
+        import 'package:flutter/material.dart';
+        import 'package:okto_flutter_sdk/okto_flutter_sdk.dart';
+
+        class RawTransactionStatusPage extends StatefulWidget {
+          const RawTransactionStatusPage({super.key});
+
+          @override
+          State<RawTransactionStatusPage> createState() => _RawTransactionStatusPageState();
+        }
+
+        class _RawTransactionStatusPageState extends State<RawTransactionStatusPage> {
+          final jobIdController = TextEditingController();
+          Future<RawTransactionStatusResponse>? _rawTransactionStatus;
+
+          Future<RawTransactionStatusResponse> rawTransactionStatus() async {
+            try {
+              final rawTransaction = await okto!.rawTransactionStatus(orderId: jobIdController.text);
+              return rawTransaction;
+            } catch (e) {
+              throw Exception(e);
+            }
+          }
+
+          @override
+          Widget build(BuildContext context) {
+            return Scaffold(
+              backgroundColor: const Color(0xff5166EE),
+              body: SafeArea(
+                child: Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      margin: const EdgeInsets.all(40),
+                      child: const Text(
+                        'Raw Transaction Status',
+                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 30),
+                      ),
+                    ),
+                    TextField(
+                      controller: jobIdController,
+                      decoration: const InputDecoration(hintText: 'Paste Job id'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _rawTransactionStatus = rawTransactionStatus();
+                        });
+                      },
+                      child: const Text('View status'),
+                    ),
+                    Expanded(
+                      child: _rawTransactionStatus == null
+                          ? Container()
+                          : FutureBuilder<RawTransactionStatusResponse>(
+                              future: _rawTransactionStatus,
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                  return const Center(child: CircularProgressIndicator(color: Colors.white));
+                                } else if (snapshot.hasError) {
+                                  return Center(child: Text('Error: ${snapshot.error}'));
+                                } else if (snapshot.hasData) {
+                                  final rawTransaction = snapshot.data!;
+                                  return Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          height: MediaQuery.sizeOf(context).height * 0.6,
+                                          child: ListView.builder(
+                                              itemCount: rawTransaction.data.jobs.length,
+                                              itemBuilder: (context, index) {
+                                                return Container(
+                                                  color: Colors.blue,
+                                                  margin: const EdgeInsets.all(5),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        'Network name: ${rawTransaction.data.jobs[index].networkName}',
+                                                        style: const TextStyle(color: Colors.white, fontSize: 20),
+                                                      ),
+                                                      Text(
+                                                        'Order Id : ${rawTransaction.data.jobs[index].orderId}',
+                                                        style: const TextStyle(color: Colors.white, fontSize: 20),
+                                                      ),
+                                                      Text(
+                                                        'Status : ${rawTransaction.data.jobs[index].status}',
+                                                        style: const TextStyle(color: Colors.white, fontSize: 20),
+                                                      ),
+                                                      Text(
+                                                        'Transaction Hash : ${rawTransaction.data.jobs[index].transactionHash}',
+                                                        style: const TextStyle(color: Colors.white, fontSize: 20),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              }),
+                                        )
+
+                                        // Add more fields here as needed
+                                      ],
+                                    ),
+                                  );
+                                }
+                                return Container();
+                              },
+                            ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
+        }
+    ```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>

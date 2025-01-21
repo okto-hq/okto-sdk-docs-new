@@ -1,0 +1,56 @@
+---
+title: Login
+description: Learn how to check user's login status using the Okto SDK.
+full: false
+---
+
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+import { Icon as IIcon } from '@iconify/react'; 
+
+import '../../styles.css';
+
+### Methods Overview
+
+| Methods                                                                | Description                     |                 
+|------------------------------------------------------------------------|---------------------------------|
+| [`isLoggedIn`](#check-if-the-user-is-logged-in)                        | Check if the User is Logged In  |
+
+<div className="method-box">
+
+## Check if the User is Logged In
+
+`isLoggedIn`<a href="https://github.com/okto-hq/okto-sdk-react/blob/main/src/OktoProvider.tsx#L66" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> checks if the user is currently logged in.
+
+### Parameters
+
+There are no parameters for this function.
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type          | Description                            | Possible Values |
+|------------|---------------|----------------------------------------|-----------------|
+| `result`   | `boolean`     | Results true if the user is logged in  | `true`, `false` |
+
+</Callout>
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Typescript']}>
+  <Tab value="Typescript">
+    ```typescript
+    import { useOkto, type OktoContextType} from 'okto-sdk-react';
+ 
+    const { isLoggedIn } = useOkto() as OktoContextType;
+    isLoggedIn().then(result => console.log(isLoggedIn ? "User is logged in" : "User is logged out"));
+```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>

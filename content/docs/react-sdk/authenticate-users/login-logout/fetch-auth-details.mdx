@@ -1,0 +1,67 @@
+---
+title: Fetch Auth Details
+description: "Retrieve authentication details of the currently logged-in user using the Okto SDK."
+full: false
+---
+
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+import { Icon as IIcon } from '@iconify/react'; 
+
+import '../../styles.css';
+
+### Methods Overview
+
+| Methods                                                      | Description                                      |                 
+|--------------------------------------------------------------|--------------------------------------------------|
+| <sub><i>sync</i></sub> [`getAuthDetails`](#fetch-authentication-details-of-the-current-user)   | Fetch authentication details of the current user |
+
+<div className="method-box">
+
+## Fetch authentication details of the current user
+
+<sub><i>sync</i></sub> `getAuthDetails()`<a href="https://github.com/okto-hq/okto-sdk-react/blob/main/src/OktoProvider.tsx#L413" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> fetches the authentication details of the currently logged-in user.
+
+### Parameters
+
+There are no parameters for this function.
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name       | Type                | Description                                     | 
+|------------------|---------------------|-------------------------------------------------|
+| `authToken`      | `string`            | Authentication token for API access            | 
+| `refreshToken`   | `string`            | Token used to refresh authentication sessions  | 
+| `deviceToken`    | `string`            | Token to identify the authenticated device     | 
+
+</Callout>
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Typescript']}>
+  <Tab value="Typescript">
+  ```typescript
+  import { useOkto, type OktoContextType } from 'okto-sdk-react';
+
+  const { getAuthDetails } = useOkto() as OktoContextType;
+
+  const authDetails = getAuthDetails();
+
+  if (authDetails) {
+      console.log("Auth Token:", authDetails.authToken);
+      console.log("Refresh Token:", authDetails.refreshToken);
+      console.log("Device Token:", authDetails.deviceToken);
+  } else {
+      console.log("No user is authenticated.");
+  }
+```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>

@@ -1,0 +1,96 @@
+---
+title: Show UI Screen via Code
+description: Learn how to manage theme and UI using the Okto SDK.
+full: false
+---
+
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+import { Icon as IIcon } from '@iconify/react'; 
+
+import '../../styles.css';
+
+### Methods Overview
+
+| Methods                            | Description                                          |                 
+|------------------------------------|------------------------------------------------------|
+| [`showWidgetSheet`](#show-widget-sheet)   | Displays the widget sheet                            |
+| [`closeBottomSheet`](#close-bottomsheet)       | Closes the currently opened widget sheet                      |
+
+<div className="method-box">
+
+## Show widget sheet
+
+`showWidgetSheet()`<a href="https://github.com/okto-hq/okto-sdk-react-native/blob/769a2f6e4faec12e45f9b5577ee1b35334e02c7b/src/index.tsx#L49" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> displays the widget modal.
+
+### Parameters
+
+There are no parameters for this function.
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type                | Description                                 | 
+|------------|---------------------|---------------------------------------------|
+| `result`   | `void`              | No successful response returned             | 
+
+</Callout>
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Typescript']}>
+  <Tab value="Typescript">
+    ```typescript
+        import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
+ 
+        const { showWidgetSheet, closeBottomSheet } = useOkto() as OktoContextType;
+ 
+        showWidgetSheet();
+    ```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>
+
+<div className="method-box">
+
+## Close modal
+
+`closeBottomSheet()`<a href="https://github.com/okto-hq/okto-sdk-react-native/blob/769a2f6e4faec12e45f9b5577ee1b35334e02c7b/src/index.tsx#L57" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> closes the currently open modal.
+
+### Parameters
+
+There are no parameters for this function.
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type                | Description                                 | 
+|------------|---------------------|---------------------------------------------|
+| `result`   | `void`              | No successful response returned             | 
+
+</Callout>
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Typescript']}>
+  <Tab value="Typescript">
+    ```typescript
+        import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
+ 
+        const { showWidgetSheet, closeBottomSheet } = useOkto() as OktoContextType;
+ 
+        closeBottomSheet();
+    ```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>

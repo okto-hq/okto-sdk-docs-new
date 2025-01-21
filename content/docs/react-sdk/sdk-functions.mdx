@@ -1,0 +1,87 @@
+---
+title: SDK Functions Overview
+description: Learn about how to use Okto's SDK functionalities.
+full: false
+---
+
+The Okto React SDK provides a comprehensive set of functions to manage user authentication, portfolio data, supported networks and tokens, user details, wallet management, order history, NFT order details, transaction statuses, token and NFT transfers, raw transaction executions, and UI theme settings. 
+
+Below is an overview of the available functions and their respective purposes.
+
+## Authentication Functions
+| Function | Description |
+|----------|-------------|
+| [`authenticate(idToken, callback)`](/docs/react-sdk/authenticate-users/google-oauth/auth-user-via-code#authenticate-a-user) | Authenticates user with Google OAuth |
+| [`sendEmailOTP(email)`](/docs/react-sdk/authenticate-users/email-otp/auth-user-via-email#send-email-otp) | Sends OTP to user's email |
+| [`verifyEmailOTP(email, otp, token)`](/docs/react-sdk/authenticate-users/email-otp/auth-user-via-email#verify-email-otp) | Verifies email OTP |
+| [`sendPhoneOTP(phoneNumber, countryShortName)`](/docs/react-sdk/authenticate-users/phone-otp/auth-user-via-phone#send-phone-otp) | Sends OTP to user's phone |
+| [`verifyPhoneOTP(phoneNumber, countryShortName, otp, token)`](/docs/react-sdk/authenticate-users/phone-otp/auth-user-via-phone#verify-phone-otp) | Verifies phone OTP |
+| [`showOnboardingModal()`](/docs/react-sdk/authenticate-users/onboarding-modal/auth-user-via-modal#show-onboarding-modal) | Presents a guided onboarding flow to the user |
+
+## Session Management
+| Function | Description |
+|----------|-------------|
+| [`isLoggedIn()`](/docs/react-sdk/authenticate-users/login-logout/login#check-if-the-user-is-logged-in) | Indicates if user is currently logged in |
+| [`logOut()`](/docs/react-sdk/authenticate-users/login-logout/logout#log-out) | Logs out current user |
+| [`getAuthDetails()`](/docs/react-sdk/authenticate-users/login-logout/fetch-auth-details#fetch-authentication-details-of-the-current-user) | Fetches the authentication details of the currently logged-in user |
+
+## User Management
+| Function | Description |
+|----------|-------------|
+| [`getUserDetails()`](/docs/react-sdk/okto-embedded-wallet/use-user-embedded-wallet/get-user-details) | Get details of the currently authenticated user |
+
+## Portfolio Management
+| Function | Description |
+|----------|-------------|
+| [`getPortfolio()`](/docs/react-sdk/okto-embedded-wallet/use-user-embedded-wallet/get-user-balance-portfolio) | Get portfolio details of the current user |
+
+## Network and Token Information
+| Function | Description |
+|----------|-------------|
+| [`getSupportedNetworks()`](/docs/react-sdk/chains-tokens/supported-networks#get-all-supported-networks) | Gets list of whitelisted networks |
+| [`getSupportedTokens()`](/docs/react-sdk/chains-tokens/supported-networks#get-all-supported-tokens) | Gets list of whitelisted tokens |
+
+## Wallet Management
+| Function | Description |
+|----------|-------------|
+| [`getWallets()`](/docs/react-sdk/okto-embedded-wallet/use-user-embedded-wallet/get-embedded-wallet-details) | Get all wallets of current user |
+| [`createWallet()`](/docs/react-sdk/okto-embedded-wallet/setup-embedded-wallets/create-embedded-wallets) | Create a new wallet for current user |
+
+## Order Management
+| Function | Description |
+|----------|-------------|
+| [`orderHistory(query)`](/docs/react-sdk/okto-embedded-wallet/use-user-embedded-wallet/transfer-tokens#fetch-order-history) | 	Fetch order history |
+
+## NFT Operations
+| Function | Description |
+|----------|-------------|
+| [`transferNft(data)`](/docs/react-sdk/okto-embedded-wallet/use-user-embedded-wallet/transfer-nfts#transfer-nfts) | Transfer NFTs based on the provided data |
+| [`transferNftWithJobStatus(data)`](/docs/react-sdk/okto-embedded-wallet/use-user-embedded-wallet/transfer-nfts#transfer-nfts-with-job-status) | Transfer NFTs and provides job status updates based on the provided data |
+| [`getNftOrderDetails(query)`](/docs/react-sdk/okto-embedded-wallet/use-user-embedded-wallet/transfer-nfts#get-nft-order-details) | Fetches details of a specific NFT order based on the provided query |
+
+## Token Operations
+| Function | Description |
+|----------|-------------|
+| [`transferTokens(data)`](/docs/react-sdk/okto-embedded-wallet/use-user-embedded-wallet/transfer-tokens#transfer-tokens) | Transfer tokens based on the provided data |
+| [`transferTokensWithJobStatus(data)`](/docs/react-sdk/okto-embedded-wallet/use-user-embedded-wallet/transfer-tokens#transfer-tokens-with-job-status) | Transfer tokens and provides job status updates based on the provided data |
+
+## Read From Contract
+| Function | Description |
+|----------|-------------|
+| [`readContractData(network_name, data)`](/docs/react-sdk/okto-embedded-wallet/use-user-embedded-wallet/read-contract-data#read-contract-data) | Read data from any smart contract on supported chains |
+
+
+## Raw Transactions
+| Function | Description |
+|----------|-------------|
+| [`executeRawTransaction(data)`](/docs/react-sdk/okto-embedded-wallet/use-user-embedded-wallet/raw-transactions#execute-raw-transaction) | Executes a raw transaction based on the provided data |
+| [`executeRawTransactionWithJobStatus(data)`](/docs/react-sdk/okto-embedded-wallet/use-user-embedded-wallet/raw-transactions#execute-raw-transaction-with-job-status) | Executes a raw transaction and provides job status updates based on the provided data |
+| [`getRawTransactionStatus(query)`](/docs/react-sdk/okto-embedded-wallet/use-user-embedded-wallet/raw-transactions#get-raw-transactions) | Fetch raw transactions based on the provided data |
+
+## UI Management
+| Function | Description |
+|----------|-------------|
+| [`showWidgetModal()`](/docs/react-sdk/okto-embedded-wallet/built-in-ui-screens/show-ui-screen-via-code#show-modal) | Displays the widget modal |
+| [`closeModal()`](/docs/react-sdk/okto-embedded-wallet/built-in-ui-screens/show-ui-screen-via-code#close-modal) | Closes the currently open modal |
+| [`getTheme()`](/docs/react-sdk/okto-embedded-wallet/built-in-ui-screens/show-ui-screen-via-code#get-theme) | Retrieves the current UI theme |
+| [`setTheme(theme)`](/docs/react-sdk/okto-embedded-wallet/built-in-ui-screens/show-ui-screen-via-code#set-theme) | Sets the UI theme based on the provided theme object |

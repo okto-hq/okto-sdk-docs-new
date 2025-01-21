@@ -38,7 +38,7 @@ paths:
       description:
         Authenticates the user using Google ID Token and on successfull authentication, it will return the token of the user. Checkout the documentation here.
 
-        * [Authenticate via Google ID token](/docs/react-sdk/advanced-sdk-config/authenticate-users/google-oauth/learn)
+        * [Authenticate via Google ID token](/docs/react-sdk/authenticate-users/google-oauth/learn)
 
       operationId: authenticateUser
       security: [{ apiKeyHeader: [] }]
@@ -77,7 +77,7 @@ paths:
       description:
         Sends an OTP to the specified email address to authenticate the user. Checkout the documentation here.
 
-        * [Email OTP Authenticate](/docs/react-sdk/advanced-sdk-config/authenticate-users/email-otp/learn)
+        * [Email OTP Authenticate](/docs/react-sdk/authenticate-users/email-otp/learn)
       operationId: sendEmailOTP
       security:
         - apiKeyHeader: []
@@ -117,7 +117,7 @@ paths:
       description:
         Verifies the OTP sent to the email and returns Okto authentication tokens upon successful verification. Checkout the documentation here.
 
-        * [Email OTP Authenticate](/docs/react-sdk/advanced-sdk-config/authenticate-users/email-otp/learn)
+        * [Email OTP Authenticate](/docs/react-sdk/authenticate-users/email-otp/learn)
       operationId: verifyEmailOTP
       security:
         - apiKeyHeader: []
@@ -167,7 +167,7 @@ paths:
       description:
         Sends an OTP to the specified phone number to authenticate the user. Checkout the documentation here.
 
-        * [Phone OTP Authenticate](/docs/react-sdk/advanced-sdk-config/authenticate-users/phone-otp/learn)
+        * [Phone OTP Authenticate](/docs/react-sdk/authenticate-users/phone-otp/learn)
       operationId: sendPhoneOTP
       security:
         - apiKeyHeader: []
@@ -212,7 +212,7 @@ paths:
       description:
         Verifies the OTP sent to the phone number and returns Okto authentication tokens upon successful verification. Checkout the documentation here.
 
-        * [Phone OTP Authenticate](/docs/react-sdk/advanced-sdk-config/authenticate-users/phone-otp/learn)
+        * [Phone OTP Authenticate](/docs/react-sdk/authenticate-users/phone-otp/learn)
       operationId: verifyPhoneOTP
       security:
         - apiKeyHeader: []
@@ -270,7 +270,7 @@ paths:
         The vendor JWT should be provided in the Authorization header as a Bearer token. 
 
         Checkout the documentation for JWT authenticate here.
-          * [JWT Authenticate](/docs/react-sdk/advanced-sdk-config/authenticate-users/jwt-closed-loop/learn)
+          * [JWT Authenticate](/docs/react-sdk/authenticate-users/jwt-closed-loop/learn)
       operationId: jwtAuthenticate
       security:
         - apiKeyHeader: []

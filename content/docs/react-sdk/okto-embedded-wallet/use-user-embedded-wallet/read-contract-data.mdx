@@ -1,0 +1,132 @@
+---
+title: Read Contract Data On-chain Via Code
+description: Learn how to read data from any smart contract using the Okto SDK.
+full: false
+---
+
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+import { Icon as IIcon } from '@iconify/react';
+
+import '../../styles.css';
+
+### Methods Overview
+
+| Methods | Description |
+|---------|-------------|
+| <sub><i>async</i></sub> [`readContractData`](#read-contract-data) | Read data from any smart contract on supported chains |
+
+<div className="method-box">
+
+## Read Contract Data
+
+<sub><i>async</i></sub> `readContractData(network_name, data)`<a href="https://github.com/okto-hq/okto-sdk-react/blob/main/src/OktoProvider.tsx#L589" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> reads data from a smart contract based on the provided parameters.
+
+### Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `network_name` | `string` | The network where the contract is deployed |
+| `data` | `any` | Network-specific contract interaction details |
+
+The structure of `data` parameter varies based on the network:
+
+<Tabs items={['EVM', 'Aptos']}>
+<Tab value="EVM">
+```typescript
+// For EVM networks (POLYGON, POLYGON_TESTNET_AMOY, etc.), data should contain:
+{
+    contractAddress: string;  // The address of the smart contract
+    abi: any;                // The ABI of the specific function you want to call
+    args: Record<string, any>; // Arguments for the contract function (empty object if no arguments required)
+}
+```
+</Tab>
+<Tab value="Aptos">
+```typescript
+// For Aptos networks, data should contain:
+{
+    function: string;        // The full function path to call
+    typeArguments: string[]; // Type arguments for the function
+    functionArguments: string[]; // Arguments to pass to the function
+}
+```
+</Tab>
+</Tabs>
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type | Description |
+|------------|------|-------------|
+| `result` | `Promise<any>` | Returns the data read from the contract. Type depends on the contract function being called |
+
+</Callout>
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['EVM', 'Aptos']}>
+<Tab value="EVM">
+```typescript
+import { useOkto, type OktoContextType } from 'okto-sdk-react';
+
+const { readContractData } = useOkto() as OktoContextType;
+
+const networkName = "POLYGON";
+const contractData = {
+  contractAddress: "0x3BA4c387f786bFEE076A58914F5Bd38d668B42c3",
+  abi: {
+    inputs: [],
+    name: "totalSupply",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256"
+      }
+    ],
+    stateMutability: "view",
+    type: "function"
+  },
+  args: {}
+};
+
+readContractData(networkName, contractData)
+    .then((result) => {
+        console.log('Contract data:', result);
+    })
+    .catch((error) => {
+        console.log('Error reading contract:', error);
+    });
+```
+</Tab>
+<Tab value="Aptos">
+```typescript
+import { useOkto, type OktoContextType } from 'okto-sdk-react';
+
+const { readContractData } = useOkto() as OktoContextType;
+
+const networkName = "APTOS_TESTNET";
+const contractData = {
+  function: "0x1::chain_id::get",
+  typeArguments: [],
+  functionArguments: []
+};
+
+readContractData(networkName, contractData)
+    .then((result) => {
+        console.log('Contract data:', result);
+    })
+    .catch((error) => {
+        console.log('Error reading contract:', error);
+    });
+```
+</Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>

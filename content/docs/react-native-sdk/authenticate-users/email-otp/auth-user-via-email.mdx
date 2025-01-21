@@ -1,0 +1,157 @@
+---
+title: Authenticate User via Email OTP
+description: Learn how to authenticate users via Email OTP with the Okto SDK.
+full: false
+---
+
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+import { Icon as IIcon } from '@iconify/react'; 
+
+import '../../styles.css';
+
+### Methods Overview
+
+| Methods                                                                         | Description              |                 
+|---------------------------------------------------------------------------------|---------------------------------|
+| <sub><i>async</i></sub> [`sendEmailOTP(email)`](#send-email-otp)                | Send an OTP to the user's email  |
+| <sub><i>async</i></sub> [`verifyEmailOTP(email, otp, token)`](#verify-email-otp)| Verify the OTP sent to the user's email|
+
+<div className="method-box">
+
+## Send Email OTP
+
+`sendEmailOTP(email)`<a href="https://github.com/okto-hq/okto-sdk-react/blob/main/src/OktoWallet.ts#L450" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a>  sends an OTP to the user's email address.
+
+### Parameters
+
+| Parameter  | Type          | Description               |
+|------------|---------------|---------------------------|
+| `email`    | `string`      | The user's email address  |
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type          | Description                            | 
+|------------|---------------|----------------------------------------|
+| `status`   | `string`      | The status of the request              |
+| `token`    | `string`      | A token to be used for OTP verification|
+
+</Callout>
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Typescript']}>
+  <Tab value="Typescript">
+    ```typescript
+    import { useOkto, type OktoContextType } from 'okto-sdk-react-native';
+
+    function EmailOTPExample() {
+
+        const { sendEmailOTP } = useOkto() as OktoContextType;
+
+        const email = 'user@example.com';
+
+        const handleSendEmailOTP = async () => {
+            if (!validateEmail(email)) {
+                console.error('Please enter a valid email address');
+                return;
+            }
+
+            try {
+                const response = await sendEmailOTP(email);
+                console.log('OTP Sent:', response);
+                // Store the token securely for verification
+                const otpToken = response.token;
+                Alert.alert('Success', 'OTP sent successfully');
+            } catch (error) {
+                console.error('Error sending Email OTP:', error);
+                Alert.alert('Error', 'Failed to send OTP');
+            }
+        };
+
+        // Utility function for email validation
+        const validateEmail = (email: string): boolean => {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        };
+    }
+    ```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>
+
+<div className="method-box">
+
+## Verify Email OTP
+
+`verifyEmailOTP(email, otp, token)`<a href="https://github.com/okto-hq/okto-sdk-react/blob/main/src/OktoWallet.ts#L457" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> verifies the OTP sent to the user's email address.
+
+### Parameters
+
+| Parameter  | Type          | Description                            |
+|------------|---------------|----------------------------------------|
+| `email`    | `string`      | The user's email address               |
+| `otp`      | `string`      | The OTP received by the user           |
+| `token`    | `string`      | The token received from `sendEmailOTP` |
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type          | Description                                    | Possible Values |
+|------------|---------------|------------------------------------------------|-----------------|
+| `result`   | `boolean`     | Results true if OTP verification is successful | `true`, `false` |
+
+</Callout>
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Typescript']}>
+  <Tab value="Typescript">
+    ```typescript
+        import { useOkto, type OktoContextType } from 'okto-sdk-react-native';
+
+        function EmailOTPExample() {
+
+            const { verifyEmailOTP } = useOkto() as OktoContextType;
+
+            const email = 'user@example.com';
+            const otp = '123456';
+            const token = 'TOKEN_FROM_SEND_EMAIL_OTP';
+
+            const handleVerifyEmailOTP = async () => {
+                if (!otp || otp.length < 4) {
+                    console.error('Please enter a valid OTP');
+                    return;
+                }
+
+                try {
+                    const verified = await verifyEmailOTP(email, otp, token);
+                    if (verified) {
+                    console.log('Email OTP verified successfully');
+                    Alert.alert('Success', 'Email verified successfully');
+                    // Proceed with authenticated actions
+                    } else {
+                    console.error('OTP verification failed');
+                    Alert.alert('Error', 'Invalid OTP');
+                    }
+                } catch (error) {
+                    console.error('Error verifying Email OTP:', error);
+                    Alert.alert('Error', 'Failed to verify OTP');
+                }
+            };
+        }
+    ```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>

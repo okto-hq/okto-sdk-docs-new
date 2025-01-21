@@ -1,0 +1,209 @@
+---
+title: Transferring Non-Fungible Tokens
+description: Learn how to transfer NFTs using the Okto SDK.
+full: false
+---
+
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+import { Icon as IIcon } from '@iconify/react'; 
+
+import '../../styles.css';  
+
+### Methods Overview
+
+| Methods                                                                               | Description                                                               |                 
+|---------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
+| <sub><i>async</i></sub> [`transferNft`](#transfer-nfts)                                    | Transfer NFTs based on the provided data                                  |
+| <sub><i>async</i></sub> [`transferNftWithJobStatus`](#transfer-nfts-with-job-status)    | Transfer NFTs and provides job status updates based on the provided data  |
+| <sub><i>async</i></sub> [`getNftOrderDetails`](#get-nft-order-details)  | Fetches details of a specific NFT order based on the provided query       |
+
+<div className="method-box">
+
+## Transfer NFTs
+
+<sub><i>async</i></sub> `transferNft(data)`<a href="https://github.com/okto-hq/okto-sdk-react-native/blob/769a2f6e4faec12e45f9b5577ee1b35334e02c7b/src/index.tsx#L128" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> transfers a NFT based on the provided data.
+
+### Parameters
+
+| Parameter   | Type          | Description                                  | 
+|-------------|---------------|----------------------------------------------|
+| `data`      | [`TransferNft`](/api-docs#model/transfernft) | Data being provided for transferring the NFT | 
+
+```typescript
+interface TransferNft {
+  operation_type: string;
+  network_name: string;
+  collection_address: string;
+  collection_name: string;
+  quantity: string;
+  recipient_address: string;
+  nft_address: string;
+}
+```
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type                       | Description                                   |
+|------------|----------------------------|-----------------------------------------------|
+| `result`   | [`Promise<TransferNftData>`](/api-docs#model/transfernftdata) | Returns information about the NFT transferred | 
+
+<Accordions>
+<Accordion title="Response Type">
+```typescript
+interface TransferNftData {
+  order_id: string;
+}
+```
+</Accordion>
+</Accordions>
+</Callout>
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Typescript']}>
+  <Tab value="Typescript">
+    ```typescript
+        import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
+ 
+        const { transferNft } = useOkto() as OktoContextType;
+ 
+        const data = {
+          operation_type: "NFT_TRANSFER",
+          network_name: "APTOS_TESTNET",
+          collection_address: "0x171e643e8e8dabc66b838b9055dbdf88647cf6601b164f5987f50a497bedfbe1",
+          collection_name: "super avengers", // Optional
+          quantity: "1",
+          recipient_address: "0x52316b3addb115bedcff4e986d19d013089b99494a5c77bd7439d54301692672",
+          nft_address: "0xd7406e64c6a0ceb70b18e126caae456e8a6d33895e3c36b38ba76611ebb25db9",
+        };
+ 
+        transferNft(data)
+          .then((result) => {
+            console.log('Transfer success', result);
+          })
+          .catch((error) => {
+            console.log('Transfer error', error);
+          });
+    ```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>
+
+<div className="method-box">
+
+## Transfer NFTs with job status 
+
+<sub><i>async</i></sub> `transferNftWithJobStatus(data)`<a href="https://github.com/okto-hq/okto-sdk-react-native/blob/769a2f6e4faec12e45f9b5577ee1b35334e02c7b/src/index.tsx#L132" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> transfers NFTs with job status updates based on the provided data.
+
+### Parameters
+
+| Parameter   | Type            | Description                                     | 
+|-------------|-----------------|-------------------------------------------------|
+| `data`      | [`TransferNft`](/api-docs#model/transfernft)   | Data being provided for transferring the tokens | 
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type                       | Description                         | 
+|------------|----------------------------|-------------------------------------|
+| `result`   | [`Promise<NftOrderDetails>`](/api-docs#model/nftorderdetails) | Returns information about the order | 
+
+</Callout>
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Typescript']}>
+  <Tab value="Typescript">
+    ```typescript
+        import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
+ 
+        const { transferNftWithJobStatus } = useOkto() as OktoContextType;
+ 
+        const data = {
+          operation_type: "NFT_TRANSFER",
+          network_name: "APTOS_TESTNET",
+          collection_address: "0x171e643e8e8dabc66b838b9055dbdf88647cf6601b164f5987f50a497bedfbe1",
+          collection_name: "super avengers", // Optional
+          quantity: "1",
+          recipient_address: "0x52316b3addb115bedcff4e986d19d013089b99494a5c77bd7439d54301692672",
+          nft_address: "0xd7406e64c6a0ceb70b18e126caae456e8a6d33895e3c36b38ba76611ebb25db9",
+        };
+ 
+        transferNftWithJobStatus(data)
+          .then((result) => {
+            console.log('Transfer completed', result);
+          })
+          .catch((error) => {
+            console.log('Transfer error', error);
+          });
+    ```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>
+
+<div className="method-box">
+
+## Get NFT order details
+
+<sub><i>async</i></sub> `getNftOrderDetails(query)`<a href="https://github.com/okto-hq/okto-sdk-react-native/blob/769a2f6e4faec12e45f9b5577ee1b35334e02c7b/src/index.tsx#L104" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> fetches details of a specific NFT order based on the provided query.
+
+### Parameters
+
+| Parameter   | Type                            | Description                                       |
+|-------------|---------------------------------|---------------------------------------------------|
+| `query`     | [`Partial<NftOrderDetailsQuery>`](/api-docs#model/nftorderdetailsquery) | Query provided for fetching the NFT order details | 
+
+```typescript
+interface NftOrderDetailsQuery {
+  page: number;
+  size: number;
+  order_id: string;
+}
+```
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type                       | Description                         | 
+|------------|----------------------------|-------------------------------------|
+| `result`   | [`Promise<NftOrderDetails>`](/api-docs#model/nftorderdetails) | Returns information about the order | 
+
+</Callout>
+
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Typescript']}>
+  <Tab value="Typescript">
+    ```typescript
+        import { useOkto, type OktoContextType, type NftOrderDetails} from 'okto-sdk-react-native';
+        const { getNftOrderDetails } = useOkto() as OktoContextType;
+ 
+        getNftOrderDetails({order_id: orderId})
+        .then((orders) => {
+          const order = orders.find((order: any) => order.order_id === orderId);
+          if(order) console.log(order)
+        })
+        .catch((error) => {
+          console.error(`error:`, error);
+        });
+    ```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>
