@@ -1,0 +1,64 @@
+---
+title: Get User Balance and Portfolio Details 
+description: "Fetch details of the portfolio for the current user using the Okto SDK."
+full: false
+---
+
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+import { Icon as IIcon } from '@iconify/react'; 
+
+import '../../styles.css';
+
+### Methods Overview
+
+| Methods                                                          | Description                               |                 
+|------------------------------------------------------------------|-------------------------------------------|
+| <sub><i>async</i></sub> [`getPortfolio`](#get-portfolio-details-of-the-current-user)   | Get portfolio details of the current user |
+
+<div className="method-box">
+
+## Get portfolio details of the current user
+
+<sub><i>async</i></sub> `getPortfolio()`<a href="https://github.com/okto-hq/okto-sdk-react/blob/main/src/OktoProvider.tsx#L295" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> retrieves the portfolio details of the currently authenticated user.
+
+### Parameters
+
+There are no parameters for this function.
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type                     | Description                                         | 
+|------------|--------------------------|-----------------------------------------------------|
+| `result`   | [`Promise<PortfolioData>`](/api-docs#model/portfoliodata) | Returns information about current user's portfolio  | 
+
+</Callout>
+
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Typescript']}>
+  <Tab value="Typescript">
+    ```typescript
+        import { useOkto, type OktoContextType, type Portfolio} from 'okto-sdk-react';
+ 
+        const { getPortfolio } = useOkto() as OktoContextType;
+ 
+        getPortfolio()
+        .then((result) => {
+          console.log(portfolio)
+        })
+        .catch((error) => {
+          console.error(`error:`, error);
+        });
+    ```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>

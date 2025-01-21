@@ -1,0 +1,55 @@
+---
+title: Logout
+description: Learn how to log out users using the Okto SDK.
+full: false
+---
+
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+import { Icon as IIcon } from '@iconify/react'; 
+
+import '../../styles.css';
+
+### Methods Overview
+
+| Methods                                                                | Description                     |                 
+|------------------------------------------------------------------------|---------------------------------|
+| <sub><i>async</i></sub> [`logOut`](#log-out)                           | Log Out                         |
+
+<div className="method-box">
+
+## Log Out
+
+<sub><i>async</i></sub> `logOut()`<a href="https://github.com/okto-hq/okto-sdk-react/blob/main/src/OktoProvider.tsx#L476" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> logs out the current user from the session.
+
+### Parameters
+
+There are no parameters for this function.
+
+### Response 
+
+<Callout title="Success Response">
+| Field Name | Type                   | Description             | 
+|------------|------------------------|-------------------------|
+| `result`   | `void`                 | No response returned    | 
+
+</Callout>
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Typescript']}>
+  <Tab value="Typescript">
+   ```typescript
+  import { useOkto, type OktoContextType} from 'okto-sdk-react';
+ 
+  const { logOut } = useOkto() as OktoContextType;
+  logOut().then(result => console.log("logged out"));
+  ```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>

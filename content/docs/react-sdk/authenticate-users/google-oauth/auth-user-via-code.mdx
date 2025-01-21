@@ -1,0 +1,69 @@
+---
+title: Authenticate User using ID Token
+description: Learn how to authenticate users with Google ID Token using the Okto SDK.
+full: false
+---
+
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+import { Icon as IIcon } from '@iconify/react'; 
+
+import '../../styles.css';
+
+### Methods Overview
+
+| Methods                                                                | Description                        |                 
+|------------------------------------------------------------------------|------------------------------------|
+| <sub><i>async</i></sub> [`authenticate`](#authenticate-a-user)         | Authenticate a User using ID token |
+
+<div className="method-box">
+
+## Authenticate a User
+
+<sub><i>async</i></sub> `authenticate(idToken, callback)`<a href="https://github.com/okto-hq/okto-sdk-react/blob/main/src/OktoProvider.tsx#L163" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> authenticates a user using an ID token.
+
+### Parameters
+| Parameter   | Type                     | Description |
+|-------------|--------------------------|------------------------------------------------------|
+| `idToken`   | `string`                 | Token received from Google OAuth2                    | 
+| `callback`  | `function(result, error)`| Callback function to be called after authentication. | 
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type       | Description          | 
+|------------|------------|----------------------|
+| `result`   | `void`     | No response returned |
+
+</Callout>
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Typescript']}>
+  <Tab value="Typescript">
+    ```typescript
+    import {
+      useOkto,
+      type OktoContextType,
+    } from 'okto-sdk-react';
+ 
+    const { authenticate } = useOkto() as OktoContextType;
+    const idToken = 'USER_ID_TOKEN';
+    authenticate(idToken, (result, error) => {
+      if (result) {
+          console.log('authentication successful');
+      }
+      if (error) {
+          console.error('authentication error:', error);
+      }
+  });
+```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>

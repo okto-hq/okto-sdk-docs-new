@@ -1,0 +1,64 @@
+---
+title: isReady
+description: "Check whether the Okto SDK has completed initialization."
+full: false
+---
+
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+import { Icon as IIcon } from '@iconify/react'; 
+
+import '../../styles.css';
+
+### Methods Overview
+
+| Methods                           | Description                                |                 
+|-----------------------------------|--------------------------------------------|
+| [`isReady`](#check-if-the-sdk-is-initialized)   | Check if the Okto SDK has completed initialization |
+
+<div className="method-box">
+
+## Check if the SDK is initialized
+
+`isReady`<a href="https://github.com/okto-hq/okto-sdk-react/blob/main/src/OktoProvider.tsx#L90" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> is a boolean flag indicating whether the Okto SDK has completed its initialization.
+
+### Parameters
+
+There are no parameters for this function.
+
+### Response
+
+<Callout title="Response">
+
+| Field Name | Type      | Description                                                                 |
+|------------|-----------|-----------------------------------------------------------------------------|
+| `isReady`  | `boolean` | Returns `true` if the SDK is initialized and ready to use | 
+
+</Callout>
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Typescript']}>
+  <Tab value="Typescript">
+    ```typescript
+        import { useOkto } from 'okto-sdk-react';
+        import { useEffect } from 'react';
+
+        const { isReady } = useOkto();
+
+        useEffect(() => {
+            if (!isReady) { 
+                return; 
+            }
+            // SDK is ready, safe to call Okto functions
+            console.log("SDK is initialized and ready to use.");
+        }, [isReady]);
+    ```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>

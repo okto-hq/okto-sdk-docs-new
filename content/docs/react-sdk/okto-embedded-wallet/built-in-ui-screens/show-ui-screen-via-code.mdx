@@ -1,0 +1,188 @@
+---
+title: Show UI Screen via Code
+description: Learn how to manage theme and UI using the Okto SDK.
+full: false
+---
+
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+import { Icon as IIcon } from '@iconify/react'; 
+
+import '../../styles.css';
+
+### Methods Overview
+
+| Methods                            | Description                                          |                 
+|------------------------------------|------------------------------------------------------|
+| [`showWidgetModal`](#show-modal)   | Displays the widget modal                            |
+| [`closeModal`](#close-modal)       | Closes the currently open modal                      |
+| [`getTheme`](#get-theme)           | Retrieves the current UI theme                       |
+| [`setTheme`](#set-theme)           | Sets the UI theme based on the provided theme object |
+
+<div className="method-box">
+
+## Show modal
+
+`showWidgetModal()`<a href="https://github.com/okto-hq/okto-sdk-react/blob/main/src/OktoProvider.tsx#L480" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> displays the widget modal.
+
+### Parameters
+
+There are no parameters for this function.
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type                | Description                                 | 
+|------------|---------------------|---------------------------------------------|
+| `result`   | `void`              | No successful response returned             | 
+
+</Callout>
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Typescript']}>
+  <Tab value="Typescript">
+    ```typescript
+        import { useOkto, type OktoContextType} from 'okto-sdk-react';
+ 
+        { showWidgetModal, closeModal } = useOkto() as OktoContextType;
+ 
+        showWidgetModal();
+    ```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>
+
+<div className="method-box">
+
+## Close modal
+
+`closeModal()`<a href="https://github.com/okto-hq/okto-sdk-react/blob/main/src/OktoProvider.tsx#L488" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> closes the currently open modal.
+
+### Parameters
+
+There are no parameters for this function.
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type                | Description                                 | 
+|------------|---------------------|---------------------------------------------|
+| `result`   | `void`              | No successful response returned             | 
+
+</Callout>
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Typescript']}>
+  <Tab value="Typescript">
+    ```typescript
+        import { useOkto, type OktoContextType} from 'okto-sdk-react';
+ 
+        { showWidgetModal, closeModal } = useOkto() as OktoContextType;
+ 
+        showWidgetModal();
+
+        closeModal();
+    ```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>
+
+<div className="method-box">
+
+## Get theme
+
+`getTheme()`<a href="https://github.com/okto-hq/okto-sdk-react/blob/main/src/OktoProvider.tsx#L496" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> retrieves the current UI theme.
+
+### Parameters
+
+There are no parameters for this function.
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type                | Description                                 | 
+|------------|---------------------|---------------------------------------------|
+| `result`   | [`Theme`](/api-docs#model/theme)             | No successful response returned             | 
+
+</Callout>
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Typescript']}>
+  <Tab value="Typescript">
+    ```typescript
+        import { useOkto, type OktoContextType} from 'okto-sdk-react';
+ 
+        { getTheme } = useOkto() as OktoContextType;
+ 
+        console.log(getTheme());
+    ```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>
+
+<div className="method-box">
+
+## Set theme
+
+`setTheme(theme)`<a href="https://github.com/okto-hq/okto-sdk-react/blob/main/src/OktoProvider.tsx#L492" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> sets the UI theme based on the provided theme object.
+
+### Parameters
+
+| Parameter   | Type                 | Description                                               | 
+|-------------|----------------------|-----------------------------------------------------------|
+| `theme  `   | [`Partial<Theme>`](/api-docs#model/theme)     | Theme provided to set                                     | 
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type                | Description                                 | 
+|------------|---------------------|---------------------------------------------|
+| `result`   | `void`             | No successful response returned              | 
+
+</Callout>
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Typescript']}>
+  <Tab value="Typescript">
+    ```typescript
+        import { useOkto, type OktoContextType} from 'okto-sdk-react';
+ 
+ 
+        const { setTheme, getTheme } = useOkto() as OktoContextType;
+ 
+        setTheme({
+          textPrimaryColor: '0xFFFFFFFF',
+          textSecondaryColor: '0xFFFFFFFF',
+          textTertiaryColor: '0xFFFFFFFF',
+          accentColor: '0x80433454',
+          accent2Color: '0x80905BF5',
+          strokBorderColor: '0xFFACACAB',
+          strokDividerColor: '0x4DA8A8A8',
+          surfaceColor: '0xFF1F0A2F',
+          backgroundColor: '0xFF000000',
+        });
+    ```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+</div>
