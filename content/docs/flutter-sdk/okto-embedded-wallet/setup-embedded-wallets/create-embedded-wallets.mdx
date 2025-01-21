@@ -1,5 +1,5 @@
 ---
-title: Get Embedded Wallet Details
+title: Create Embedded Wallets for Your User
 description: Learn how to create wallets using the Okto SDK.
 full: false
 ---
@@ -10,19 +10,23 @@ import { Callout } from 'fumadocs-ui/components/callout';
 import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
 import { Icon as IIcon } from '@iconify/react'; 
 
-import '../../../styles.css';
+import '../../styles.css';
 
-### Methods Overview
+<Callout style = {{ marginTop: "0" }} title="Information">
+- Learn about embedded wallets [here](/docs/introduction-to-okto/overview-embedded-wallets).
+</Callout>
+
+### Method Overview
 
 | Methods                                                                         | Description                          |                 
 |---------------------------------------------------------------------------------|--------------------------------------|
-| <sub><i>async</i></sub> [`getWallets`](#get-all-wallets-of-current-user)        | Get all wallets of current user      |
+| <sub><i>async</i></sub> [`createWallet`](#create-a-new-wallet-for-current-user) | Create a new wallet for current user |
 
 <div className="method-box">
 
-## Get all wallets of current user
+## Create a new wallet for current user
 
-<sub><i>async</i></sub> `getWallets()`<a href="https://github.com/okto-hq/okto-sdk-flutter/blob/c938dea4cff76e8075fa80ae421a4d522fd7a590/lib/src/okto.dart#L114C3-L114C25" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> retrieves all the wallets of the currently authenticated user.
+<sub><i>async</i></sub> `createWallet()`<a href="https://github.com/okto-hq/okto-sdk-flutter/blob/c938dea4cff76e8075fa80ae421a4d522fd7a590/lib/src/okto.dart#L105" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> retrieves all the wallets of the currently authenticated user.
 
 ### Parameters
 
@@ -32,40 +36,41 @@ There are no parameters for this function.
 
 <Callout title="Success Response">
 
-| Field Name | Type                  | Description                                 | 
-|------------|-----------------------|---------------------------------------------|
-| `result`   | [`Future<WalletResponse>`](/api-docs#model/walletdata) | Returns all the wallets of the current user | 
+| Field Name | Type                                                  | Description                                   | 
+|------------|-------------------------------------------------------|-----------------------------------------------|
+| `result`   | [`Future<WalletResponse`](/api-docs#model/walletdata) | Returns the newly created wallet for the user | 
 
 </Callout>
 
+
 <Accordions>
 <Accordion title="Example">
-<Tabs items={['Typescript']}>
-  <Tab value="Typescript">
-    ```typescript
-        import 'package:my_app/okto.dart';
+<Tabs items={['Dart']}>
+  <Tab value="Dart">
+    ```dart
+        import 'package:example/okto.dart';
         import 'package:flutter/material.dart';
         import 'package:okto_flutter_sdk/okto_flutter_sdk.dart';
-        
-        class ViewWalletPage extends StatefulWidget {
-          const ViewWalletPage({super.key});
-        
+
+        class CreateWalletPage extends StatefulWidget {
+          const CreateWalletPage({super.key});
+
           @override
-          State<ViewWalletPage> createState() => _ViewWalletPageState();
+          State<CreateWalletPage> createState() => _CreateWalletPageState();
         }
-        
-        class _ViewWalletPageState extends State<ViewWalletPage> {
-            Future<WalletResponse>? _wallets;
-        
-          Future<WalletResponse> fetchWallets() async {
+
+        class _CreateWalletPageState extends State<CreateWalletPage> {
+          Future<WalletResponse>? _createdWallet;
+
+          Future<WalletResponse> createWallets() async {
             try {
-              final wallets = await okto.getWallets();
-              return wallets;
+              final createdWallet = await okto!.createWallet();
+              return createdWallet;
             } catch (e) {
               throw Exception(e);
             }
           }
-        
+
           @override
           Widget build(BuildContext context) {
             return Scaffold(
@@ -77,30 +82,30 @@ There are no parameters for this function.
                       alignment: Alignment.center,
                       margin: const EdgeInsets.all(40),
                       child: const Text(
-                        'Get Wallet',
+                        'Create Wallet',
                         style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 30),
                       ),
                     ),
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
-                          _wallets = fetchWallets();
+                          _createdWallet = createWallets();
                         });
                       },
-                      child: const Text('Get Wallet'),
+                      child: const Text('Create Wallet'),
                     ),
                     Expanded(
-                      child: _wallets == null
+                      child: _createdWallet == null
                           ? Container()
                           : FutureBuilder<WalletResponse>(
-                              future: _wallets,
+                              future: _createdWallet,
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState == ConnectionState.waiting) {
                                   return const Center(child: CircularProgressIndicator(color: Colors.white));
                                 } else if (snapshot.hasError) {
                                   return Center(child: Text('Error: ${snapshot.error}'));
                                 } else if (snapshot.hasData) {
-                                  final wallets = snapshot.data!;
+                                  final createdWallet = snapshot.data!;
                                   return Padding(
                                     padding: const EdgeInsets.all(20.0),
                                     child: Column(
@@ -113,25 +118,29 @@ There are no parameters for this function.
                                         SizedBox(
                                           height: MediaQuery.sizeOf(context).height * 0.6,
                                           child: ListView.builder(
-                                              itemCount: wallets.data.wallets.length,
+                                              itemCount: createdWallet.data.wallets.length,
                                               itemBuilder: (context, index) {
                                                 return Container(
                                                   color: Colors.blue,
                                                   margin: const EdgeInsets.all(5),
-                                                  child: ListTile(
-                                                    title: Text(
-                                                      'Wallet adress: ${wallets.data.wallets[index].address}',
-                                                      style: const TextStyle(color: Colors.white, fontSize: 20),
-                                                    ),
-                                                    subtitle: Text(
-                                                      'Network name: ${wallets.data.wallets[index].networkName}',
-                                                      style: const TextStyle(color: Colors.white, fontSize: 20),
-                                                    ),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      SelectableText(
+                                                        'Wallet adress: ${createdWallet.data.wallets[index].address}',
+                                                        style: const TextStyle(color: Colors.white, fontSize: 20),
+                                                      ),
+                                                      SelectableText(
+                                                        'Network name: ${createdWallet.data.wallets[index].networkName}',
+                                                        style: const TextStyle(color: Colors.white, fontSize: 20),
+                                                      ),
+                                                    ],
                                                   ),
                                                 );
-                                              }
-                                          ),
+                                              }),
                                         )
+
+                                        // Add more fields here as needed
                                       ],
                                     ),
                                   );
@@ -139,14 +148,13 @@ There are no parameters for this function.
                                 return Container();
                               },
                             ),
-                        ),
-                      ],
                     ),
-                  ),
-                );
-              }
-            }
-        
+                  ],
+                ),
+              ),
+            );
+          }
+        }
     ```
   </Tab>
 </Tabs>

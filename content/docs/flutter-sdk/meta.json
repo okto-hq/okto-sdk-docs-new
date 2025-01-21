@@ -4,7 +4,10 @@
         "index",
         "getting-started",
         "!using-flutter-features",
-        "advanced-sdk-config",
+        "sdk-functions",
+        "chains-tokens",
+        "authenticate-users",
+        "okto-embedded-wallet",
         "example-apps",
         "!migration-to-okto",
         "troubleshooting-faq"
