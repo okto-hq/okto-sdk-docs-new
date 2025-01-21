@@ -5,8 +5,6 @@ full: false
 ---
 
 import SupportedChainCard from "../../../app/components/mdx/SupportedChainCard";
-import { FaReact } from "react-icons/fa6";
-
 
 ## Supported Chains
 
@@ -14,10 +12,11 @@ import { FaReact } from "react-icons/fa6";
   chainIcon="/images/polygon-logo.svg"
   chainName="Polygon"
   tokens={[
-    { name: "POL", icon: "/images/polygon-logo.svg" },
-    { name: "USDT", icon: "/images/usdt-icon.svg" },
-    { name: "USDC", icon: "/images/usdc-icon.svg" },
+    { name: "POL (Native)", icon: "/images/polygon-logo.svg" },
+    { name: "USDT (Default)", icon: "/images/usdt-icon.svg" },
+    { name: "USDC (Default)", icon: "/images/usdc-icon.svg" },
   ]}
+  whitelistNote="For EVM chains, any ERC20 token can be whitelisted by contacting the team."
   resources={{
     "Solidity": "https://soliditylang.org/",
     "Remix": "https://remix.ethereum.org/",
@@ -27,16 +26,29 @@ import { FaReact } from "react-icons/fa6";
   supportedTestnet={{
     "Polygon Amoy testnet": "https://amoy.polygonscan.com/",
   }}
+  networkInfo={[
+    {
+      name: "Polygon Mainnet",
+      confirmations: "7",
+      blockInterval: "2.3s",
+    },
+    {
+      name: "Polygon Amoy testnet",
+      confirmations: "1",
+      blockInterval: "3s",
+    },
+  ]}
 />
 <br/>
 <SupportedChainCard
   chainIcon="/images/sol-icon.svg"
   chainName="Solana"
   tokens={[
-    { name: "SOL", icon: "/images/sol-icon.svg" },
-    { name: "USDT", icon: "/images/usdt-icon.svg" },
-    { name: "USDC", icon: "/images/usdc-icon.svg" },
+    { name: "SOL (Native)", icon: "/images/sol-icon.svg" },
+    { name: "USDT (Default)", icon: "/images/usdt-icon.svg" },
+    { name: "USDC (Default)", icon: "/images/usdc-icon.svg" },
   ]}
+  whitelistNote="For Solana, any SPL token can be whitelisted by contacting the team."
   resources={{
     "Solana Docs": "https://solana.com/docs",
     "Rust": "https://www.rust-lang.org/",
@@ -46,15 +58,28 @@ import { FaReact } from "react-icons/fa6";
   supportedTestnet={{
     "Solana Devnet": "https://explorer.solana.com/?cluster=devnet",
   }}
+  networkInfo={[
+    {
+      name: "Solana Mainnet",
+      confirmations: "1",
+      blockInterval: "0.4s",
+    },
+    {
+      name: "Solana Devnet",
+      confirmations: "1",
+      blockInterval: "0.4s",
+    },
+  ]}
 />
 <br/>
 <SupportedChainCard
   chainIcon="/images/base-icon.svg"
   chainName="Base"
   tokens={[
-    { name: "ETH", icon: "/images/eth-icon.svg" },
-    { name: "USDC", icon: "/images/usdc-icon.svg" },
+    { name: "ETH (Native)", icon: "/images/eth-icon.svg" },
+    { name: "USDC (Default)", icon: "/images/usdc-icon.svg" },
   ]}
+  whitelistNote="For EVM chains, any ERC20 token can be whitelisted by contacting the team."
   resources={{
     "Solidity": "https://soliditylang.org/",
     "Remix": "https://remix.ethereum.org/",
@@ -64,15 +89,23 @@ import { FaReact } from "react-icons/fa6";
   supportedTestnet={{
     "No Supported Testnet": "#",
   }}
+  networkInfo={[
+    {
+      name: "Base Mainnet",
+      confirmations: "1",
+      blockInterval: "2s",
+    },
+  ]}
 />
 <br/>
 <SupportedChainCard
   chainIcon="/images/aptos-icon.svg"
   chainName="Aptos"
   tokens={[
-    { name: "APTOS", icon: "/images/aptos-icon.svg" },
-    { name: "USDC", icon: "/images/usdc-icon.svg" },
+    { name: "APTOS (Native)", icon: "/images/aptos-icon.svg" },
+    { name: "USDC (Default)", icon: "/images/usdc-icon.svg" },
   ]}
+  whitelistNote="For Aptos, any fungible asset can be whitelisted by contacting the team."
   resources={{
     "Aptos Docs": "https://aptos.dev/en",
     "Move": "https://aptos.dev/en/build/smart-contracts",
@@ -82,6 +115,18 @@ import { FaReact } from "react-icons/fa6";
   supportedTestnet={{
     "Aptos Testnet": "https://explorer.aptoslabs.com/?network=testnet",
   }}
+  networkInfo={[
+    {
+      name: "Aptos Mainnet",
+      confirmations: "1",
+      blockInterval: "4s",
+    },
+    {
+      name: "Aptos Testnet",
+      confirmations: "1",
+      blockInterval: "4s",
+    },
+  ]}
 />
 
 ## Conclusion

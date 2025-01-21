@@ -1,0 +1,9 @@
+{
+    "title": "Session Management",
+    "pages": [
+      "login",
+      "isReady",
+      "fetch-auth-details",
+      "logout"
+    ]
+  }

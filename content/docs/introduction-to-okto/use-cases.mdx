@@ -17,9 +17,9 @@ You want to build a Web3 consumer app that feels as simple as a traditional web 
 
 ### **How Okto Helps**
 
-- **Easy Auth:** Use [Google OAuth, Email OTP, or Phone OTP](/docs/react-sdk/advanced-sdk-config/authenticate-users/google-oauth/learn) to onboard users with minimal friction. 
-- **MPC-Backed Wallets:** Okto automatically creates and manages user wallets under the hood, removing the usual complexity of seed phrases and private key management. Leverage Okto’s [Embedded Wallet](https://docs.okto.tech/docs/react-sdk/advanced-sdk-config/okto-embedded-wallet/setup-embedded-wallets/create-embedded-wallets) to embed wallets seamlessly in your front-end.  
-- **Cross-Chain Transactions:** If you need to handle multiple blockchain networks in one app, Okto’s chain abstraction handles it through straightforward functions. Explore [`transferTokens()`](/docs/react-sdk/advanced-sdk-config/okto-embedded-wallet/use-user-embedded-wallet/transfer-tokens) for fungible assets or [`transferNft()`](/docs/react-sdk/advanced-sdk-config/okto-embedded-wallet/use-user-embedded-wallet/transfer-nfts) for NFTs.
+- **Easy Auth:** Use [Google OAuth, Email OTP, or Phone OTP](/docs/react-sdk/authenticate-users/google-oauth/learn) to onboard users with minimal friction. 
+- **MPC-Backed Wallets:** Okto automatically creates and manages user wallets under the hood, removing the usual complexity of seed phrases and private key management. Leverage Okto’s [Embedded Wallet](https://docs.okto.tech/docs/react-sdk/okto-embedded-wallet/setup-embedded-wallets/create-embedded-wallets) to embed wallets seamlessly in your front-end.  
+- **Cross-Chain Transactions:** If you need to handle multiple blockchain networks in one app, Okto’s chain abstraction handles it through straightforward functions. Explore [`transferTokens()`](/docs/react-sdk/okto-embedded-wallet/use-user-embedded-wallet/transfer-tokens) for fungible assets or [`transferNft()`](/docs/react-sdk/okto-embedded-wallet/use-user-embedded-wallet/transfer-nfts) for NFTs.
 
 ### **Example**
 
@@ -55,7 +55,7 @@ You’re building a blockchain-based game in which items, characters, or currenc
 ### **How Okto Helps**
 
 - **MPC Wallet Security:** Protect players from losing their precious in-game NFTs. Okto’s multi-party computation approach secures user accounts from single-point-of-failure attacks.  
-- **NFT Transfer & Mint:** Use Okto’s NFT APIs to mint new weapons, characters, or gear. Your code can look as simple as [`transferNft()`](/docs/react-sdk/advanced-sdk-config/okto-embedded-wallet/use-user-embedded-wallet/transfer-nfts) to transfer an NFT, while Okto handles the complexity.  
+- **NFT Transfer & Mint:** Use Okto’s NFT APIs to mint new weapons, characters, or gear. Your code can look as simple as [`transferNft()`](/docs/react-sdk/okto-embedded-wallet/use-user-embedded-wallet/transfer-nfts) to transfer an NFT, while Okto handles the complexity.  
 - **Cross-Game Portability:** If you plan to let users move items across multiple titles or blockchains, Okto’s cross-chain capabilities unify everything under one developer interface.
 
 ### **Example**
@@ -110,7 +110,7 @@ You’re building a meta-dashboard that aggregates positions, yields, or liquidi
 
 ### **How Okto Helps**
 
-- **Cross-Protocol Data Retrieval:** [Portfolio & Balances APIs](/docs/react-sdk/advanced-sdk-config/okto-embedded-wallet/use-user-embedded-wallet/get-user-balance-portfolio) unify user holdings from multiple chains.  
+- **Cross-Protocol Data Retrieval:** [Portfolio & Balances APIs](/docs/react-sdk/okto-embedded-wallet/use-user-embedded-wallet/get-user-balance-portfolio) unify user holdings from multiple chains.  
 - **User-Centric Logins:** Users simply log in (e.g., via Google or OTP), and you can display or update their positions on multiple networks simultaneously.  
 - **Automated Rebalancing:** Combine raw transactions to do multi-step processes (e.g., harvest reward + convert + stake again) in a single call.
 

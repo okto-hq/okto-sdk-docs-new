@@ -1,0 +1,55 @@
+---
+title: Learn
+description: Learn how the Okto Onboarding Modal helps streamline user authentication and onboarding workflows.
+full: false
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+
+# What is the Onboarding Modal?
+
+Okto’s **Onboarding Widget** provides a **streamlined** way to authenticate users by displaying an embeddable flow without requiring them to leave your mobile app. Under the hood, the **Onboarding Widget** can handle multiple authentication flows (Email OTP, Phone OTP, Google OAuth, etc.) and can be customized with brand data, visuals, and theming.
+
+## Why Use the Onboarding Modal?
+
+1. **No Authentication Flow Management**  
+   Vendors need not work or worry about the authentication flow or the code for it. Okto handles everything on the server side, simplifying the implementation and saving development time.
+
+2. **Multi-Auth Support**  
+   The modal can be set up to handle Google Auth, Email OTP, Phone OTP, or your primary authentication of choice.
+
+3. **Brand & Theme Customizations**  
+   Pass your branding (title, subtitle, icon) and theming (colors, backgrounds, etc.) to tailor the onboarding experience to your style guidelines.
+
+## Typical Flow
+
+Below is a simplified sequence for how the Onboarding Modal works:
+
+1. **Trigger the Modal**  
+  Your code calls `showOnboardingWidget()` (or manually opens `<OnboardingScreen ref={...} ... />`) from the Okto React Native SDK. This launches an **Onboarding** flow inside your app.
+
+2. **Iframe Initialization**  
+  The iframe loads the Okto environment for your selected `BuildType` (Sandbox, Staging, or Production).  
+  It also receives your brand data, theming, and selected primary authentication method.
+
+3. **User Authentication**  
+  The user completes the steps (e.g., Google login, Email OTP, or Phone OTP). If the flow requires an external token (like a Google ID token), Okto can request it from your app via `gAuthCb()`.
+
+4. **Auth Success**  
+  Once the user is authenticated, Okto returns the relevant tokens (`authToken`, `refreshToken`, etc.) and closes the onboarding screen automatically. At that point, your React Native app can continue with a fully authenticated user.
+
+### Sequence Diagram
+
+![Auth Sequence Diagram](/images/onboarding-modal-sequence-diagram.png)
+
+## Key Points to Remember
+
+- **`showOnboardingWidget()`** is your main entry point to launch the **Onboarding Flow**.
+- You can customize brand data, theming, and the primary auth method (Email, Phone, or Google).
+- For Google OAuth, provide a callback (`gAuthCb`) that returns an ID token from your own sign-in flow (e.g., `@react-native-google-signin/google-signin`).
+- On success, your app will have the user’s `authToken` (and refresh token) stored in Okto’s internal state.
+
+<Callout title="Note: Multi-Platform Google Sign-In"> 
+If you’re building for both iOS and Android, ensure each platform has the proper Client ID set up in the [Google Cloud Console](/docs/react-native-sdk/authenticate-users/google-oauth/google-console-setup-android) & [iOS setup](/docs/react-native-sdk/authenticate-users/google-oauth/google-console-setup-ios). 
+</Callout>

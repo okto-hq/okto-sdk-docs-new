@@ -1,0 +1,366 @@
+---
+title: Transferring Non-Fungible Tokens
+description: Learn how to transfer NFTs using the Okto SDK.
+full: false
+---
+
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+import { Icon as IIcon } from '@iconify/react'; 
+
+import '../../styles.css';  
+
+### Methods Overview
+
+| Methods                                                                               | Description                                                               |                 
+|---------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
+| <sub><i>async</i></sub> [`transferNft`](#transfer-nfts)                                    | Transfer NFTs based on the provided data                                  |
+| <sub><i>async</i></sub> [`orderDetailsNft`](#get-nft-order-details)  | Fetches details of a specific NFT order based on the provided query       |
+
+<div className="method-box">
+
+## Transfer NFTs
+
+<sub><i>async</i></sub> `transferNft(data)`<a href="https://github.com/okto-hq/okto-sdk-flutter/blob/db5dfb8cda6bfee6636fc2f8a2e4687378ff67df/lib/src/okto.dart#L220" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> transfers a NFT based on the provided data.
+
+### Parameters
+
+| Parameter   | Type          | Description                                  | 
+|-------------|---------------|----------------------------------------------|
+| `data`      | [`TransferNft`](/api-docs#model/transfernft) | Data being provided for transferring the NFT | 
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type                       | Description                                   |
+|------------|----------------------------|-----------------------------------------------|
+| `result`   | [`Future<TransferNftResponse>`](/api-docs#model/transfernftdata) | Returns information about the NFT transferred | 
+
+</Callout>
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Dart']}>
+  <Tab value="Dart">
+    ```dart
+        import 'package:my_app/okto.dart';
+        import 'package:flutter/material.dart';
+        import 'package:okto_flutter_sdk/okto_flutter_sdk.dart';
+        
+        class TransferNftPage extends StatefulWidget {
+          const TransferNftPage({super.key});
+        
+          @override
+          State<TransferNftPage> createState() => _TransferNftPageState();
+        }
+        
+        class _TransferNftPageState extends State<TransferNftPage> {
+          final operationTypeController = TextEditingController(text: 'NFT_TRANSFER');
+          final networkNameController = TextEditingController();
+          final collectionAddressController = TextEditingController();
+          final collectionNameController = TextEditingController();
+          final quantityController = TextEditingController();
+          final recipientAddressController = TextEditingController();
+          final nftAddressController = TextEditingController();
+        
+          Future<TransferNftResponse>? _transferNft;
+          Future<TransferNftResponse> transferNft() async {
+            try {
+              final transferNft = await okto!.transferNft(
+                  networkName: networkNameController.text,
+                  quantity: quantityController.text,
+                  recipientAddress: recipientAddressController.text,
+                  operationType: operationTypeController.text,
+                  collectionAddress: collectionAddressController.text,
+                  collectionName: collectionNameController.text,
+                  nftAddress: nftAddressController.text);
+              return transferNft;
+            } catch (e) {
+              print(e.toString());
+              throw Exception(e);
+            }
+          }
+        
+          @override
+          Widget build(BuildContext context) {
+            return Scaffold(
+              backgroundColor: const Color(0xff5166EE),
+              body: SafeArea(
+                child: Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      margin: const EdgeInsets.all(40),
+                      child: const Text(
+                        'Transfer NFT',
+                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 30),
+                      ),
+                    ),
+                    TextField(
+                      controller: operationTypeController,
+                      decoration: const InputDecoration(label: Text('Operation Type')),
+                    ),
+                    TextField(
+                      controller: networkNameController,
+                      decoration: const InputDecoration(label: Text('Network Name')),
+                    ),
+                    TextField(
+                      controller: collectionAddressController,
+                      decoration: const InputDecoration(label: Text('Collection Address')),
+                    ),
+                    TextField(
+                      controller: collectionNameController,
+                      decoration: const InputDecoration(label: Text('Collection Name')),
+                    ),
+                    TextField(
+                      controller: quantityController,
+                      decoration: const InputDecoration(label: Text('Quantity')),
+                    ),
+                    TextField(
+                      controller: recipientAddressController,
+                      decoration: const InputDecoration(label: Text('Recipient Address')),
+                    ),
+                    TextField(
+                      controller: nftAddressController,
+                      decoration: const InputDecoration(label: Text('Nft address')),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _transferNft = transferNft();
+                        });
+                      },
+                      child: const Text('Transfer NFT'),
+                    ),
+                    Expanded(
+                      child: _transferNft == null
+                          ? Container()
+                          : FutureBuilder<TransferNftResponse>(
+                              future: _transferNft,
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                  return const Center(child: CircularProgressIndicator(color: Colors.white));
+                                } else if (snapshot.hasError) {
+                                  return Center(child: Text('Error: ${snapshot.error}'));
+                                } else if (snapshot.hasData) {
+                                  final transferNftResponse = snapshot.data!;
+                                  return Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Order ID: ${transferNftResponse.data.orderId}',
+                                          style: const TextStyle(color: Colors.white, fontSize: 20),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }
+                                return Container();
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+              }
+    ```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>
+
+<div className="method-box">
+
+## Get NFT order details
+
+<sub><i>async</i></sub> `orderDetailsNft(query)`<a href="https://github.com/okto-hq/okto-sdk-flutter/blob/db5dfb8cda6bfee6636fc2f8a2e4687378ff67df/lib/src/okto.dart#L249" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> fetches details of a specific NFT order based on the provided query.
+
+### Parameters
+
+| Parameter   | Type                            | Description                                       |
+|-------------|---------------------------------|---------------------------------------------------|
+| `query`     | [`<NftOrderDetailsQuery>`](/api-docs#model/nftorderdetailsquery) | Query provided for fetching the NFT order details | 
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type                       | Description                         | 
+|------------|----------------------------|-------------------------------------|
+| `result`   | [`Future<OrderDetailsNftResponse>`](/api-docs#model/nftorderdetails) | Returns information about the order | 
+
+</Callout>
+
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Dart']}>
+  <Tab value="Dart">
+    ```dart
+        import 'package:my_app/okto.dart';
+        import 'package:flutter/material.dart';
+        import 'package:okto_flutter_sdk/okto_flutter_sdk.dart';
+        
+        class OrderDetailsNftPage extends StatefulWidget {
+          const OrderDetailsNftPage({super.key});
+        
+          @override
+          State<OrderDetailsNftPage> createState() => _OrderDetailsNftPageState();
+        }
+        
+        class _OrderDetailsNftPageState extends State<OrderDetailsNftPage> {
+          Future<OrderDetailsNftResponse>? _orderDetailsNft;
+        
+          Future<OrderDetailsNftResponse> getOrderDetailsNft() async {
+            try {
+              final orderDetails = await okto!.orderDetailsNft();
+              return orderDetails;
+            } catch (e) {
+              throw Exception(e);
+            }
+          }
+        
+          @override
+          Widget build(BuildContext context) {
+            return Scaffold(
+              backgroundColor: const Color(0xff5166EE),
+              body: SafeArea(
+                child: Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      margin: const EdgeInsets.all(40),
+                      child: const Text(
+                        'Order Details NFT',
+                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 30),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _orderDetailsNft = getOrderDetailsNft();
+                        });
+                      },
+                      child: const Text('Order Details NFT'),
+                    ),
+                    Expanded(
+                      child: _orderDetailsNft == null
+                          ? Container()
+                          : FutureBuilder<OrderDetailsNftResponse>(
+                              future: _orderDetailsNft,
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                  return const Center(child: CircularProgressIndicator(color: Colors.white));
+                                } else if (snapshot.hasError) {
+                                  return Center(child: Text('Error: ${snapshot.error}'));
+                                } else if (snapshot.hasData) {
+                                  final orderDetails = snapshot.data!;
+                                  return Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Status: ${orderDetails.status}',
+                                          style: const TextStyle(color: Colors.white, fontSize: 20),
+                                        ),
+                                        Text(
+                                          'Total: ${orderDetails.data.total}',
+                                          style: const TextStyle(color: Colors.white, fontSize: 20),
+                                        ),
+                                        SizedBox(
+                                          height: MediaQuery.sizeOf(context).height * 0.6,
+                                          child: ListView.builder(
+                                              itemCount: orderDetails.data.details.length,
+                                              itemBuilder: (context, index) {
+                                                return Container(
+                                                  color: Colors.blue,
+                                                  margin: const EdgeInsets.all(5),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        'Collection Address: ${orderDetails.data.details[index].collectionAddress}',
+                                                        style: const TextStyle(color: Colors.white, fontSize: 20),
+                                                      ),
+                                                      Text(
+                                                        'Collection Id : ${orderDetails.data.details[index].collectionId}',
+                                                        style: const TextStyle(color: Colors.white, fontSize: 20),
+                                                      ),
+                                                      Text(
+                                                        'Collection Image : ${orderDetails.data.details[index].collectionImage}',
+                                                        style: const TextStyle(color: Colors.white, fontSize: 20),
+                                                      ),
+                                                      Text(
+                                                        'Collection Name : ${orderDetails.data.details[index].collectionName}',
+                                                        style: const TextStyle(color: Colors.white, fontSize: 20),
+                                                      ),
+                                                      Text(
+                                                        'Description : ${orderDetails.data.details[index].desctiption}',
+                                                        style: const TextStyle(color: Colors.white, fontSize: 20),
+                                                      ),
+                                                      Text(
+                                                        'Explorer Smart Contract Url: ${orderDetails.data.details[index].explorerSmartContractUrl}',
+                                                        style: const TextStyle(color: Colors.white, fontSize: 20),
+                                                      ),
+                                                      Text(
+                                                        'Id : ${orderDetails.data.details[index].id}',
+                                                        style: const TextStyle(color: Colors.white, fontSize: 20),
+                                                      ),
+                                                      Text(
+                                                        'Network Id: ${orderDetails.data.details[index].networkId}',
+                                                        style: const TextStyle(color: Colors.white, fontSize: 20),
+                                                      ),
+                                                      Text(
+                                                        'Network Name: ${orderDetails.data.details[index].networkName}',
+                                                        style: const TextStyle(color: Colors.white, fontSize: 20),
+                                                      ),
+                                                      Text(
+                                                        'Nft Name: ${orderDetails.data.details[index].nftName}',
+                                                        style: const TextStyle(color: Colors.white, fontSize: 20),
+                                                      ),
+                                                      Text(
+                                                        'Nft Token Id: ${orderDetails.data.details[index].nftTokenId}',
+                                                        style: const TextStyle(color: Colors.white, fontSize: 20),
+                                                      ),
+                                                      Text(
+                                                        'Type: ${orderDetails.data.details[index].type}',
+                                                        style: const TextStyle(color: Colors.white, fontSize: 20),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              }),
+                                        )
+        
+                                        // Add more fields here as needed
+                                      ],
+                                    ),
+                                  );
+                                }
+                                return Container();
+                              },
+                            ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
+            }
+    ```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>

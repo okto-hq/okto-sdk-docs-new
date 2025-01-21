@@ -1,0 +1,8 @@
+{
+    "title": "Verify Login & Logout",
+    "pages": [
+      "login",
+      "fetch-auth-details",
+      "logout"
+    ]
+  }

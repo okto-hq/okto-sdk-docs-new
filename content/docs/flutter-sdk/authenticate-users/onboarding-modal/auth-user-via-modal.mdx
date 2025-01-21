@@ -1,0 +1,132 @@
+---
+title: Authenticate User via Onboarding Modal
+description: Learn how to trigger and handle authentication using the Okto Onboarding Modal.
+full: false
+---
+
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+import { Icon as IIcon } from '@iconify/react';
+
+import '../../styles.css';
+
+### Methods Overview
+
+| Method                             | Description                                                                                          |
+|----------------------------------|------------------------------------------------------------------------------------------------------|
+| <sub><i>async</i></sub>[`openOnboarding`](#show-onboarding-modal) | Opens the Okto Onboarding flow with your chosen primaryAuth (e.g., Email, Phone, or Google) and brand data |
+
+<div class="method-box">
+
+## Show Onboarding Modal
+
+`openOnboarding(...)` <a href="https://github.com/okto-hq/okto-sdk-flutter/blob/main/lib/src/okto.dart#L350" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}><IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> presents a guided onboarding flow to the user. This includes brand data, theming, and whichever `primaryAuth` type you’ve set in the `openOnboarding()` parameters. Under the hood, it launches a **WebView** that takes the user through various authentication options (Email OTP, Phone OTP, Google OAuth, etc.).
+
+### Parameters
+
+| Parameter             | Type                          | Description                                                                 |
+|-----------------------|-------------------------------|-----------------------------------------------------------------------------|
+| `context`            | `BuildContext`                | The Flutter build context. *(Required)*                                     |
+| `gAuthCallback`       | `Future<String> Function()`    | A function that returns a Google **ID token** (if using `AuthType.GAUTH`).  |
+| `onLoginSuccess`      | `Function`                    | Callback triggered once the user completes onboarding successfully.         |
+| `primaryAuth`         | `AuthType`                    | Set your default authentication flow. E.g. `AuthType.EMAIL`, `AuthType.PHONE`, `AuthType.GAUTH`. |
+| `title`               | `String`                      | A title for brand customization (optional).                                 |
+| `iconUrl`             | `String`                      | A brand icon URL (optional).                                               |
+| `subtitle`            | `String`                      | A subtitle for brand customization (optional).                              |
+| Theming parameters    | `String` (color in hex)        | Additional theming (text colors, background, accent, etc.).                |
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type             | Description                                | 
+|------------|------------------|--------------------------------------------|
+| `result`   | `Future<void>`   | Returns no meaningful response on success. |
+
+</Callout>
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Typescript']}>
+  <Tab value="Typescript">
+
+```typescript
+import 'package:flutter/material.dart';
+import 'package:okto_flutter_sdk/okto_flutter_sdk.dart';
+
+class OnboardingModalExample extends StatefulWidget {
+  const OnboardingModalExample({Key? key}) : super(key: key);
+
+  @override
+  _OnboardingModalExampleState createState() => _OnboardingModalExampleState();
+}
+
+class _OnboardingModalExampleState extends State<OnboardingModalExample> {
+  final Okto okto = Okto(); // Initialize Okto instance
+  String _message = '';
+
+  Future<void> _handleOnboarding() async {
+    try {
+      await okto.openOnboarding(
+        context: context,
+        gAuthCallback: _googleAuthCallback, // Returns Google ID token if using Google
+        primaryAuth: AuthType.EMAIL,       // Default to Email OTP
+        title: "Your App Name",
+        subtitle: "Welcome to Web3",
+        iconUrl: "https://your-app.com/icon.png",
+        textPrimaryColor: '0xFFFFFFFF',
+        textSecondaryColor: '0xFFCCCCCC',
+        accent1Color: '0xFF905BF5',
+        backgroundColor: '0xFF000000',
+      );
+      setState(() {
+        _message = 'Onboarding completed successfully!';
+      });
+    } catch (error) {
+      setState(() {
+        _message = 'Error during onboarding: $error';
+      });
+    }
+  }
+
+  Future<String> _googleAuthCallback() async {
+    // If using Google Sign-In:
+    // final GoogleSignIn googleSignIn = GoogleSignIn(...);
+    // final user = await googleSignIn.signIn();
+    // final auth = await user?.authentication;
+    // return auth?.idToken ?? "";
+    return ""; // Return "" if you don't have Google set up
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Onboarding Modal Example'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            ElevatedButton(
+              onPressed: _handleOnboarding,
+              child: const Text('Launch Onboarding Modal'),
+            ),
+            const SizedBox(height: 16),
+            Text(_message),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+</Tab> 
+</Tabs> 
+</Accordion> 
+</Accordions> 
+
+</div>

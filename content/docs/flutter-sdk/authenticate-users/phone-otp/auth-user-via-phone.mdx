@@ -1,0 +1,254 @@
+---
+title: Authenticate User via Phone OTP
+description: Learn how to authenticate users via Phone OTP with the Okto SDK.
+full: false
+---
+
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+import { Icon as IIcon } from '@iconify/react'; 
+
+import '../../styles.css';
+
+### Methods Overview
+
+| Methods                                                                         | Description              |                 
+|---------------------------------------------------------------------------------|---------------------------------|
+| <sub><i>async</i></sub> [`sendPhoneOTP(phoneNumber, countryShortName)`](#send-phone-otp)                | Send an OTP to the user's email  |
+| <sub><i>async</i></sub> [`verifyPhoneOTP(phoneNumber, countryShortName, otp, token)`](#verify-phone-otp)| Verify the OTP sent to the user's email|
+
+<div className="method-box">
+
+## Send Phone OTP
+
+`sendPhoneOTP(phoneNumber, countryShortName)`<a href="https://github.com/okto-hq/okto-sdk-flutter/blob/db5dfb8cda6bfee6636fc2f8a2e4687378ff67df/lib/src/okto.dart#L78" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> sends an OTP to the specified phone number.
+
+### Parameters
+
+| Parameter          | Type          | Description                     |
+|--------------------|---------------|---------------------------------|
+| `phoneNumber`      | `string`      | The user's phone number         |
+| `countryShortName` | `string`      | The country (e.g., 'US', 'IN')  |
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type          | Description                            | 
+|------------|---------------|----------------------------------------|
+| `status`   | `string`      | The status of the request              |
+| `token`    | `string`      | A token to be used for OTP verification|
+
+</Callout>
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Dart']}>
+  <Tab value="Dart">
+    ```dart
+    import 'package:flutter/material.dart';
+    import 'package:okto_flutter_sdk/okto_flutter_sdk.dart';
+
+    class SendPhoneOtpExample extends StatefulWidget {
+        const SendPhoneOtpExample({Key? key}) : super(key: key);
+
+        @override
+        _SendPhoneOtpExampleState createState() => _SendPhoneOtpExampleState();
+    }
+
+    class _SendPhoneOtpExampleState extends State<SendPhoneOtpExample> {
+        final Okto okto = Okto(); // Initialize Okto instance
+        final TextEditingController _phoneController = TextEditingController();
+        final TextEditingController _countryShortNameController = TextEditingController();
+        String _message = '';
+        String? _otpToken;
+
+        Future<void> _handleSendPhoneOtp() async {
+            try {
+                OtpResponse response = await okto.sendPhoneOtp(
+                    phoneNumber: phoneNumber,
+                    countryShortName: countryShortName,
+                );
+                setState(() {
+                    _message = 'OTP Sent: ${response.message}';
+                    _otpToken = response.token;
+                });
+                // Proceed to prompt the user to enter the OTP
+            } catch (error) {
+                setState(() {
+                    _message = 'Error sending Phone OTP: $error';
+                });
+            }
+        }
+
+        @override
+        Widget build(BuildContext context) {
+            return Scaffold(
+                appBar: AppBar(
+                    title: Text('Send Phone OTP Example'),
+            ),
+            body: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                    children: [
+                        TextField(
+                            controller: _phoneController,
+                            decoration: InputDecoration(
+                                labelText: 'Enter Phone Number',
+                            ),
+                        ),
+                        SizedBox(height: 16),
+                        TextField(
+                            controller: _countryShortNameController,
+                            decoration: InputDecoration(
+                                labelText: 'Enter Country Short Name',
+                                hintText: 'e.g., US for United States',
+                            ),
+                        ),
+                        SizedBox(height: 16),
+                        ElevatedButton(
+                            onPressed: _handleSendPhoneOtp,
+                            child: Text('Send OTP'),
+                        ),
+                        SizedBox(height: 16),
+                        Text(_message),
+                    ],
+                ),
+            ),
+            );
+        }
+    }
+    ```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>
+
+<div className="method-box">
+
+## Verify Phone OTP
+
+`verifyPhoneOTP(phoneNumber, countryShortName, otp, token)`<a href="https://github.com/okto-hq/okto-sdk-flutter/blob/db5dfb8cda6bfee6636fc2f8a2e4687378ff67df/lib/src/okto.dart#L78" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> verifies the OTP sent to the user's phone number.
+
+### Parameters
+
+| Parameter          | Type          | Description                            |
+|--------------------|---------------|----------------------------------------|
+| `phoneNumber`      | `string`      | The user's phone number                |
+| `countryShortName` | `string`      | The country (e.g., 'US', 'IN')         |
+| `otp`              | `string`      | The OTP received by the user           |
+| `token`            | `string`      | The token received from `sendPhoneOTP` |
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type          | Description                                    | Possible Values |
+|------------|---------------|------------------------------------------------|-----------------|
+| `result`   | `boolean`     | Results true if OTP verification is successful | `true`, `false` |
+
+</Callout>
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Dart']}>
+  <Tab value="Dart">
+    ```dart
+    import 'package:flutter/material.dart';
+    import 'package:okto_flutter_sdk/okto_flutter_sdk.dart';
+
+    class VerifyPhoneOtpExample extends StatefulWidget {
+        const VerifyPhoneOtpExample({Key? key}) : super(key: key);
+
+        @override
+        _VerifyPhoneOtpExampleState createState() => _VerifyPhoneOtpExampleState();
+    }
+
+    class _VerifyPhoneOtpExampleState extends State<VerifyPhoneOtpExample> {
+        final Okto okto = Okto(); // Initialize Okto instance
+        final TextEditingController _phoneController = TextEditingController();
+        final TextEditingController _otpController = TextEditingController();
+        final TextEditingController _countryShortNameController = TextEditingController();
+        String _message = '';
+        String? _otpToken;
+
+        Future<void> _handleVerifyPhoneOtp() async {
+            if (_otpToken == null) {
+            setState(() {
+                _message = 'Please send OTP first.';
+            });
+            return;
+            }
+            try {
+                AuthTokenResponse authResponse = await okto.verifyPhoneOtp(
+                    phoneNumber: phoneNumber,
+                    otp: otp,
+                    token: token,
+                    countryShortName: countryShortName,
+                );
+                setState(() {
+                    _message = 'Phone OTP verified successfully';
+                });
+            // Proceed with authenticated actions
+            } catch (error) {
+                setState(() {
+                    _message = 'Error verifying Phone OTP: $error';
+                });
+            }
+        }
+
+        @override
+        Widget build(BuildContext context) {
+            return Scaffold(
+                appBar: AppBar(
+                    title: Text('Verify Phone OTP Example'),
+            ),
+            body: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                    children: [
+                        TextField(
+                            controller: _phoneController,
+                            decoration: InputDecoration(
+                                labelText: 'Enter Phone Number',
+                            ),
+                        ),
+                        SizedBox(height: 16),
+                        TextField(
+                            controller: _countryShortNameController,
+                            decoration: InputDecoration(
+                                labelText: 'Enter Country Short Name',
+                                hintText: 'e.g., US for United States',
+                            ),
+                        ),
+                        SizedBox(height: 16),
+                        TextField(
+                            controller: _otpController,
+                            decoration: InputDecoration(
+                                labelText: 'Enter OTP',
+                            ),
+                        ),
+                        SizedBox(height: 16),
+                        ElevatedButton(
+                            onPressed: _handleVerifyPhoneOtp,
+                            child: Text('Verify OTP'),
+                        ),
+                        SizedBox(height: 16),
+                        Text(_message),
+                    ],
+                ),
+            ),
+            );
+        }
+    }
+    ```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>

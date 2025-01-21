@@ -1,0 +1,115 @@
+---
+title: Authenticate User via Onboarding Modal
+description: Learn how to trigger and handle authentication using the Okto Onboarding Modal.
+full: false
+---
+
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+import { Icon as IIcon } from '@iconify/react';
+
+import '../../styles.css';
+
+### Method Overview
+
+| Method                                           | Description                                                                                      |
+|--------------------------------------------------|--------------------------------------------------------------------------------------------------|
+|<sub><i>async</i></sub>[`showOnboardingWidget()`](#show-onboarding-widget)| Opens the Okto Onboarding flow with your chosen primaryAuth (e.g., Email, Phone, or Google) and brand data |
+
+<div class="method-box">
+
+## Show Onboarding Widget
+
+`showOnboardingWidget()` <a href="https://github.com/okto-hq/okto-sdk-react-native/blob/main/src/OktoProvider.tsx#L123" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}><IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a>  
+presents a guided onboarding flow to the user. This includes brand data, theming, and whichever `primaryAuth` type you’ve set in the `<OktoProvider>` or pass in at runtime.
+
+### Parameters
+
+None directly. The Okto Provider already know how to handle `brandData`, `primaryAuth`, and theming.
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type                | Description                                 | 
+|------------|---------------------|---------------------------------------------|
+| `result`   | `void`              | No direct response returned on success      | 
+
+</Callout>
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Typescript']}>
+  <Tab value="Typescript">
+
+```typescript
+import React from 'react';
+import { useOkto, type OktoContextType } from 'okto-sdk-react-native';
+
+function YourLoginComponent() {
+  const { showOnboardingWidget } = useOkto() as OktoContextType;
+
+  const handleOnboardingClick = () => {
+    showOnboardingWidget();
+  };
+
+  return (
+    <div>
+      <button onClick={handleOnboardingClick}>
+        Launch Onboarding
+      </button>
+    </div>
+  );
+}
+
+export default YourLoginComponent;
+```
+
+</Tab> 
+</Tabs> 
+</Accordion> 
+</Accordions> 
+
+</div>
+
+<Callout title="Note on Brand Customization" type="info">
+You can customize the branding and theming of the onboarding widget by modifying the `brandData` object in your `<OktoProvider>` setup or passing a partial theme. This allows you to define the title, subtitle, icon, and colors that represent your application.
+
+<Accordions>
+<Accordion title="Example">
+
+`App.js` with `<OktoProvider>`
+
+```typescript
+import React from 'react';
+import App from './src/App';
+import { OktoProvider } from 'okto-sdk-react-native';
+import { OKTO_CLIENT_API_KEY } from '@env';
+import { BuildType } from 'okto-sdk-react-native';
+
+const brandData: BrandData = {
+  title: "Your App Name",
+  subtitle: "A custom message for your users",
+  iconUrl: "https://your-app.com/icon.png"
+};
+
+export default function AppMain() {
+  return (
+    <OktoProvider
+      apiKey={OKTO_CLIENT_API_KEY}
+      buildType={BuildType.SANDBOX}
+      brandData={brandData}
+      gAuthCb={handleGAuthCb}
+      primaryAuth={AuthType.EMAIL} // Or "GAUTH", "PHONE", etc.
+    >
+      <App />
+    </OktoProvider>
+  );
+}
+```
+To modify the brandData, update the `title`, `subtitle`, or `iconUrl` fields as per your app’s branding needs. This data will appear in the Onboarding flow. 
+</Accordion> 
+</Accordions> 
+</Callout>

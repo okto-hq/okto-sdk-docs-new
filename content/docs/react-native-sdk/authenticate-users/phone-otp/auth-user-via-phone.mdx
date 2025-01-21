@@ -1,0 +1,161 @@
+---
+title: Authenticate User via Phone OTP
+description: Learn how to authenticate users via Phone OTP with the Okto SDK.
+full: false
+---
+
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+import { Icon as IIcon } from '@iconify/react'; 
+
+import '../../styles.css';
+
+### Methods Overview
+
+| Methods                                                                         | Description              |                 
+|---------------------------------------------------------------------------------|---------------------------------|
+| <sub><i>async</i></sub> [`sendPhoneOTP(phoneNumber, countryShortName)`](#send-phone-otp)                | Send an OTP to the user's email  |
+| <sub><i>async</i></sub> [`verifyPhoneOTP(phoneNumber, countryShortName, otp, token)`](#verify-phone-otp)| Verify the OTP sent to the user's email|
+
+<div className="method-box">
+
+## Send Phone OTP
+
+`sendPhoneOTP(phoneNumber, countryShortName)`<a href="https://github.com/okto-hq/okto-sdk-react/blob/main/src/OktoWallet.ts#L479" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a>  sends an OTP to the user's phone number.
+
+### Parameters
+
+| Parameter          | Type          | Description                     |
+|--------------------|---------------|---------------------------------|
+| `phoneNumber`      | `string`      | The user's phone number         |
+| `countryShortName` | `string`      | The country (e.g., 'US', 'IN')  |
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type          | Description                            | 
+|------------|---------------|----------------------------------------|
+| `status`   | `string`      | The status of the request              |
+| `token`    | `string`      | A token to be used for OTP verification|
+
+</Callout>
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Typescript']}>
+  <Tab value="Typescript">
+    ```typescript
+        import { useOkto, type OktoContextType } from 'okto-sdk-react-native';
+
+        function PhoneOTPExample() {
+
+            const { sendPhoneOTP } = useOkto() as OktoContextType;
+
+            const phoneNumber = '9876543210';
+            const countryShortName = 'IN';
+            
+            const handleSendPhoneOTP = async () => {
+                if (!validatePhone(phoneNumber)) {
+                    console.error('Please enter a valid 10-digit phone number');
+                    return;
+                }
+                
+                try {
+                    const response = await sendPhoneOTP(phoneNumber, countryShortName);
+                    console.log('OTP Sent:', response);
+                    // Store the token securely for verification
+                    const otpToken = response.token;
+                    Alert.alert('Success', 'OTP sent successfully');
+                } catch (error) {
+                    console.error('Error sending Phone OTP:', error);
+                    Alert.alert('Error', 'Failed to send OTP');
+                }
+            };
+                
+                // Utility function for phone number validation
+            const validatePhone = (phone: string): boolean => {
+                const phoneRegex = /^\d{10}$/; // Basic validation for 10 digits
+                return phoneRegex.test(phone);
+            };
+        }
+    ```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>
+
+<div className="method-box">
+
+## Verify Phone OTP
+
+`verifyPhoneOTP(phoneNumber, countryShortName, otp, token)`<a href="https://github.com/okto-hq/okto-sdk-react/blob/main/src/OktoWallet.ts#L486" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> verifies the OTP sent to the user's phone number.
+
+### Parameters
+
+| Parameter          | Type          | Description                            |
+|--------------------|---------------|----------------------------------------|
+| `phoneNumber`      | `string`      | The user's phone number                |
+| `countryShortName` | `string`      | The country (e.g., 'US', 'IN')         |
+| `otp`              | `string`      | The OTP received by the user           |
+| `token`            | `string`      | The token received from `sendPhoneOTP` |
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type          | Description                                    | Possible Values |
+|------------|---------------|------------------------------------------------|-----------------|
+| `result`   | `boolean`     | Results true if OTP verification is successful | `true`, `false` |
+
+</Callout>
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Typescript']}>
+  <Tab value="Typescript">
+    ```typescript
+        import { useOkto, type OktoContextType } from 'okto-sdk-react-native';
+
+        function PhoneOTPExample() {
+
+            const { verifyPhoneOTP } = useOkto() as OktoContextType;
+
+            const phoneNumber = '9876543210';
+            const countryShortName = 'IN';
+            const otp = '123456';
+            const token = 'TOKEN_FROM_SEND_PHONE_OTP';
+            
+            const handleVerifyPhoneOTP = async () => {
+                if (!otp || otp.length < 4) {
+                    console.error('Please enter a valid OTP');
+                    return;
+                }
+                
+                try {
+                    const verified = await verifyPhoneOTP(phoneNumber, countryShortName, otp, token);
+                    if (verified) {
+                    console.log('Phone OTP verified successfully');
+                    Alert.alert('Success', 'Phone number verified successfully');
+                    // Proceed with authenticated actions
+                    } else {
+                    console.error('OTP verification failed');
+                    Alert.alert('Error', 'Invalid OTP');
+                    }
+                } catch (error) {
+                    console.error('Error verifying Phone OTP:', error);
+                    Alert.alert('Error', 'Failed to verify OTP');
+                }
+            };
+        }
+    ```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>

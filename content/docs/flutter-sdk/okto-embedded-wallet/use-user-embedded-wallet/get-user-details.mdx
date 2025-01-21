@@ -1,0 +1,151 @@
+---
+title: Get User Details
+description: "Retrieve details of the authenticated user and handle responses using the Okto SDK."
+full: false
+---
+
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+import { Icon as IIcon } from '@iconify/react'; 
+
+import '../../styles.css';
+
+### Methods Overview
+
+| Methods                                                                  | Description                                     |                 
+|--------------------------------------------------------------------------|-------------------------------------------------|
+| <sub><i>async</i></sub> [`userDetails`](#get-details-of-the-currently-authenticated-user)   | Get details of the currently authenticated user |
+
+<div className="method-box">
+
+## Get details of the currently authenticated user
+
+<sub><i>async</i></sub> `userDetails()`<a href="https://github.com/okto-hq/okto-sdk-flutter/blob/c938dea4cff76e8075fa80ae421a4d522fd7a590/lib/src/okto.dart#L96C3-L96C22" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> retrieves the details of the currently authenticated user.
+
+### Parameters
+
+There are no parameters for this function.
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type                | Description                                 | 
+|------------|---------------------|---------------------------------------------|
+| `result`   | [`Future<UserDetails>`](/api-docs#model/user)     | Returns information about the current user  | 
+
+</Callout>
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Typescript']}>
+  <Tab value="Typescript">
+    ```typescript
+        import 'package:my_app/okto.dart';
+        import 'package:flutter/material.dart';
+        import 'package:okto_flutter_sdk/okto_flutter_sdk.dart';
+        
+        class UserDetailsPage extends StatefulWidget {
+          const UserDetailsPage({super.key});
+        
+          @override
+          State<UserDetailsPage> createState() => _UserDetailsPageState();
+        }
+        
+        class _UserDetailsPageState extends State<UserDetailsPage> {
+          Future<UserDetails>? _userDetails;
+        
+          Future<UserDetails> fetchUserDetails() async {
+            try {
+              final userDetails = await okto!.userDetails();
+              return userDetails;
+            } catch (e) {
+              throw Exception(e);
+            }
+          }
+        
+          @override
+          Widget build(BuildContext context) {
+            return Scaffold(
+              backgroundColor: const Color(0xff5166EE),
+              body: SafeArea(
+                child: Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      margin: const EdgeInsets.all(40),
+                      child: const Text(
+                        'User Details',
+                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 30),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _userDetails = fetchUserDetails();
+                        });
+                      },
+                      child: const Text('Get User Details'),
+                    ),
+                    Expanded(
+                      child: _userDetails == null
+                          ? Container()
+                          : FutureBuilder<UserDetails>(
+                              future: _userDetails,
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                  return const Center(child: CircularProgressIndicator(color: Colors.white));
+                                } else if (snapshot.hasError) {
+                                  return Center(child: Text('Error: ${snapshot.error}'));
+                                } else if (snapshot.hasData) {
+                                  final userDetails = snapshot.data!;
+                                  return Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        SelectableText(
+                                          'User ID: ${userDetails.data.userId}',
+                                          style: const TextStyle(color: Colors.white, fontSize: 20),
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Text(
+                                          'Email: ${userDetails.data.email}',
+                                          style: const TextStyle(color: Colors.white, fontSize: 20),
+                                        ),
+                                        SelectableText(
+                                          'Created At: ${userDetails.data.createdAt}',
+                                          style: const TextStyle(color: Colors.white, fontSize: 20),
+                                        ),
+                                        SelectableText(
+                                          'Freezed: ${userDetails.data.freezed.toString()}',
+                                          style: const TextStyle(color: Colors.white, fontSize: 20),
+                                        ),
+                                        SelectableText(
+                                          'Freezed Reason: ${userDetails.data.freezeReason}',
+                                          style: const TextStyle(color: Colors.white, fontSize: 20),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }
+                                return Container();
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+              }
+ 
+    ```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>

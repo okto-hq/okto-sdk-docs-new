@@ -1,0 +1,63 @@
+---
+title: Get Embedded Wallet Details
+description: Learn how to create wallets using the Okto SDK.
+full: false
+---
+
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+import { Icon as IIcon } from '@iconify/react'; 
+
+import '../../styles.css';
+
+### Methods Overview
+
+| Methods                                                                         | Description                          |                 
+|---------------------------------------------------------------------------------|--------------------------------------|
+| <sub><i>async</i></sub> [`getWallets`](#get-all-wallets-of-current-user)        | Get all wallets of current user      |
+
+<div className="method-box">
+
+## Get all wallets of current user
+
+<sub><i>async</i></sub> `getWallets()`<a href="https://github.com/okto-hq/okto-sdk-react-native/blob/769a2f6e4faec12e45f9b5577ee1b35334e02c7b/src/index.tsx#L96" target="_blank" rel="noopener noreferrer" style= {{ textDecoration: "none" }}> <IIcon icon="lucide:external-link" height="17" style={{ display: 'inline-block', verticalAlign: 'middle' }} /></a> retrieves all the wallets of the currently authenticated user.
+
+### Parameters
+
+There are no parameters for this function.
+
+### Response
+
+<Callout title="Success Response">
+
+| Field Name | Type                  | Description                                 | 
+|------------|-----------------------|---------------------------------------------|
+| `result`   | [`Promise<WalletData>`](/api-docs#model/walletdata) | Returns all the wallets of the current user | 
+
+</Callout>
+
+<Accordions>
+<Accordion title="Example">
+<Tabs items={['Typescript']}>
+  <Tab value="Typescript">
+    ```typescript
+        import { useOkto, type OktoContextType, type User} from 'okto-sdk-react-native';
+ 
+        const { getWallets } = useOkto() as OktoContextType;
+ 
+        getWallets()
+            .then((result) => {
+                console.log(result)
+            })
+            .catch((error) => {
+                console.error(`error:`, error);
+            });
+    ```
+  </Tab>
+</Tabs>
+</Accordion>
+</Accordions>
+
+</div>
