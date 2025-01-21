@@ -2,7 +2,7 @@
     "title": "Built in UI Screens",
     "pages": [
       "!learn-okto-ui-screens",
-      "[Onboarding Modal](/docs/react-sdk/advanced-sdk-config/authenticate-users/onboarding-modal/learn)",
+      "[Onboarding Modal](/docs/react-sdk/authenticate-users/onboarding-modal/learn)",
       "!onboarding-screen",
       "!portfolio-screen",
       "!activity-screen",
