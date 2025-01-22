@@ -1,5 +1,5 @@
 apiVersion: v2
-name: okto-sdk-docs-staging
+name: okto-sdk-docs-new-staging
 description: A Helm chart for okto-sdk-docs-new workloads in staging environment
 type: application
 version: 0.1.0
@@ -8,4 +8,4 @@ dependencies:
 - name: common-okto
   repository: https://charts.dcxtools.com/apps
   version: 0.5.8
-  alias: okto-sdk-docs-staging
+  alias: okto-sdk-docs-new-staging

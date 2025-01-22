@@ -1,7 +1,7 @@
 version: &imageVersion "12885477640"
 global:
   version: *imageVersion
-okto-sdk-docs-staging:
+okto-sdk-docs-new-staging:
   environment: staging
   project: okto
   namespaceOverride: oktohq
