@@ -1,8 +1,8 @@
 version: &imageVersion "12885477640"
 global:
   version: *imageVersion
-okto-sdk-docs:
-  environment: production
+okto-sdk-docs-staging:
+  environment: staging
   project: okto
   namespaceOverride: oktohq
   image:
@@ -28,7 +28,7 @@ okto-sdk-docs:
         scheme: HTTP
       initialDelaySeconds: 3
       periodSeconds: 2
-    DDService: okto-sdk-docs
+    DDService: okto-sdk-docs-staging
     topologySpreadConstraints:
       - maxSkew: 1
         topologyKey: node
@@ -46,15 +46,14 @@ okto-sdk-docs:
     exposePort: http
     scheme: http
     hosts:
-      - host: docs.okto.tech
-      - host: sdk-docs.okto.tech
+      - host: docs-staging.okto.tech
   autoscaling:
     enabled: true
     minReplicas: 1
     maxReplicas: 2
   envFromSecrets:
     - variable: val1
-      secretId: &oktohq-sdk-docs oktohq/okto-sdk-docs
+      secretId: &oktohq-sdk-docs oktohq/okto-sdk-docs-staging
       secretKey: val1
     - variable: NEXT_PUBLIC_GOOGLE_CLIENT_ID
       secretId: *oktohq-sdk-docs
