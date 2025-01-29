@@ -12,6 +12,7 @@
       "flutter-sdk",
       "react-native-sdk",
       "unity-sdk",
+      "rate-limit",
       "---Resources---",
       "brand-kit",
       "faq",
