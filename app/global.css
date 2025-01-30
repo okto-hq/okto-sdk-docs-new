@@ -151,3 +151,7 @@ html {
   background-color: #252630;  /* dark mode hover background color */
   color: #7C8FFF; /* dark mode hover text color */
 }
+
+#nd-docs-layout > aside > div:nth-of-type(2) > div > div > div > a > svg {
+  display: none;
+}
