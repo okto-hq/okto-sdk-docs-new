@@ -258,6 +258,106 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/responses/BadRequest"
+  "/api/v1/authenticate/whatsapp":
+    post:
+      tags:
+        - Client
+      summary: Send WhatsApp OTP
+      description: |
+        Sends an OTP to the specified WhatsApp number to authenticate the user.
+      operationId: sendWhatsappOTP
+      security:
+        - apiKeyHeader: []
+      parameters:
+        - "$ref": "#/components/parameters/x_api_key"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                whatsapp_number:
+                  type: string
+                  description: The WhatsApp number to which the OTP will be sent.
+                  example: "635XXXX485"
+                  required: true
+                country_short_name:
+                  type: string
+                  description: The country code of the WhatsApp number.
+                  example: "IN"
+                  required: true
+                token:
+                  type: string
+                  description: Token received from previous OTP request (required for resend).
+                  example: "a9d8a6be-2330-4827-93a2-ff62d3498a80"
+                  required: false
+      responses:
+        "201":
+          description: OTP Sent
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ClientSendWhatsappOTPResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/responses/BadRequest"
+
+  "/api/v1/authenticate/whatsapp/verify":
+    post:
+      tags:
+        - Client
+      summary: Verify WhatsApp OTP
+      description: |
+        Verifies the OTP sent to the WhatsApp number and returns Okto authentication tokens upon successful verification.
+      operationId: verifyWhatsappOTP
+      security:
+        - apiKeyHeader: []
+      parameters:
+        - "$ref": "#/components/parameters/x_api_key"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                whatsapp_number:
+                  type: string
+                  description: The WhatsApp number used for the OTP verification.
+                  example: "635XXXX485"
+                  required: true
+                country_short_name:
+                  type: string
+                  description: The country code of the WhatsApp number.
+                  example: "IN"
+                  required: true
+                otp:
+                  type: string
+                  description: The OTP to verify.
+                  example: "123456"
+                  required: true
+                token:
+                  type: string
+                  description: Token received from the Send WhatsApp OTP API.
+                  example: "a9d8a6be-2330-4827-93a2-ff62d3498a80"
+                  required: true
+      responses:
+        "201":
+          description: OTP Verified
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ClientVerifyWhatsappOTPResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/responses/BadRequest"
   "/api/v1/authenticate/jwt":
     post:
       tags:
@@ -1991,6 +2091,77 @@ components:
               type: string
               description: Unique trace identifier for tracking the request
               example: "4412954763042761318"
+      required:
+        - status
+        - data
+    ClientSendWhatsappOTPResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the OTP sending request
+          enum: [success, failure]
+          example: "success"
+        data:
+          type: object
+          properties:
+            token:
+              type: string
+              description: Unique token for OTP validation
+              example: "ef12d0cd-3e1f-5ba1-ace3-6b462b0e4601"
+            message:
+              type: string
+              description: Message indicating OTP has been sent
+              example: "whatsapp otp sent"
+            status:
+              type: string
+              description: Status of the OTP request
+              example: "success"
+            code:
+              type: integer
+              description: Status code of the response
+              example: 200
+          required:
+            - token
+            - message
+            - status
+            - code
+      required:
+        - status
+        - data
+
+    ClientVerifyWhatsappOTPResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the OTP verification request
+          enum: [success, failure]
+          example: "success"
+        data:
+          type: object
+          properties:
+            auth_token:
+              type: string
+              description: Access token after successful verification
+              example: "eyJh...fIv57M"
+            message:
+              type: string
+              description: Verification status message
+              example: "success"
+            refresh_auth_token:
+              type: string
+              description: Refresh token for future authentication
+              example: "eyJh...oeEhY"
+            device_token:
+              type: string
+              description: Device-specific token for session management
+              example: "bfc9d44...8e24d92"
+          required:
+            - auth_token
+            - message
+            - refresh_auth_token
+            - device_token
       required:
         - status
         - data
