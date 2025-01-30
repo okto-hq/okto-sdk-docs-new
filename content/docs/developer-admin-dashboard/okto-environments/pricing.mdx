@@ -9,9 +9,11 @@ import PricingComponent from "../../../../app/components/PricingComponent";
 <PricingComponent/>
 
 <Callout title="Note">
-**MAWs (Monthly Active Wallets)** refers to the total number of unique wallets that have initiated **a new session** in a web3 app at least once. 
+**MAWs (Monthly Active Wallets)** refers to the total number of unique wallets where a user performs at least one on-chain **session** in a Web3 application using the Okto SDK within a calendar month (30 days). 
 
-**A session** is defined as either a transaction, such as an airdrop or redemption, or an active interaction that triggers an API call to the Okto platform.
+  **A session** is defined as either of the following:
+  - **Transaction**: Includes on-chain transactions, token claims, or any on-chain activity.
+  - **Active Interaction**: Any interaction where the user logs in, refreshes their portfolio, or invokes the Okto platform API.
 
 Each wallet's sessions are capped at a maximum of 5 per month (30 days). Therefore, if a unique wallet completes 12 sessions, it will count as 3 MAWs (12/5=3, rounded up to the nearest whole number).
 </Callout>
