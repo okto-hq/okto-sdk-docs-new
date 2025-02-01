@@ -137,7 +137,7 @@ export default function NavbarComponent() {
         </NavbarItem>
         <NavbarItem className="hidden lg:flex">
           <SCButton variant="outline" className="rounded-full flex gap-1 hover:bg-[#F5F6FE] dark:hover:bg-gray-700 hover:text-[#5166EE] dark:hover:text-[#7C8FFF]">
-            <Link href="https://teamcoindcx.typeform.com/to/CvPAQNAU">Grants</Link>
+            <Link href="https://oktohq.notion.site/Okto-Grants-Program-13f8d0b09e5b8075a646d5dbaa394eeb" target="_blank">Grants</Link>
             <MdOutlineArrowOutward size={".9rem"} />
           </SCButton>
         </NavbarItem>
@@ -149,7 +149,7 @@ export default function NavbarComponent() {
         </NavbarItem> */}
         <NavbarItem className="hidden lg:flex">
           <SCButton variant="outline" className="rounded-full flex gap-1 hover:bg-[#F5F6FE] dark:hover:bg-gray-700 hover:text-[#5166EE] dark:hover:text-[#7C8FFF]">
-            <Link href="https://dashboard.okto.tech/">Dashboard</Link>
+            <Link href="https://dashboard.okto.tech/" target="_blank">Dashboard</Link>
             <MdOutlineArrowOutward size={".9rem"} />
           </SCButton>
         </NavbarItem>
