@@ -1,0 +1,69 @@
+---
+title: Rate Limits
+description: To ensure fair usage and prevent abuse, the Okto SDK API enforces rate limits on requests.
+full: false
+---
+
+
+## Production Rate Limits
+
+In the production environment, a rate limit is applied to all **<span style={{ color: 'green' }}>POST</span> orders**.
+
+- **Request Limit**: 1,500 API calls per 5-minute window
+- **Applies to**: All POST operations
+- **Reset Period**: Every 5 minutes
+
+
+### Error Response
+
+When you exceed the rate limit, you'll receive the following error response:
+```json
+{
+    "status": "error",
+    "error": {
+        "code": 429,
+        "errorCode": "ER-TECH-0100",
+        "message": "Rate Limit Exceeded",
+        "trace_id": "678a3f1e00000000ced7e3483989507c"
+    }
+}
+```
+
+As per industry standards, a **`retry-after` response header** will be included when a rate-exceeded error is encountered. The value of this header indicates the **time (in seconds)** after which the rate limit restriction will expire. You can retry your request after this period. 
+
+
+## Affected Endpoints
+
+### Client Write APIs
+- `POST /api/v1/transfer/tokens/execute`
+- `POST /api/v1/nft/transfer`
+- `POST /api/v1/readContractData`
+- `POST /api/v1/rawtransaction/execute`
+
+### Server Write APIs
+- `POST /s2s/api/v1/wallet`
+- `POST /s2s/api/v1/bulk-wallets`
+- `POST /s2s/api/v2/nft/mint`
+- `POST /s2s/api/v2/nft/transfer`
+- `POST /s2s/api/v2/transfer/tokens/execute/{userId}`
+- `POST /s2s/api/v1/readContractData`
+- `POST /s2s/api/v1/rawtransaction/execute/{TW_USER_ID}`
+
+
+### **How Rate Limiting Works**
+The **five-minute interval** starts from the first API request each day.
+
+For example:
+- If the first request is sent at **12:02 am**, the rate limit applies from **12:02 am to 12:07 am**
+- A maximum of 1,500 requests can be made within this period.
+- The interval resets every five minutes.
+
+---
+
+## Sandbox Environment
+
+The Sandbox environment has different rate limits to facilitate testing and development.
+
+<Callout type="info">
+  Detailed Sandbox environment rate limits will be documented soon. Stay tuned for updates.
+</Callout>

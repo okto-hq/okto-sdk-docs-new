@@ -4,9 +4,12 @@ info:
   description: |
     Okto SDK is the fastest and easiest way a developer can build on Web3. Okto SDK offers interoperable embedded wallets for developers to onboard users on Web3 in a web2 like experience.
 
+    
     ## Resources
 
-    * https://github.com/okto-hq/
+    * https://github.com/okto-hq/ <br/><br/>
+
+    > **⚠️ Note: While using S2S APIs in Production, ensure your IPs are whitelisted by the Okto team.**
   version: 1.0.0
   contact:
     name: Ovia Seshadri
