@@ -13,7 +13,7 @@
     "@content-collections/mdx": "^0.2.0",
     "@content-collections/next": "^0.2.4",
     "@cookbookdev/docsbot": "^4.24.7",
-    "@fumadocs/content-collections": "^1.1.5",
+    "@fumadocs/content-collections": "1.1.5",
     "@iconify/react": "^5.0.2",
     "@nextui-org/react": "^2.4.8",
     "@radix-ui/react-accordion": "^1.2.1",
