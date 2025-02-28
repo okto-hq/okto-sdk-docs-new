@@ -1,7 +1,6 @@
 # Okto Docs
 
 
-
 ## Overview
 
 This repo houses Okto's [documentation](https://docs.okto.tech). More info below on how to run the website or submit PRs for new documentation, or website pages.
