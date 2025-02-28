@@ -46,7 +46,7 @@ okto-sdk-docs:
     exposePort: http
     scheme: http
     hosts:
-      - host: docs-old-v1.okto.tech
+      - host: docsv1.okto.tech
       - host: sdk-docs.okto.tech
   autoscaling:
     enabled: true
