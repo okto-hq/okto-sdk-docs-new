@@ -6,7 +6,6 @@ import { Providers } from "./providers";
 import NavbarComponent from './components/Navbar';
 import AskCookbook from "./components/AskCookbook";
 import DeprecationBanner from './components/DeprecationBannerNav';
-import Footer from './components/Footer';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -27,7 +26,6 @@ export default function Layout({ children }: { children: ReactNode }) {
               <main className="flex-1">
                 {children}
               </main>
-              <Footer />
             </div>
           </Providers>
         </RootProvider>
